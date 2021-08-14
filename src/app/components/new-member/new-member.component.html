@@ -1,0 +1,22 @@
+<div class="d-flex justify-content-center">
+<div><mat-card class="d-flex justify-content-center">
+  <div>
+  <h2>Podaj swoje dane, aby dołączyć</h2><br>
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" >
+    <mat-form-field appearance="fill">
+      <mat-label>Imię i nazwisko</mat-label>
+      <input formControlName="name" name="name" type="text" matInput required >
+    </mat-form-field><br>
+    <mat-form-field  appearance="fill">
+      <mat-label>Rodzaj uczestnika</mat-label>
+      <mat-select formControlName="memberType" required>
+        <mat-option value="viewer">Przeglądający</mat-option>
+        <mat-option value="participant">Uczestnik</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button class="d-block" type="submit" mat-button>Dołącz</button>
+  </form>
+  </div>
+</mat-card>
+</div>
+</div>

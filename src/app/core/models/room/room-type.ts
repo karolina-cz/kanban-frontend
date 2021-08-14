@@ -1,0 +1,4 @@
+export enum RoomType {
+  KANBAN_BOARD= 'KANBAN_BOARD',
+  KANBAN_SYSTEM = 'KANBAN_SYSTEM'
+}

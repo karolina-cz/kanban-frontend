@@ -1,0 +1,15 @@
+<div class="d-inline-block">
+<div class="calendar-day-wrapper">
+  <small
+    [style.padding-left.px]="day > 9 ? '4' : '7'"
+    [style.font-size]="size/2 + 'px'"
+    class="calendar-day standard-icon-color">
+    {{day}}
+  </small>
+  <fa-icon
+    [style.font-size]="size + 'px'"
+    class="standard-icon-color"
+    [icon]="faCalendar">
+  </fa-icon>
+</div>
+</div>

@@ -1,0 +1,16 @@
+<div style="min-width: 960px; margin-bottom: 50px" class="row mx-5" cdkDropListGroup>
+  <div *ngFor="let column of columns" style="min-width: 160px" class="col kanban-col border">
+    <div >
+      <h3 class="text-center">{{column.name}}</h3>
+    </div>
+    <div
+      style="min-height: 50px;height: 100%"
+      cdkDropList
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box m-1"  cdkDrag>
+       Test
+      </div>
+    </div>
+  </div>
+</div>

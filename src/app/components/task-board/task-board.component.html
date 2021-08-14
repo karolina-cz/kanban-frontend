@@ -1,0 +1,209 @@
+<div class="example-box py-1 px-2">
+  <div class="task-header">
+    <div style="display:flex">
+      <div class="calendar-day-wrapper" *ngIf="isFixedDate()">
+        <small
+          [style.padding-left.px]="task.dueDay > 9 ? '4' : '7'"
+          class="calendar-day standard-icon-color">
+          {{task.dueDay}}
+        </small>
+        <fa-icon
+          style="font-size: 25px"
+          class="standard-icon-color"
+          [icon]="faCalendar">
+        </fa-icon>
+      </div>
+      <div style="display:grid;">
+        <div style="line-height:16px">
+          <span>{{task.name}}</span>
+        </div>
+        <div style="line-height: .875em">
+          <small style="font-style:italic">
+            {{task.type | taskType}}</small>
+        </div>
+      </div>
+    </div>
+    <div class="lock-icon-wrapper">
+      <fa-icon
+        class="cursor-pointer icon-standard-size"
+        (click)="$event.stopPropagation();blockedToggled()"
+        [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"
+        [icon]="task.isBlocked === true ? faLock : faLockOpen">
+      </fa-icon>
+    </div>
+  </div>
+  <hr class="my-1"/>
+  <div class="cursor-default">
+    <div class="assignee-list">
+      <div *ngIf="task.assignee !== null">
+        <fa-icon
+          class="assignee-icon icon-standard-size"
+          [style.color]="task.assignee.color"
+          [icon]="faUserCircle"
+          placement="auto"
+          ngbTooltip="{{task.assignee.name}}">
+        </fa-icon>
+      </div>
+
+      <fa-icon
+        [matMenuTriggerFor]="menu"
+        class="icon-small-size cursor-pointer assignee-icon standard-icon-color"
+        [icon]="task.assignee === null ? faUserPlus : faPencilAlt">
+      </fa-icon>
+      <mat-menu
+        class="scrollable-menu scrollbar-primary py-0"
+        #menu="matMenu">
+        <ul class="list-group list-group-flush py-0">
+          <li class="list-group-item px-1"
+              *ngIf="task.assignee !== null">
+            <div class="assignee-list">
+              <fa-icon
+                style="margin-right: 4px"
+                class="fa-lg"
+                [style.color]="task.assignee.color"
+                [icon]="faUserCircle">
+              </fa-icon>
+              <span style="margin-right: 15px">{{task.assignee.name}}</span>
+              <fa-icon
+                style="margin-left: auto; font-size:11px"
+                (click)="onAssigneeRemoved(task.assignee)"
+                class="cursor-pointer "
+                [icon]="faCheck"
+                [style.color]="'green'">
+              </fa-icon>
+<!--              <fa-icon-->
+<!--                style="margin-left: auto"-->
+<!--                (click)="onAssigneeRemoved(task.assignee)"-->
+<!--                class="cursor-pointer icon-small-size"-->
+<!--                [icon]="faMinusCircle"-->
+<!--                [style.color]="'red'">-->
+<!--              </fa-icon>-->
+            </div>
+            <!--                    pamietac o wyswietlaniu tylko members participant-->
+          </li>
+          <li class="list-group-item px-1 cursor-pointer assignee-list-item"
+              (click)="onAssigneeAdded(member)"
+              *ngFor="let member of filteredMembers; let i = index">
+            <div class="assignee-list">
+              <fa-icon
+                style="margin-right: 4px"
+                class="fa-lg"
+                [style.color]="member.color"
+                [icon]="faUserCircle">
+              </fa-icon>
+              <span style="margin-right: 15px">{{member.name}}</span>
+<!--              <fa-icon-->
+<!--                style="margin-left: auto"-->
+<!--                (click)="onAssigneeAdded(member)"-->
+<!--                class="cursor-pointer icon-small-size"-->
+<!--                [icon]="faPlusCircle"-->
+<!--                [style.color]="'blue'">-->
+<!--              </fa-icon>-->
+            </div>
+            <!--                    pamietac o wyswietlaniu tylko members participant-->
+          </li>
+        </ul>
+      </mat-menu>
+
+    </div>
+  </div>
+  <div class="cursor-default">
+    <div class="task-stage">
+      <small style="justify-self: flex-start" class="my-0 stage">Etap 1</small>
+      <span class="cursor-pointer">
+      <fa-icon
+        *ngFor="let item of task.workPoints1;let i = index"
+        (click)="onWorkPointClicked(1, i)"
+        class="work-point cursor-pointer"
+        [icon]="faCircle"
+        [style.color]="item === null ?'white' : item">
+      </fa-icon>
+        </span>
+    </div>
+    <div class="task-stage">
+      <small class="my-0 stage">Etap 2</small>
+      <span class="cursor-pointer">
+      <fa-icon
+        *ngFor="let item of task.workPoints2;let i = index"
+        (click)="onWorkPointClicked(2, i)"
+        class="work-point cursor-pointer"
+        [icon]="faCircle"
+        [style.color]="item === null ?'white' : item">
+      </fa-icon>
+        </span>
+    </div>
+  </div>
+  <hr class="my-1"/>
+  <div class="row effort-wrapper">
+    <div class="order-first col-12 effort-inner-wrapper">
+      <small class="p-0 m-0 effort-label cursor-default">Nakład pracy
+        <fa-icon
+        [icon]="faInfoCircle"
+        style="color:darkgray"
+        placement="auto"
+        ngbTooltip="Wartość od 0 do 5, krok - 0.5">
+        >
+        </fa-icon>
+      </small>
+      <form  [formGroup]="effortForm" (ngSubmit)="effortInput.blur()">
+<!--        <mat-form-field class="bracket-inputs">-->
+<!--          <input #effort formControlName="effort" matInput type="number">-->
+<!--        </mat-form-field>-->
+        <input #effortInput (blur)="onEffortSubmitted()" formControlName="effort" [style.border-color]="effort.valid ? '': 'darkred'"
+               class=" input-group-text p-0 effort-input font-small"
+               type="number" step="0.5" min="0" max="5">
+        <div *ngIf="effort.valid == false">
+          <small style="color:darkred">Niepoprawna wartość</small>
+        </div>
+      </form>
+<!--      <input [style.border-color]="this.effortValid ? '': 'darkred'"-->
+<!--             class=" input-group-text p-0 effort-input font-small" #effort (change)="onEffortChanged(effort.value)"-->
+<!--             [value]="task.effort" type="number" step="0.5" min="0" max="5">-->
+    </div>
+  </div>
+</div>
+
+<!--<mat-expansion-panel-->
+<!--  [hideToggle]="true"-->
+<!--  style="width: 11vw;-->
+<!--  min-width: 117px;"-->
+<!--  class="example-box py-0 px-2"  (opened)="panelOpenState = true"-->
+<!--                     (closed)="panelOpenState = false">-->
+<!--  <mat-expansion-panel-header-->
+<!--    #panelH (click) = "panelH._toggle()"-->
+<!--    style="padding-left: 0!important; padding-right: 0!important;cursor: auto!important;" class="py-0">-->
+<!--        <div style="display:flex">-->
+<!--          <div class="calendar-day-wrapper" *ngIf="isFixedDate()">-->
+<!--            <small-->
+<!--              [style.padding-left.px]="task.dueDate > 9 ? '4' : '7'"-->
+<!--              class="calendar-day standard-icon-color">-->
+<!--              {{task.dueDate}}-->
+<!--            </small>-->
+<!--            <fa-icon-->
+<!--              style="font-size: 25px"-->
+<!--              class="standard-icon-color"-->
+<!--              [icon]="faCalendar">-->
+<!--            </fa-icon>-->
+<!--          </div>-->
+<!--          <div style="display:grid;">-->
+<!--            <div style="line-height:16px">-->
+<!--              <span>{{task.name}}</span>-->
+<!--            </div>-->
+<!--            <div style="line-height: .875em">-->
+<!--              <small style="font-style:italic">-->
+<!--                {{task.type | taskType}}</small>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <fa-icon style="float: right"-->
+<!--            class="cursor-pointer icon-standard-size"-->
+<!--            (click)="blockedToggled()"-->
+<!--            [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"-->
+<!--            [icon]="task.isBlocked === true ? faLock : faLockOpen">-->
+<!--          </fa-icon>-->
+<!--        </div>-->
+<!--  </mat-expansion-panel-header>-->
+<!--  <p>I'm visible because I am open</p>-->
+<!--</mat-expansion-panel>-->
+

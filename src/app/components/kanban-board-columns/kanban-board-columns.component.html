@@ -1,0 +1,86 @@
+<div style="min-width: 960px; margin-top: 20px" class="row mx-5">
+  <div style="min-width: 160px" class="col-2 kanban-col">
+    <h3 class="text-center">Zadania</h3>
+  </div>
+  <div style="width: 60%;" class="col-8">
+    <div class="row">
+      <div class="col  ">
+        <h3 class="text-center">Etap 1 - W trakcie</h3>
+      </div>
+      <div class="col  ">
+        <h3 class="text-center">Etap 1 - Wykonane</h3>
+      </div>
+      <div class="col  ">
+        <h3 class="text-center">Etap 2</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-2 kanban-col ">
+    <h3 class="text-center">Wykonane</h3>
+  </div>
+</div>
+
+<div style="min-width: 960px; margin-bottom: 50px" class="row mx-5">
+  <div style="min-width: 160px" class="col-2 kanban-col border">
+    <div
+      style="min-height: 50px;height: 100%"
+      cdkDropList
+      id="backlog"
+      [cdkDropListData]="backlog"
+      [cdkDropListConnectedTo]="getConnectedLists(columns[0])"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box m-1" *ngFor="let item of backlog" cdkDrag>
+        <app-task-board [allMembers]="members" [task]="item"></app-task-board>
+      </div>
+    </div>
+  </div>
+  <div style="width: 60%;" class="col-8">
+    <div *ngFor="let item of memberTasks; let i = index" class="row border">
+      <div *ngFor="let column of memberColumns; let j = index" class="col border p-0">
+        <div *ngIf="j === 0"
+             style="display: flex; align-items: center" class="p-0">
+          <fa-icon
+            style="font-size:30px"
+            class="fa-lg cursor-pointer mx-1"
+            [style.color]="item.member.color"
+            [icon]="faUserCircle">
+          </fa-icon>
+          <span> {{item.member.name}}</span>
+        </div>
+        <div
+          style="min-height: 150px;"
+          cdkDropList
+          id="{{column + '-' +  i}}"
+          [cdkDropListData]="item.columnTasks.get(column)"
+          [cdkDropListConnectedTo]="getConnectedLists(column, i)"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="p-1 m-1">
+            <div class="example-box p-0 m-0"
+                 *ngFor="let it of item.columnTasks.get(column)"
+                 cdkDrag>
+              <app-task-board [allMembers]="members" [task]="it"></app-task-board>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-2 kanban-col border">
+    <div
+      style="min-height: 50px; height: 100%"
+      cdkDropList
+      id="done"
+      [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="getConnectedLists(columns[columns.length -1])"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box m-1" *ngFor="let item of done" cdkDrag>
+        <app-task-board [allMembers]="members" [task]="item"></app-task-board>
+      </div>
+    </div>
+  </div>
+
+</div>

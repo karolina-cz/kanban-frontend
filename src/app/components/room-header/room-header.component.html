@@ -1,0 +1,99 @@
+<nav class="navbar bg-light">
+  <div class="container-fluid justify-content-between mx-3">
+    <div>
+      <button (click)="onGenerateTask()" mat-raised-button>
+        Wygeneruj zadanie
+      </button>
+      <button class="mx-2" (click)="onDrawBlockers()" mat-raised-button>
+        Losuj blokery
+      </button>
+      <fa-icon
+        (click)="roomService.previousDay()"
+        class="cursor-pointer"
+        style="font-size: 25px; margin-left: 10px"
+      [icon]="faChevronLeft">
+
+      </fa-icon>
+      <div style="margin-left: 10px" class="d-inline-block">
+      <div class="calendar-day-wrapper" >
+        <small
+          [style.padding-left.px]="roomService.day > 9 ? '4' : '7'"
+          class="calendar-day standard-icon-color">
+          {{roomService.day}}
+        </small>
+        <fa-icon
+          style="font-size: 25px"
+          class="standard-icon-color"
+          [icon]="faCalendar">
+        </fa-icon>
+      </div>
+    </div>
+      <fa-icon
+        (click)="roomService.nextDay()"
+        class="cursor-pointer"
+        style="font-size: 25px"
+        [icon]="faChevronRight">
+
+      </fa-icon>
+    </div>
+    <div class="d-flex">
+    <span *ngIf="!dropdownOpen">
+    <fa-icon
+      style="font-size:30px"
+      *ngFor="let member of members.slice(0, 5);"
+      class="fa-lg cursor-pointer mx-1"
+      [style.color]="member.color"
+      [icon]="faUserCircle"
+      placement="auto"
+      ngbTooltip="{{member.name}}&nbsp;{{isViewer(member.type)}}">
+    </fa-icon>
+    </span>
+    <div ngbDropdown
+         (openChange)="toggleDropdownStatus()"
+         display="dynamic"
+         placement="bottom-right"
+         class="d-inline-block">
+      <button *ngIf="members.length > 5"
+              class="btn-primary btn-circle"
+              id="dropdownBasic1"
+              ngbDropdownToggle>+&nbsp;{{members.length-5}}
+      </button>
+      <div
+           ngbDropdownMenu
+           class="py-0 px-2 scrollable-menu dropdown-menu scrollbar-primary"
+           aria-labelledby="dropdownBasic1">
+        <small class="text-secondary small-text">
+          Łączna&nbsp;liczba&nbsp;uczestników:&nbsp;{{members.length}}
+        </small>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item px-0"
+              *ngFor="let member of members; let i = index">
+            <fa-icon
+              class="fa-lg mx-1"
+              [style.color]="member.color"
+              [icon]="faUserCircle">
+            </fa-icon>
+            <span class="small-text">{{member.name}}</span>
+            <fa-icon
+              *ngIf="member.type == 'VIEWER'"
+              class="mx-1"
+              style="font-size:12px"
+              [icon]="faEye"
+              placement="auto"
+              ngbTooltip="Przeglądający">
+            </fa-icon>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <fa-icon
+      *ngIf="toggleService.isOpen === false"
+      class="cursor-pointer"
+      (click)="toggleService.isOpenSubject.next(!toggleService.isOpen)"
+      style="font-size: 20px; margin-left: 20px"
+    [icon]="faBars">
+    </fa-icon>
+    </div>
+  </div>
+</nav>
+

@@ -1,0 +1,11 @@
+.calendar-day-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-day {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 5px
+}

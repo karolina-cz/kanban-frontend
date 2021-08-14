@@ -1,0 +1,25 @@
+<div class="text-end">
+  <fa-icon
+    class="cursor-pointer"
+    (click)="toggleService.isOpenSubject.next(!toggleService.isOpen)"
+    [icon]="faTimes">
+  </fa-icon>
+</div>
+<button (click)="onDrawProductivity()" class="my-2" color="primary" mat-raised-button>Losuj produktywność</button>
+<ul class="list-group">
+  <li *ngFor="let item of members" class="list-group-item">
+    <div class="d-flex justify-content-between">
+      <div>
+    <fa-icon
+      style="margin-right: 5px; font-size: 15px"
+      [style.color]="item.color"
+    [icon]="faUserCircle">
+    </fa-icon>
+    <span>{{item.name}}</span>
+      </div>
+      <span style="margin-left:10px">
+        {{item.dailyProductivity[roomService.day - 1] === null ? '0': item.dailyProductivity[roomService.day - 1]}}
+      </span>
+    </div>
+    </li>
+</ul>
