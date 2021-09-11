@@ -47,7 +47,6 @@
 .work-point {
   stroke: black;
   margin-right: 3px;
-  stroke-width: 10px;
 }
 
 .calendar-day-wrapper {
@@ -98,6 +97,7 @@
 .effort-input {
   width: 50px;
   font-size: 12px;
+  background-color: white;
 }
 
 .effort-label {
@@ -128,5 +128,5 @@ input:focus{
 
 .user-selected {
   stroke: #3B3B3B;
-  stroke-width: 25px;
+  stroke-width: 15px;
 }

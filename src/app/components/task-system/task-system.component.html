@@ -1,4 +1,4 @@
-<div class="example-box py-1 px-2">
+<div class="example-box py-1 px-2 " >
   <div class="task-header">
     <div style="display:flex">
       <div class="calendar-day-wrapper" *ngIf="task.type === taskType.FIXED_DATE">
@@ -25,7 +25,7 @@
     </div>
     <div class="lock-icon-wrapper">
       <fa-icon
-        class="cursor-pointer icon-standard-size"
+        class="cursor-pointer icon-standard-size icon-shadow"
         (click)="blockedToggled()"
         [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"
         [icon]="task.isBlocked === true ? faLock : faLockOpen">
@@ -34,47 +34,42 @@
   </div>
   <hr class="my-1"/>
   <div class="cursor-default">
-    <div class="assignee-list">
-      <div *ngIf="task.assignees !== null">
-        <div *ngFor="let item of task.assignees">
         <fa-icon
-          class="work-point icon-standard-size"
+          #clickMenuTrigger="matMenuTrigger"
+          [matMenuTriggerFor]="menu"
+          (menuOpened)="task.isMenuOpen = true"
+          (menuClosed)="task.isMenuOpen = false"
+          class="icon-small-size cursor-pointer assignee-icon standard-icon-color icon-shadow"
+          [icon]="task.assignees.length === 0 ? faUserPlus : faPencilAlt">
+        </fa-icon>
+        <fa-icon *ngFor="let item of task.assignees"
+          [class.user-selected]="item.color === this.task.selectedColor"
+          class="assignee-icon icon-standard-size icon-shadow"
+                 (click)="task.selectedColor = item.color"
           [style.color]="item.color"
           [icon]="faUserCircle"
           placement="auto"
           ngbTooltip="{{item.name}}">
         </fa-icon>
-        </div>
-      </div>
-
-      <fa-icon
-        [matMenuTriggerFor]="menu"
-        class="icon-small-size cursor-pointer assignee-icon standard-icon-color"
-        [icon]="task.assignees.length === 0 ? faUserPlus : faPencilAlt">
-      </fa-icon>
       <mat-menu
         class="scrollable-menu scrollbar-primary py-0"
         #menu="matMenu">
-        <ul class="list-group list-group-flush py-0">
-          <li (click)="$event.stopPropagation()" class="list-group-item px-1 cursor-pointer"
-               *ngFor="let assignee of task.assignees">
-<!--              //todo add form with checkboxes for each member-->
-                <mat-checkbox color="primary">
-                  <div>
-                  <fa-icon
-                    style="margin-right: 4px"
-                    class="fa-lg"
-                    [style.color]="assignee.color"
-                    [icon]="faUserCircle">
-                  </fa-icon>
-                  </div>
-                  <span style="margin-right: 15px">{{assignee.name}}</span>
-                </mat-checkbox>
+        <ul class="list-group list-group-flush py-0" >
+          <li class="list-group-item px-1 cursor-pointer"
+              *ngFor="let assignee of assigneesList">
+            <mat-checkbox color="primary" [checked]="!!assignee.isAssignee" (click)="$event.stopPropagation()" (change)="assigneeChanged($event.checked, assignee)" >
+              <fa-icon
+                style="margin-right: 4px; "
+                class="fa-lg"
+                [style.color]="assignee.color"
+                [icon]="faUserCircle">
+              </fa-icon>
+              <span style="margin-right: 15px">{{assignee.name}}</span>
+            </mat-checkbox>
           </li>
         </ul>
       </mat-menu>
 
-    </div>
   </div>
   <div class="cursor-default">
     <div class="task-stage">
@@ -83,7 +78,7 @@
       <fa-icon
         *ngFor="let item of task.workPoints1;let i = index"
         (click)="onWorkPointClicked(1, i)"
-        class="work-point cursor-pointer"
+        class="work-point cursor-pointer icon-shadow"
         [icon]="faCircle"
         [style.color]="item === null ?'white' : item">
       </fa-icon>
@@ -91,7 +86,7 @@
     </div>
     <div class="task-stage">
       <small class="my-0 stage">Etap 2</small>
-      <span class="cursor-pointer">
+      <span class="cursor-pointer icon-shadow">
       <fa-icon
         *ngFor="let item of task.workPoints2;let i = index"
         (click)="onWorkPointClicked(2, i)"
@@ -105,19 +100,25 @@
   <hr class="my-1"/>
   <div class=" effort-wrapper">
     <div>
-    <form style="display: flex; flex-wrap: nowrap" >
+    <form [formGroup]="timelineForm" (ngSubmit)="test();startDayInput.blur();endDayInput.blur()" style="display: flex; flex-wrap: nowrap" >
     <div class="col">
-      <small>poczatek</small>
-      <input class="input-group-text p-0 effort-input font-small" type="number"/>
+      <small>początek</small>
+      <input  #startDayInput formControlName="startDay"  [style.border-color]="startDay.valid ? '': 'darkred'"
+              (blur)="onStartDaySubmitted()" class="input-group-text p-0 effort-input font-small" type="number" step="1" min="1" max="10"/>
     </div>
     <div class="col">
       <small>koniec</small>
-      <input class="input-group-text p-0 effort-input font-small" type="number"/>
+      <input #endDayInput formControlName="endDay"  [style.border-color]="endDay.valid ? '': 'darkred'"
+             (blur)="onEndDaySubmitted()" class="input-group-text p-0 effort-input font-small" type="number" step="1" min="1" max="10"/>
     </div>
+      <button type="submit" style="display:none">hidden submit</button>
     </form>
+        <div *ngIf="startDay.valid == false || this.endDay.valid === false">
+          <small style="color:darkred">Niepoprawna wartość</small>
+        </div>
     </div>
-    <div>
-      <small>czas trwania: </small>
+    <div *ngIf="this.task.startDay && this.task.endDay">
+      <small>czas trwania: {{this.task.endDay - this.task.startDay}} </small>
     </div>
   </div>
 </div>

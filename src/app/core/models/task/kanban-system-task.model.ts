@@ -15,6 +15,8 @@ export class KanbanSystemTask {
   dueDay: number;
   name: string;
   assignees: Member[];
+  isMenuOpen?: boolean;
+  selectedColor?: string;
 
   constructor(taskRes: TaskResponse) {
     if (taskRes.roomMembers.length > 0) {
@@ -33,5 +35,6 @@ export class KanbanSystemTask {
     this.endDay = taskRes.endDay;
     this.dueDay = taskRes.dueDay;
     this.type = taskRes.type;
+    this.isMenuOpen = false;
   }
 }

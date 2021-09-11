@@ -8,6 +8,7 @@ import {KanbanBoardTask} from '../../models/task/kanban-board-task.model';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Task} from '../../dtos/task/Task';
+import {KanbanSystemTask} from '../../models/task/kanban-system-task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,15 @@ import {Task} from '../../dtos/task/Task';
 export class TaskService {
   public static blockerProb = 0.25;
   public boardTaskObservable: BehaviorSubject<KanbanBoardTask[]> = new BehaviorSubject<KanbanBoardTask[]>([]);
+  public systemTaskObservable: BehaviorSubject<KanbanSystemTask[]> = new BehaviorSubject<KanbanSystemTask[]>([]);
   boardTasks: KanbanBoardTask[];
+  systemTasks: KanbanSystemTask[];
   boardData = this.boardTaskObservable.asObservable();
-  public canEmmit = true;
+  kanbanSystemData = this.systemTaskObservable.asObservable();
 
   constructor(private rxStompService: RxStompService, private httpClient: HttpClient) {
     this.boardTaskObservable.subscribe(value => this.boardTasks = value);
+    this.systemTaskObservable.subscribe(value => this.systemTasks = value);
   }
 
   private mapTaskResponse<T>(tasksRes: TaskResponse[], type: new(task: TaskResponse) => T): T[] {
@@ -33,25 +37,20 @@ export class TaskService {
 
   connect(roomId: string, roomType: string): void {
     this.rxStompService.watch('/topic/room/' + roomId + '/tasks').subscribe((message: Message) => {
-      if (this.canEmmit) {
         const jsonBody = JSON.parse(message.body);
         const tasks: TaskResponse[] = jsonBody as TaskResponse[];
+        console.log('new  tasks');
         if (roomType === 'KANBAN_BOARD') {
-          const allTasks = this.mapTaskResponse<KanbanBoardTask>(tasks, KanbanBoardTask);
-          // allTasks = allTasks.filter(task => {
-          //   return !(task.visibleFromDay !== null && task.visibleFromDay > this.roomService.day);
-          // });
-          this.boardTaskObservable.next(allTasks);
+          this.boardTaskObservable.next(this.mapTaskResponse<KanbanBoardTask>(tasks, KanbanBoardTask));
+        } else {
+          this.systemTaskObservable.next(this.mapTaskResponse<KanbanSystemTask>(tasks, KanbanSystemTask));
         }
-      }
     });
   }
 
   refreshTasks(roomId: string): void {
+    // todo refresh both
     this.getAllKanbanBoardTasks(roomId).subscribe(value => {
-      // value = value.filter(task => {
-      //   return !(task.visibleFromDay !== null && task.visibleFromDay > this.roomService.day);
-      // });
       this.boardTaskObservable.next(value);
     });
   }
@@ -60,8 +59,19 @@ export class TaskService {
     return this.httpClient.get<TaskResponse[]>(environment.apiUrl + '/task/room/' + roomId).pipe(
       map(tasksDto => {
         console.log(tasksDto);
-        const tasks = this.mapTaskResponse(tasksDto, KanbanBoardTask);
+        const tasks: KanbanBoardTask[] = this.mapTaskResponse(tasksDto, KanbanBoardTask);
         this.boardTasks = tasks;
+        return tasks;
+      })
+    );
+  }
+
+  getAllKanbanSystemTasks(roomId: string): Observable<KanbanSystemTask[]> {
+    return this.httpClient.get<TaskResponse[]>(environment.apiUrl + '/task/room/' + roomId).pipe(
+      map(tasksDto => {
+        console.log(tasksDto);
+        const tasks: KanbanSystemTask[] = this.mapTaskResponse(tasksDto, KanbanSystemTask);
+        this.systemTasks = tasks;
         return tasks;
       })
     );

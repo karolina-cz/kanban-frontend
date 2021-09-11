@@ -8,7 +8,7 @@ import {myRxStompConfig} from './my-rx-stomp.config';
 import { RoomHeaderComponent } from './components/room-header/room-header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { TaskBoardComponent } from './components/task-board/task-board.component';
 import { TaskTypePipe } from './core/pipes/task-type.pipe';

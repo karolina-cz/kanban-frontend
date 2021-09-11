@@ -64,6 +64,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   }
 
   onDrawBlockers(): void{
+    // todo zmienic tez na system tasks
     this.taskService.drawBlockers(this.taskService.boardTasks).subscribe();
   }
 
