@@ -6,7 +6,17 @@ import {Member} from '../../core/models/member.model';
 import {MemberType} from '../../core/models/memberType';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import {TaskService} from '../../core/services/tasks/task.service';
-import {faCheck, faCircle, faInfoCircle, faLock, faLockOpen, faPencilAlt, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faCircle, faFillDrip,
+  faInfoCircle,
+  faLock,
+  faLockOpen,
+  faPencilAlt,
+  faUser, faUserCheck,
+  faUserCircle,
+  faUserPlus
+} from '@fortawesome/free-solid-svg-icons';
 import {KanbanBoardTask} from '../../core/models/task/kanban-board-task.model';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
@@ -31,6 +41,9 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   faPencilAlt = faPencilAlt;
   faUserPlus = faUserPlus;
   faCircle = faCircle;
+  faUser = faUser;
+  faUserCheck = faUserCheck;
+  faFillDrip = faFillDrip;
   faInfoCircle = faInfoCircle;
   faCheck = faCheck;
   workPointColor: string = null;
@@ -73,11 +86,9 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('view init');
     if (this.task.isMenuOpen) {
-      console.log('menu open');
       this.clickMenuTrigger.openMenu();
-      this.cdref.detectChanges();
+      this.cdref.detectChanges(); // todo zmienic nazwe z cdref na cos innego
     }
   }
 
@@ -119,7 +130,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
         this.task.selectedColor = this.task.assignees[0].color;
     }
     // todo w checkbox list wyswietlac tylko participant
-    console.log('on changes'); // todo sprawdzic czy po dodaniu nowego czlonka zespolu wywola sie on changes
+     // todo sprawdzic czy po dodaniu nowego czlonka zespolu wywola sie on changes
     this.assigneesList = this.getMembersList();
     // todo nie amykac mat menu po wybraniu osoby - teraz sie zamyka po otrzymaniu aktualizacji
     // todo zrobic dodawanie / usuwanie na cosob na change -
@@ -139,9 +150,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
     // todo naprawic liste checkboxow
     const members: Member[] = JSON.parse(JSON.stringify(this.allMembers));
     members.forEach(member => {
-      console.log('inside');
       if (this.task.assignees.some(el => el.roomMemberId === member.roomMemberId)){
-        console.log('inside if');
         member.isAssignee = true;
       }
     });

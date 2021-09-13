@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Dzień {{data.day}}</h1>
+<div mat-dialog-content>
+  <p>{{data.narrative ? data.narrative : 'brak informacji'}}</p>
+</div>
+<div mat-dialog-actions style="display: flex; justify-content: right">
+  <button color="primary" mat-raised-button mat-dialog-close (click)="dialogRef.close()" cdkFocusInitial>Ok</button>
+</div>

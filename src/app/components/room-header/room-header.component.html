@@ -14,7 +14,7 @@
       [icon]="faChevronLeft">
 
       </fa-icon>
-      <div style="margin-left: 10px" class="d-inline-block">
+      <div style="margin-left: 10px" class="d-inline-block cursor-pointer" (click)="dayService.dayInfoSubject.next(roomService.day)">
       <div class="calendar-day-wrapper" >
         <small
           [style.padding-left.px]="roomService.day > 9 ? '4' : '7'"

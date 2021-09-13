@@ -13,6 +13,12 @@ import TaskUtils from '../../core/utils/taskUtils';
 import {forkJoin, Subscription} from 'rxjs';
 import {Task} from '../../core/dtos/task/Task';
 import {RoomService} from '../../core/services/room/room.service';
+import {DayInterface} from '../../core/dtos/day-interface';
+import {skip} from 'rxjs/operators';
+import {DayService} from '../../core/services/day/day.service';
+import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 
 @Component({
   selector: 'app-kanban-board-columns',
@@ -34,15 +40,45 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
     ColumnName.STAGE_TWO, ColumnName.DONE];
   middleColumnIds = [];
   faUserCircle = faUserCircle;
+  days: DayInterface[];
+  daySubscription: Subscription;
+  dayInfoSubscription: Subscription;
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
-              private roomService: RoomService) {
+              private roomService: RoomService, private dayService: DayService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
+    this.dayService.getDays(this.roomId).subscribe(res => {
+        this.days = res;
+        this.displayNewDayDialog(1);
+      }
+    );
+    this.daySubscription = this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+      this.displayNewDayDialog(dayNumber);
+      console.log('new day konaban-column', dayNumber);
+    });
+    this.dayInfoSubscription = this.dayService.dayInfoSubject.pipe(skip(1)).subscribe(day => {
+      this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+    });
     this.initializeData();
     this.observeTasks();
+  }
+
+  // wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system
+  displayNewDayDialog(day: number): void {
+    if (!this.dayService.dayViewed(day - 1, this.roomId)) {
+      this.dayService.setDayAsViewed(day - 1, this.roomId);
+      this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+    }
+  }
+
+  openDialog(data: any): void {
+    this.dialog.open(InfoDialogComponent, {
+      width: '500px',
+      data
+    });
   }
 
   ngOnDestroy(): void {

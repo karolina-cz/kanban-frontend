@@ -55,11 +55,13 @@ export class MemberService {
   }
 
   saveCurrentRoomMember(member: MemberDto): void {
-    localStorage.setItem(member.roomId, JSON.stringify(member));
+    const dataToSave: any = JSON.parse(localStorage.getItem(member.roomId)) ?
+      Object.assign(JSON.parse(localStorage.getItem(member.roomId)), {memberData: member}) : {memberData: member};
+    localStorage.setItem(member.roomId, JSON.stringify(dataToSave));
   }
 
   getCurrentRoomMember(roomId: string): MemberDto {
-    return JSON.parse(localStorage.getItem(roomId));
+    return JSON.parse(localStorage.getItem(roomId))?.memberData;
   }
 
   drawProductivity(): Observable<any> {

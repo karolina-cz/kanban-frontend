@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {RoomService} from '../../core/services/room/room.service';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
+import {DayService} from '../../core/services/day/day.service';
 
 @Component({
   selector: 'app-room-header',
@@ -32,7 +33,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   daySub: Subscription;
   constructor(private memberService: MemberService, private route: ActivatedRoute,
               public toggleService: SidebarToggleService, private taskService: TaskService,
-              public roomService: RoomService) {
+              public roomService: RoomService, public dayService: DayService) {
   }
 
   toggleDropdownStatus(): void {
@@ -66,6 +67,10 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   onDrawBlockers(): void{
     // todo zmienic tez na system tasks
     this.taskService.drawBlockers(this.taskService.boardTasks).subscribe();
+  }
+
+  nextDayClicked(): void {
+
   }
 
 }

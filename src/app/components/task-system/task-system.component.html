@@ -42,15 +42,18 @@
           class="icon-small-size cursor-pointer assignee-icon standard-icon-color icon-shadow"
           [icon]="task.assignees.length === 0 ? faUserPlus : faPencilAlt">
         </fa-icon>
-        <fa-icon *ngFor="let item of task.assignees"
-          [class.user-selected]="item.color === this.task.selectedColor"
-          class="assignee-icon icon-standard-size icon-shadow"
+    <div style="display: inline-block" *ngFor="let item of task.assignees">
+        <fa-icon
+          class="assignee-icon icon-small-size icon-shadow cursor-pointer"
                  (click)="task.selectedColor = item.color"
           [style.color]="item.color"
-          [icon]="faUserCircle"
+          [icon]="faUser"
           placement="auto"
           ngbTooltip="{{item.name}}">
         </fa-icon>
+      <fa-icon [style.color]="item.color" *ngIf="item.color === this.task.selectedColor" style="display: inline-block;position: relative; font-size: 9px; top:-6px;left:-1px" class="fa-flip-horizontal" [icon]="faFillDrip" >
+      </fa-icon>
+      </div>
       <mat-menu
         class="scrollable-menu scrollbar-primary py-0"
         #menu="matMenu">

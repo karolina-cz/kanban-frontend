@@ -34,6 +34,8 @@ import { CalendarDayComponent } from './components/shared/calendar-day/calendar-
 import { KanbanSystemComponent } from './components/kanban-system/kanban-system.component';
 import { KanbanSystemColumnsComponent } from './components/kanban-system-columns/kanban-system-columns.component';
 import { TaskSystemComponent } from './components/task-system/task-system.component';
+import { InfoDialogComponent } from './components/shared/info-dialog/info-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { TaskSystemComponent } from './components/task-system/task-system.compon
     CalendarDayComponent,
     KanbanSystemComponent,
     KanbanSystemColumnsComponent,
-    TaskSystemComponent],
+    TaskSystemComponent,
+    InfoDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -70,8 +73,10 @@ import { TaskSystemComponent } from './components/task-system/task-system.compon
     MatInputModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule
   ],
+  entryComponents: [InfoDialogComponent],
   providers: [{
     provide: InjectableRxStompConfig,
     useValue: myRxStompConfig,

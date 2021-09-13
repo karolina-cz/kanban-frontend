@@ -15,6 +15,7 @@ export class RoomService {
   roomId: string = null;
   constructor(private httpClient: HttpClient, private taskService: TaskService) {
     this.daySubject.subscribe(value => {
+      console.log('new day roomService', value);
       this.day = value;
       if (this.roomId !== null) {
         this.taskService.refreshTasks(this.roomId);
@@ -41,6 +42,7 @@ export class RoomService {
     return this.httpClient.delete(environment.apiUrl + '/room/' + roomId);
   }
 
+  // todo przeniesc to do dayService
   nextDay(): void {
     if (this.day < RoomService.dayCount) {
       this.daySubject.next(this.day + 1);

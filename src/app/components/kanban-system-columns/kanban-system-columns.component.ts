@@ -10,6 +10,12 @@ import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model'
 import {CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
 import {Task} from '../../core/dtos/task/Task';
 import TaskUtils from '../../core/utils/taskUtils';
+import {DayInterface} from '../../core/dtos/day-interface';
+import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
+import {DayService} from '../../core/services/day/day.service';
+import {MatDialog} from '@angular/material/dialog';
+import {skip} from 'rxjs/operators';
+import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 
 @Component({
   selector: 'app-kanban-system-columns',
@@ -27,14 +33,44 @@ export class KanbanSystemColumnsComponent implements OnInit {
     {displayName: 'Etap 1 - Wykonane', name: ColumnName.STAGE_ONE_DONE, tasks: []},
     {displayName: 'Etap 2', name: ColumnName.STAGE_TWO, tasks: []},
     {displayName: 'Wykonane', name: ColumnName.DONE, tasks: []}];
+  days: DayInterface[];
+  daySubscription: Subscription;
+  dayInfoSubscription: Subscription;
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
-              private roomService: RoomService) { }
+              private roomService: RoomService, private dayService: DayService, private dialog: MatDialog, private columnLimitService: ColumnLimitService) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
+    this.dayService.getDays(this.roomId).subscribe(res => {
+        this.days = res;
+        this.displayNewDayDialog(1);
+      }
+    );
+    this.daySubscription = this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+      this.displayNewDayDialog(dayNumber);
+      console.log('new day konaban-column', dayNumber);
+    });
+    this.dayInfoSubscription = this.dayService.dayInfoSubject.pipe(skip(1)).subscribe(day => {
+      this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+    });
     this.initializeData();
     this.observeTasks();
+    this.columnLimitService.connect(this.roomId);
+  }
+// wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system
+  displayNewDayDialog(day: number): void {
+    if (!this.dayService.dayViewed(day - 1, this.roomId)) {
+      this.dayService.setDayAsViewed(day - 1, this.roomId);
+      this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+    }
+  }
+
+  openDialog(data: any): void {
+    this.dialog.open(InfoDialogComponent, {
+      width: '500px',
+      data
+    });
   }
 
   initializeData(): void {
@@ -48,7 +84,6 @@ export class KanbanSystemColumnsComponent implements OnInit {
   }
 
   handleNewTasks(tasks: KanbanSystemTask[]): void {
-    console.log('handle new tasks');
     tasks = tasks.filter(task => task.visibleFromDay === null || task.visibleFromDay <= this.roomService.day);
     // todo jezeli bedzie suuwanie taskow to tutaj trzeba to dodac
     // todo update zamiast nowej tablicy : task jest dodany, task jest usuniety, task jest update'owany
@@ -69,7 +104,6 @@ export class KanbanSystemColumnsComponent implements OnInit {
     this.taskSubscription = this.taskService.kanbanSystemData.subscribe((tasks) => {
       let previousTasks: KanbanSystemTask[] = [];
       this.columns.forEach(column => previousTasks = previousTasks.concat(column.tasks));
-      console.log('prev tasks', previousTasks);
       const openMenuTask = previousTasks.find(task => task.isMenuOpen === true);
       if (openMenuTask) {
         const newTaskWithMenuOpen = tasks.find(task => task.taskId === openMenuTask.taskId);

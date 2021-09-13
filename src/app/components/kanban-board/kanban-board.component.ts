@@ -26,7 +26,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.roomId = this.route.snapshot.params.id;
     this.roomService.roomId = this.roomId;
     this.currentRoomMember = this.memberService.getCurrentRoomMember(this.roomId);
-    this.isMemberRegistered = this.currentRoomMember !== null;
+    this.isMemberRegistered = !!this.currentRoomMember;
     if (this.isMemberRegistered === true){
       // this.memberService.patchRoomMember({roomMemberId: this.currentRoomMember.roomMemberId, isActive: true}).subscribe();
     }
