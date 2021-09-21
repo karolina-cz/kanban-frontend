@@ -8,19 +8,17 @@ import {myRxStompConfig} from './my-rx-stomp.config';
 import { RoomHeaderComponent } from './components/room-header/room-header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { TaskBoardComponent } from './components/task-board/task-board.component';
 import { TaskTypePipe } from './core/pipes/task-type.pipe';
 import { KanbanBoardColumnsComponent } from './components/kanban-board-columns/kanban-board-columns.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { KanbanBoardComponent } from './components/kanban-board/kanban-board.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
-import {MatExpansionModule} from '@angular/material/expansion'
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -36,6 +34,12 @@ import { KanbanSystemColumnsComponent } from './components/kanban-system-columns
 import { TaskSystemComponent } from './components/task-system/task-system.component';
 import { InfoDialogComponent } from './components/shared/info-dialog/info-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { LimitsDialogComponent } from './components/limits-dialog/limits-dialog.component';
+import {MatTableModule} from '@angular/material/table';
+import {A11yModule} from '@angular/cdk/a11y';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import { ColumnNamePipe } from './core/pipes/column-name.pipe';
 
 
 @NgModule({
@@ -54,7 +58,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     KanbanSystemComponent,
     KanbanSystemColumnsComponent,
     TaskSystemComponent,
-    InfoDialogComponent],
+    InfoDialogComponent,
+    LimitsDialogComponent,
+    ColumnNamePipe],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -74,7 +80,11 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatCardModule,
     ReactiveFormsModule,
     MatSidenavModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    A11yModule,
+    MatIconModule,
+    MatDividerModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

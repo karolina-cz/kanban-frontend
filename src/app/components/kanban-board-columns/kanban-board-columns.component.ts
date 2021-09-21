@@ -11,14 +11,13 @@ import {ActivatedRoute} from '@angular/router';
 import {MemberService} from '../../core/services/members/member.service';
 import TaskUtils from '../../core/utils/taskUtils';
 import {forkJoin, Subscription} from 'rxjs';
-import {Task} from '../../core/dtos/task/Task';
+import {Task} from '../../core/interfaces/task/Task';
 import {RoomService} from '../../core/services/room/room.service';
-import {DayInterface} from '../../core/dtos/day-interface';
+import {DayInterface} from '../../core/interfaces/day-interface';
 import {skip} from 'rxjs/operators';
 import {DayService} from '../../core/services/day/day.service';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 
 @Component({
   selector: 'app-kanban-board-columns',

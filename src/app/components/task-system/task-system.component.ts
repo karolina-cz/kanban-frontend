@@ -1,15 +1,11 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model';
-import {TaskResponse} from '../../core/dtos/task/TaskResponse';
 import {TaskType} from '../../core/models/taskType';
 import {Member} from '../../core/models/member.model';
-import {MemberType} from '../../core/models/memberType';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {
-  faCheck,
   faCircle, faFillDrip,
-  faInfoCircle,
   faLock,
   faLockOpen,
   faPencilAlt,
@@ -17,7 +13,6 @@ import {
   faUserCircle,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
-import {KanbanBoardTask} from '../../core/models/task/kanban-board-task.model';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
@@ -44,8 +39,6 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   faUser = faUser;
   faUserCheck = faUserCheck;
   faFillDrip = faFillDrip;
-  faInfoCircle = faInfoCircle;
-  faCheck = faCheck;
   workPointColor: string = null;
   taskForm: FormGroup = this.fb.group({
     assignees: this.fb.array([])
@@ -55,8 +48,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
 
 
 
-  constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer, private renderer: Renderer2,
-              private cdref: ChangeDetectorRef) {
+  constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer,
+              private renderer: Renderer2, private detectorRef: ChangeDetectorRef) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -88,7 +81,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.task.isMenuOpen) {
       this.clickMenuTrigger.openMenu();
-      this.cdref.detectChanges(); // todo zmienic nazwe z cdref na cos innego
+      this.detectorRef.detectChanges();
     }
   }
 
@@ -129,25 +122,11 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.task.assignees?.length && !this.task.assignees.some(el => el.color === this.task.selectedColor)) {
         this.task.selectedColor = this.task.assignees[0].color;
     }
-    // todo w checkbox list wyswietlac tylko participant
-     // todo sprawdzic czy po dodaniu nowego czlonka zespolu wywola sie on changes
     this.assigneesList = this.getMembersList();
-    // todo nie amykac mat menu po wybraniu osoby - teraz sie zamyka po otrzymaniu aktualizacji
-    // todo zrobic dodawanie / usuwanie na cosob na change -
-    // if (this.taskForm) {
-    //   console.log('task form');
-    //   this.taskForm.controls.assignees.patchValue(this.getMembersList());
-    // } else {
-    //   console.log('not exist');
-    //   this.taskForm = this.fb.group({
-    //     assignees: this.fb.array(this.getMembersList())
-    //   });
-    // }
   }
 
 
   getMembersList(): Member[] {
-    // todo naprawic liste checkboxow
     const members: Member[] = JSON.parse(JSON.stringify(this.allMembers));
     members.forEach(member => {
       if (this.task.assignees.some(el => el.roomMemberId === member.roomMemberId)){
@@ -165,23 +144,10 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
     } else if (isAssignee === true && selected === false) {
       roomMember.isAssignee = false;
       this.taskService.deleteAssignee(this.task.taskId, roomMember.roomMemberId).subscribe();
-      console.log('delete assignee');
     }
   }
 
-
-  onAssigneeAdded(assignee: Member): void {
-    // this.taskService.patchTask({assignees: [assignee.roomMemberId]}, this.task.taskId).subscribe();
-    // this.task.assignee = assignee;
-    // this.updateFilteredMembers();
-  }
-
-  test() {
-    console.log('abc');
-  }
-
   onWorkPointClicked(stage: number, i: number): void {
-    console.log('work point clicked');
     let workPoints = this.task.workPoints1;
     if (stage !== 1){
       workPoints = this.task.workPoints2;

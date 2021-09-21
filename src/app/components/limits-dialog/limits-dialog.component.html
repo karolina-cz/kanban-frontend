@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Limity</h1>
+<div mat-dialog-content>
+  <p>Ustaw limity pojedynczych kolumn w systemie kanban lub zdefiniuj własne limity uwzględniające kilka kolumn.</p>
+  <div [formGroup]="limitsForm">
+    <div formArrayName="singleColumnLimits" class="s-limits-form">
+      <div *ngFor="let control of singleColumnLimits.controls; index as i" [formGroupName]="i" class="s-limit">
+        <p class="s-checkbox">
+          <mat-checkbox (change)="onActiveChanged(control)" color="primary"
+                        formControlName="isActive">
+          </mat-checkbox>
+        </p>
+        <mat-form-field appearance="standard" class="s-form-field">
+          <mat-label>{{control.value.columns[0].toLowerCase() | columnName}}</mat-label>
+          <input formControlName="limitValue" matInput min="1" step="1" type="number">
+          <mat-error *ngIf="control.get('limitValue').invalid">Nieprawidłowa wartość</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="m-2" formArrayName="multipleColumnLimits">
+      <div *ngFor="let control of multipleColumnLimits.controls; index as i" [formGroupName]="i" class="m-limits-form">
+        <mat-form-field appearance="standard" class="m-select">
+          <mat-label>Kolumny</mat-label>
+          <mat-select formControlName="columns" multiple>
+            <mat-select-trigger ngbTooltip="{{(control.value.columns ? control.value.columns : '') | columnName}}">
+              {{(control.value.columns ? control.value.columns : '') | columnName}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let columnName of columnsKanbanSystem1"
+                        [value]="columnName.toUpperCase()">{{columnName | columnName}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="control.get('columns').invalid">Wybierz co najmniej dwie kolumny</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="m-input">
+          <mat-label>Limit (suma)</mat-label>
+          <input formControlName="limitValue" matInput min="1" step="1" type="number">
+          <mat-error *ngIf="control.get('limitValue').invalid">Nieprawidłowa wartość</mat-error>
+        </mat-form-field>
+        <fa-icon
+          (click)="onRemoveLimitClicked(i)"
+          [icon]="faTrash"
+          class="cursor-pointer trash-icon">
+        </fa-icon>
+      </div>
+      <p>
+        <button (click)="onAddLimitClicked()" mat-raised-button class="m-add-button">
+          <mat-icon>add</mat-icon>
+          Dodaj limit
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button (click)="dialogRef.close()" color="secondary" mat-button mat-dialog-close>Anuluj</button>
+  <button (click)="onSaveClicked()" color="primary" mat-raised-button>Zapisz</button>
+</div>

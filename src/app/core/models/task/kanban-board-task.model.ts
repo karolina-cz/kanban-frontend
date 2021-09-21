@@ -1,6 +1,6 @@
 import {Member} from '../member.model';
 import {TaskType} from '../taskType';
-import {TaskResponse} from '../../dtos/task/TaskResponse';
+import {TaskResponse} from '../../interfaces/task/TaskResponse';
 
 export class KanbanBoardTask{
   taskId: string;

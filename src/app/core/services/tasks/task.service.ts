@@ -3,11 +3,11 @@ import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TaskResponse} from '../../dtos/task/TaskResponse';
+import {TaskResponse} from '../../interfaces/task/TaskResponse';
 import {KanbanBoardTask} from '../../models/task/kanban-board-task.model';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Task} from '../../dtos/task/Task';
+import {Task} from '../../interfaces/task/Task';
 import {KanbanSystemTask} from '../../models/task/kanban-system-task.model';
 
 @Injectable({
@@ -96,6 +96,7 @@ export class TaskService {
   }
 
   drawBlockers(tasks: Task[]): Observable<any> {
+    console.log('tasks', tasks);
     const body: Task[] = [];
     for (const task of tasks){
         body.push({

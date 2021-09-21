@@ -1,7 +1,8 @@
 <div style="min-width: 960px; margin-bottom: 50px; margin-top: 20px" class="row mx-5" cdkDropListGroup>
-  <div *ngFor="let column of columns" style="min-width: 160px" class="col kanban-col border" >
+  <div *ngFor="let column of columns;let i = index" style="min-width: 160px" class="col kanban-col border" >
     <div >
-      <h3 class="text-center">{{column.displayName}}</h3>
+      <h3 class="text-center my-0">{{column.name | columnName}}</h3>
+      <p class="text-center m-0 text-secondary">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</p>
     </div>
     <div
       style="min-height: 200px;height: 100%"

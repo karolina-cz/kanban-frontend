@@ -7,6 +7,9 @@
       <button class="mx-2" (click)="onDrawBlockers()" mat-raised-button>
         Losuj blokery
       </button>
+      <button *ngIf="roomType === 'kanban-system'" (click)="onSetLimitsClicked()" mat-raised-button>
+        Ustaw limity
+      </button>
       <fa-icon
         (click)="roomService.previousDay()"
         class="cursor-pointer"

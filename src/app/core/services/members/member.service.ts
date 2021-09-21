@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {Member} from '../../models/member.model';
 import {map} from 'rxjs/operators';
 import {RoomService} from '../room/room.service';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class MemberService {
   }
 
   getAllMembers(roomId: string): Observable<Member[]> {
-    return this.httpClient.get<MemberDto[]>('http://localhost:8080/api/roomMember/room/' + roomId).pipe(
+    return this.httpClient.get<MemberDto[]>(environment.apiUrl + '/roomMember/room/' + roomId).pipe(
       map (data => {
         let members: Member[] = [];
         for (const member of data) {
@@ -47,11 +48,11 @@ export class MemberService {
   }
 
   createRoomMember(member: MemberDto): Observable<MemberDto> {
-    return this.httpClient.post<MemberDto>('http://localhost:8080/api/roomMember', member);
+    return this.httpClient.post<MemberDto>(environment.apiUrl + '/roomMember', member);
   }
 
   patchRoomMember(member: { roomMemberId: string, isActive: boolean }): Observable<MemberDto>{
-    return this.httpClient.patch<MemberDto>('http://localhost:8080/api/roomMember/' + member.roomMemberId, member);
+    return this.httpClient.patch<MemberDto>(environment.apiUrl + '/roomMember/' + member.roomMemberId, member);
   }
 
   saveCurrentRoomMember(member: MemberDto): void {
@@ -73,7 +74,7 @@ export class MemberService {
         dailyProductivity: member.dailyProductivity
       });
     }
-    return this.httpClient.patch('http://localhost:8080/api/roomMember', body);
+    return this.httpClient.patch(environment.apiUrl + '/roomMember', body);
   }
 
   sortMembersByName(members: Member[]): Member[] {

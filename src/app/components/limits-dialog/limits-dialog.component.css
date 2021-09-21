@@ -1,0 +1,48 @@
+.s-limits-form {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px
+}
+
+.s-limit {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.s-checkbox {
+  margin: 0;
+  padding-top: 4px;
+}
+
+.s-form-field {
+  margin-left: 10px;
+}
+
+.m-limits-form {
+  display: flex;
+  column-gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.m-select {
+  width: 65%;
+}
+
+.m-input {
+  width: 30%;
+}
+
+.trash-icon {
+  color:#565656;
+}
+
+.m-add-button {
+  margin-top: 10px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: right
+}

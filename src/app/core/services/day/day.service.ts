@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {DayInterface} from '../../dtos/day-interface';
+import {DayInterface} from '../../interfaces/day-interface';
 import {environment} from '../../../../environments/environment';
 
 @Injectable({

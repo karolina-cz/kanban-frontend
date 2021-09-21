@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {Room} from '../../dtos/room/Room';
+import {Room} from '../../interfaces/room/Room';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TaskService} from '../tasks/task.service';
 
@@ -15,7 +15,6 @@ export class RoomService {
   roomId: string = null;
   constructor(private httpClient: HttpClient, private taskService: TaskService) {
     this.daySubject.subscribe(value => {
-      console.log('new day roomService', value);
       this.day = value;
       if (this.roomId !== null) {
         this.taskService.refreshTasks(this.roomId);
@@ -31,7 +30,7 @@ export class RoomService {
   }
 
   getRoom(roomId: string): Observable<Room> {
-    return this.httpClient.get(environment.apiUrl + '/room/ + roomId');
+    return this.httpClient.get(environment.apiUrl + '/room/' + roomId);
   }
 
   patchRoom(roomId: string, room: Room): Observable<any> {

@@ -103,7 +103,7 @@
   <hr class="my-1"/>
   <div class=" effort-wrapper">
     <div>
-    <form [formGroup]="timelineForm" (ngSubmit)="test();startDayInput.blur();endDayInput.blur()" style="display: flex; flex-wrap: nowrap" >
+    <form [formGroup]="timelineForm" (ngSubmit)="startDayInput.blur();endDayInput.blur()" style="display: flex; flex-wrap: nowrap" >
     <div class="col">
       <small>początek</small>
       <input  #startDayInput formControlName="startDay"  [style.border-color]="startDay.valid ? '': 'darkred'"

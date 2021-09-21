@@ -5,9 +5,6 @@ import {ActivatedRoute} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
 import {RoomService} from '../../core/services/room/room.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import {DayInterface} from '../../core/dtos/day-interface';
-import {DayService} from '../../core/services/day/day.service';
-import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({
@@ -24,7 +21,7 @@ export class KanbanSystemComponent implements OnInit, OnDestroy {
   currentRoomMember;
 
   constructor(private memberService: MemberService, private route: ActivatedRoute, public toggleService: SidebarToggleService,
-              private roomService: RoomService, private dayService: DayService, public dialog: MatDialog) { }
+              private roomService: RoomService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
