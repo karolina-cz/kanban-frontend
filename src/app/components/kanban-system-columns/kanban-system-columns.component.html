@@ -1,4 +1,15 @@
 <div style="min-width: 960px; margin-bottom: 50px; margin-top: 20px" class="row mx-5" cdkDropListGroup>
+  <div style="margin-bottom: 10px">
+    <mat-chip-list aria-label="Column limits">
+      <mat-chip *ngFor="let item of multipleColumnLimits"
+                disableRipple
+                [ngClass]="{'limit-chip-white': getMultipleColumnLimit(item.columns) <= item.limitValue,
+                 'limit-chip-warn': getMultipleColumnLimit(item.columns) > item.limitValue}"
+                class="limit-chip">
+        {{item.columns | columnName: ' + '}}: {{getMultipleColumnLimit(item.columns)}}/{{item.limitValue}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
   <div *ngFor="let column of columns;let i = index" style="min-width: 160px" class="col kanban-col border" >
     <div >
       <h3 class="text-center my-0">{{column.name | columnName}}</h3>

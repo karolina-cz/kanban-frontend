@@ -40,6 +40,7 @@ import {A11yModule} from '@angular/cdk/a11y';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { ColumnNamePipe } from './core/pipes/column-name.pipe';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { ColumnNamePipe } from './core/pipes/column-name.pipe';
     MatTableModule,
     A11yModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatChipsModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

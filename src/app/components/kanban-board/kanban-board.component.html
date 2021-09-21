@@ -1,7 +1,7 @@
 <app-new-member (memberCreated)="isMemberRegistered = true" *ngIf="isMemberRegistered === false">Wpisz swoje dane</app-new-member>
 <div *ngIf="isMemberRegistered === true">
   <app-room-header></app-room-header>
-  <mat-sidenav-container class="example-container" >
+  <mat-sidenav-container>
     <mat-sidenav-content>
       <app-kanban-board-columns ></app-kanban-board-columns>
     </mat-sidenav-content>

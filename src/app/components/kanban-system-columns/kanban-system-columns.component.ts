@@ -32,7 +32,9 @@ export class KanbanSystemColumnsComponent implements OnInit {
   days: DayInterface[];
   daySubscription: Subscription;
   dayInfoSubscription: Subscription;
+  columnLimitSubscription: Subscription;
   singleColumnLimits: {columnName: string, limit: ColumnLimitInterface}[]; // todo merge singleColumnLimits ans columns
+  multipleColumnLimits: ColumnLimitInterface[];
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
               private roomService: RoomService, private dayService: DayService, private dialog: MatDialog,
@@ -52,6 +54,9 @@ export class KanbanSystemColumnsComponent implements OnInit {
     });
     this.dayInfoSubscription = this.dayService.dayInfoSubject.pipe(skip(1)).subscribe(day => {
       this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+    });
+    this.columnLimitSubscription = this.columnLimitService.columnLimitSubject.pipe(skip(1)).subscribe(limits => {
+      this.handleNewColumnLimits(limits);
     });
     this.initializeData();
     this.observeTasks();
@@ -80,13 +85,18 @@ export class KanbanSystemColumnsComponent implements OnInit {
     ).subscribe(([members, tasks, columnLimits]) => {
       this.members = members;
       this.handleNewTasks(tasks);
-      columnLimits.filter(el => el.limitType === ColumnLimitType.SINGLE).forEach(limit => {
-        const columnLimit: any = this.singleColumnLimits.find(el => el.columnName.toUpperCase() === limit.columns[0]);
-        if (columnLimit) {
-          columnLimit.limit = limit;
-        }
-      });
+      this.handleNewColumnLimits(columnLimits);
     });
+  }
+
+  handleNewColumnLimits(columnLimits: ColumnLimitInterface[]): void {
+    columnLimits.filter(el => el.limitType === ColumnLimitType.SINGLE).forEach(limit => {
+      const columnLimit: any = this.singleColumnLimits.find(el => el.columnName.toUpperCase() === limit.columns[0]);
+      if (columnLimit) {
+        columnLimit.limit = limit;
+      }
+    });
+    this.multipleColumnLimits = columnLimits.filter(el => el.limitType === ColumnLimitType.MULTIPLE);
   }
 
   handleNewTasks(tasks: KanbanSystemTask[]): void {
@@ -138,6 +148,10 @@ export class KanbanSystemColumnsComponent implements OnInit {
       kanbanColumn: kanbanColumn.toUpperCase()
     };
     this.taskService.patchTask(taskDto, task.taskId).subscribe();
+  }
+
+  getMultipleColumnLimit(columns: string[]): number {
+    return columns.map(column => this.columns.find(el => el.name === column.toLowerCase()).tasks.length).reduce((a, b) => a + b, 0);
   }
 
 }

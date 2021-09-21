@@ -6,9 +6,9 @@ import { columnNameToDisplay } from '../models/column-name';
 })
 export class ColumnNamePipe implements PipeTransform {
 
-  transform(value: string[] | string): string {
+  transform(value: string[] | string, separator?: string): string {
     if (Array.isArray(value) && value.length) {
-      return value.map(el => columnNameToDisplay[el.toLowerCase()]).join(', ');
+      return value.map(el => columnNameToDisplay[el.toLowerCase()]).join(separator ? separator : ', ');
     } else if (value && typeof value === 'string') {
       return columnNameToDisplay[value.toLowerCase()];
     } else {
