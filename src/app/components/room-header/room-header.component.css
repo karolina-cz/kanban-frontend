@@ -1,1 +1,35 @@
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.arrow-down-icon {
+  transform: scale(0.7);
+}
+
+.arrow-left-icon {
+  font-size: 25px;
+  margin-left: 10px;
+}
+
+.day-wrapper {
+  margin-left: 10px;
+}
+
+.icon-25 {
+  font-size: 25px;
+}
+
+.icon-30 {
+  font-size:30px;
+}
+
+.icon-12 {
+  font-size:12px;
+}
+
+.menu-open-icon {
+  font-size: 20px;
+  margin-left: 20px;
+}

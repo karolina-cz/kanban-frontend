@@ -14,6 +14,11 @@ import {MatDialog} from '@angular/material/dialog';
 import {LimitsDialogComponent} from '../limits-dialog/limits-dialog.component';
 import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 import {getSingleColumnLimitsOrdered} from '../../core/utils/column-utils';
+import {BlockersFormDialogComponent} from '../blockers-form-dialog/blockers-form-dialog.component';
+import {Room} from '../../core/interfaces/room/Room';
+import {RoomType} from '../../core/models/room/room-type';
+import {skip} from 'rxjs/operators';
+import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
 
 @Component({
   selector: 'app-room-header',
@@ -21,45 +26,43 @@ import {getSingleColumnLimitsOrdered} from '../../core/utils/column-utils';
   styleUrls: ['./room-header.component.css']
 })
 export class RoomHeaderComponent implements OnInit, OnDestroy {
-  isSidebarOpen ;
   faUserCircle = faUserCircle;
-  color = 'red';
   members: MemberDto[] = [];
   dropdownOpen = false;
   faEye = faEye;
-  roomId: string;
-  roomType: string;
+  room: Room = {roomId: null, roomType: null, blockersProbability: null};
   faBars = faBars;
-  toggleSub: Subscription;
   faCalendar = faCalendar;
   faChevronLeft = faChevronLeft;
   faChevronRight = faChevronRight;
-  daySub: Subscription;
+  RoomTypeEnum = RoomType;
+  MemberTypeEnum = MemberType;
+  subscriptions: Subscription[] = [];
+
   constructor(private memberService: MemberService, private route: ActivatedRoute,
               public toggleService: SidebarToggleService, private taskService: TaskService,
               public roomService: RoomService, public dayService: DayService,
               private dialog: MatDialog, private columnLimitService: ColumnLimitService) {
   }
 
-  toggleDropdownStatus(): void {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
-
   ngOnInit(): void {
-    this.roomId = this.route.snapshot.params.id;
-    this.roomType = this.route.snapshot.url[0].path;
-    this.memberService.getAllMembers(this.roomId).subscribe(data => {
+    this.room.roomId = this.route.snapshot.params.id;
+    this.room.roomType = this.route.snapshot.url[0].path === 'kanban-system' ? RoomType.KANBAN_SYSTEM : RoomType.KANBAN_BOARD;
+    this.roomService.getRoom(this.room.roomId).subscribe(room => {
+      this.room.blockersProbability = room.blockersProbability;
+    });
+    this.roomService.connect(this.room.roomId);
+    this.subscriptions.push(this.roomService.roomSubject.pipe(skip(1)).subscribe(room => {
+      this.room.blockersProbability = room.blockersProbability;
+    }));
+    this.memberService.getAllMembers(this.room.roomId).subscribe(data => {
       this.members = data.filter(member => member.active);
     });
-    this.memberService.connect(this.roomId);
-    this.memberService.data.subscribe(data => {
+    this.memberService.connect(this.room.roomId);
+    this.subscriptions.push(this.memberService.data.subscribe(data => {
       this.members = data.filter(member => member.active);
-    });
-    this.toggleSub = this.toggleService.isOpenSubject.subscribe(value => this.isSidebarOpen = value);
-  }
-
-  ngOnDestroy(): void {
-    this.toggleSub.unsubscribe();
+    }));
+    // todo implement loader / disable buttons until data loaded
   }
 
   onSetLimitsClicked(): void {
@@ -67,27 +70,34 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
       width: '500px', maxHeight: '90%',
       data: {
         singleColumnLimits: getSingleColumnLimitsOrdered(this.columnLimitService.columnLimitSubject.getValue()),
-        multipleColumnLimits: this.columnLimitService.columnLimitSubject.getValue().filter(el => el.limitType.toLowerCase() === 'multiple'),
-        roomId: this.roomId
+        multipleColumnLimits: this.columnLimitService.columnLimitSubject.getValue().filter(el => el.limitType === ColumnLimitType.MULTIPLE),
+        roomId: this.room.roomId
       }
     });
   }
 
-  isViewer(type: string): string {
-    return type === MemberType.VIEWER ? '(Przeglądający)' : '';
+  onSetProbabilityClicked(): void {
+    const blockersEditDialog = this.dialog.open(BlockersFormDialogComponent, {
+      maxHeight: '80%', data: {probability: this.room.blockersProbability}
+    });
+    blockersEditDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.roomService.patchRoom(this.room.roomId, result).subscribe();
+      }
+    });
   }
 
   onGenerateTask(): void {
-    this.taskService.generateTask(this.roomId).subscribe();
+    this.taskService.generateTask(this.room.roomId).subscribe();
   }
 
-  onDrawBlockers(): void{
-    // todo zmienic tez na system tasks
-    this.taskService.drawBlockers(this.taskService.boardTasks).subscribe();
+  onDrawBlockers(): void {
+    this.taskService.drawBlockers(this.room.roomType === RoomType.KANBAN_BOARD ? this.taskService.boardTasks : this.taskService.systemTasks,
+      this.room.blockersProbability).subscribe();
   }
 
-  nextDayClicked(): void {
-
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

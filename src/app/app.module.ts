@@ -41,6 +41,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { ColumnNamePipe } from './core/pipes/column-name.pipe';
 import {MatChipsModule} from '@angular/material/chips';
+import { BlockersFormDialogComponent } from './components/blockers-form-dialog/blockers-form-dialog.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import {MatChipsModule} from '@angular/material/chips';
     TaskSystemComponent,
     InfoDialogComponent,
     LimitsDialogComponent,
-    ColumnNamePipe],
+    ColumnNamePipe,
+    BlockersFormDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

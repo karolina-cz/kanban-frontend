@@ -9,12 +9,12 @@ import {map} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Task} from '../../interfaces/task/Task';
 import {KanbanSystemTask} from '../../models/task/kanban-system-task.model';
+import {RoomType} from '../../models/room/room-type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  public static blockerProb = 0.25;
   public boardTaskObservable: BehaviorSubject<KanbanBoardTask[]> = new BehaviorSubject<KanbanBoardTask[]>([]);
   public systemTaskObservable: BehaviorSubject<KanbanSystemTask[]> = new BehaviorSubject<KanbanSystemTask[]>([]);
   boardTasks: KanbanBoardTask[];
@@ -37,9 +37,8 @@ export class TaskService {
 
   connect(roomId: string, roomType: string): void {
     this.rxStompService.watch('/topic/room/' + roomId + '/tasks').subscribe((message: Message) => {
-        const jsonBody = JSON.parse(message.body);
-        const tasks: TaskResponse[] = jsonBody as TaskResponse[];
-        if (roomType === 'KANBAN_BOARD') {
+        const tasks: TaskResponse[] = JSON.parse(message.body) as TaskResponse[];
+        if (roomType === RoomType.KANBAN_BOARD) {
           this.boardTaskObservable.next(this.mapTaskResponse<KanbanBoardTask>(tasks, KanbanBoardTask));
         } else {
           this.systemTaskObservable.next(this.mapTaskResponse<KanbanSystemTask>(tasks, KanbanSystemTask));
@@ -95,16 +94,9 @@ export class TaskService {
     return this.httpClient.post(environment.apiUrl + '/task/room/' + roomId, null);
   }
 
-  drawBlockers(tasks: Task[]): Observable<any> {
-    console.log('tasks', tasks);
-    const body: Task[] = [];
-    for (const task of tasks){
-        body.push({
-          taskId: task.taskId,
-          isBlocked: Math.random() < TaskService.blockerProb
-        });
-    }
-    return this.httpClient.patch(environment.apiUrl + '/task', body);
+  drawBlockers(tasks: { taskId: string }[], probabilityPercent: number): Observable<any> {
+    return this.httpClient.patch(environment.apiUrl + '/task',
+      tasks.map(task => ({taskId: task.taskId, isBlocked: Math.random() < (probabilityPercent / 100)})));
   }
 
 }

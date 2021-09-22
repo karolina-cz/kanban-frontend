@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Edytuj blockery</h1>
+<div mat-dialog-content>
+  <p>Ustaw prawdopodobieństwo zablokowania dla pojedynczego zadania.</p>
+  <form id="form1" [formGroup]="blockersForm" (ngSubmit)="onSaveClicked()">
+    <mat-form-field style="width: 70%"  appearance="standard">
+    <mat-label>Prawdopobobieństwo (w procentach)</mat-label>
+    <input formControlName="probability" matInput min="0" max="100" step="1" type="number">
+      <span matSuffix>%</span>
+    <mat-error *ngIf="blockersForm.get('probability').invalid">Nieprawidłowa wartość</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button color="secondary" mat-button mat-dialog-close>Anuluj</button>
+  <button type="submit" form="form1" color="primary" mat-raised-button>Zapisz</button>
+</div>

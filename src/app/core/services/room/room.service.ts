@@ -4,6 +4,8 @@ import {environment} from '../../../../environments/environment';
 import {Room} from '../../interfaces/room/Room';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TaskService} from '../tasks/task.service';
+import {Message} from '@stomp/stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +14,20 @@ export class RoomService {
   public static dayCount = 10;
   day: number;
   daySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  roomSubject: BehaviorSubject<Room> = new BehaviorSubject<Room>(null);
   roomId: string = null;
-  constructor(private httpClient: HttpClient, private taskService: TaskService) {
+  constructor(private httpClient: HttpClient, private taskService: TaskService, private rxStompService: RxStompService) {
     this.daySubject.subscribe(value => {
       this.day = value;
       if (this.roomId !== null) {
         this.taskService.refreshTasks(this.roomId);
       }
+    });
+  }
+
+  connect(roomId: string): void {
+    this.rxStompService.watch('/topic/room/' + roomId + '/info').subscribe((message: Message) => {
+      this.roomSubject.next(JSON.parse(message.body) as Room);
     });
   }
 

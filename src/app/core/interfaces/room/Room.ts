@@ -7,4 +7,5 @@ export interface Room {
   stageOneDoneLimit?: number;
   stageTwoLimit?: number;
   doneLimit?: number;
+  blockersProbability?: number;
 }
