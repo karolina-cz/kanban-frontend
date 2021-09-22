@@ -153,7 +153,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
       workPoints = this.task.workPoints2;
     }
 
-    if (workPoints[i] === null || workPoints[i] !== this.task.selectedColor) {
+    if ((workPoints[i] === null || workPoints[i] !== this.task.selectedColor) && this.task.selectedColor) {
       workPoints[i] = this.task.assignees === [] ? null : this.task.selectedColor;
     } else {
       workPoints[i] = null;

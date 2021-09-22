@@ -42,6 +42,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { ColumnNamePipe } from './core/pipes/column-name.pipe';
 import {MatChipsModule} from '@angular/material/chips';
 import { BlockersFormDialogComponent } from './components/blockers-form-dialog/blockers-form-dialog.component';
+import { CheatSheetDialogComponent } from './components/cheat-sheet-dialog/cheat-sheet-dialog.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { BlockersFormDialogComponent } from './components/blockers-form-dialog/b
     InfoDialogComponent,
     LimitsDialogComponent,
     ColumnNamePipe,
-    BlockersFormDialogComponent],
+    BlockersFormDialogComponent,
+    CheatSheetDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

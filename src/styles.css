@@ -65,5 +65,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .dialog-actions {
   display: flex;
-  justify-content: right
+  justify-content: right;
+}
+
+.link {
+  cursor:pointer;
+  color:#3f51b5;
+  text-decoration:underline;
 }

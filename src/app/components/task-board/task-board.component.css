@@ -98,6 +98,7 @@
 .effort-input {
   width: 70px;
   font-size: 12px;
+  background-color: white;
 }
 
 .effort-label {
@@ -114,8 +115,8 @@
 }
 
 ::ng-deep .mat-menu-content {
-  padding-top: 0px!important;
-  padding-bottom: 0px!important;
+  padding-top: 0!important;
+  padding-bottom: 0!important;
 }
 
 .assignee-list-item:hover {

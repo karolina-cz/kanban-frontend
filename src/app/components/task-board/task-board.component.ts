@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {
   faCheck,
   faCircle, faInfoCircle,
   faLock,
   faLockOpen,
   faMinusCircle,
-  faPencilAlt, faPlusCircle,
+  faPencilAlt, faPlusCircle, faTimes,
   faUserCircle,
   faUserEdit,
   faUserPlus
@@ -41,6 +41,7 @@ export class TaskBoardComponent implements OnInit, OnChanges {
   faUserPlus = faUserPlus;
   faMinusCircle = faMinusCircle;
   faPlusCircle = faPlusCircle;
+  faTimes = faTimes;
   filteredMembers;
   workPointValid: number[] = new Array(11);
   effortValid = true;
