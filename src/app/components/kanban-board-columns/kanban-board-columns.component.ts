@@ -13,11 +13,12 @@ import TaskUtils from '../../core/utils/taskUtils';
 import {forkJoin, Subscription} from 'rxjs';
 import {Task} from '../../core/interfaces/task/Task';
 import {RoomService} from '../../core/services/room/room.service';
-import {DayInterface} from '../../core/interfaces/day-interface';
+import { SimulationDayInterface} from '../../core/interfaces/day-interface';
 import {skip} from 'rxjs/operators';
 import {DayService} from '../../core/services/day/day.service';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
 
 @Component({
   selector: 'app-kanban-board-columns',
@@ -39,17 +40,18 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
     ColumnName.STAGE_TWO, ColumnName.DONE];
   middleColumnIds = [];
   faUserCircle = faUserCircle;
-  days: DayInterface[];
+  days: SimulationDayInterface[];
   daySubscription: Subscription;
   dayInfoSubscription: Subscription;
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
-              private roomService: RoomService, private dayService: DayService, private dialog: MatDialog) {
+              private roomService: RoomService, private dayService: DayService, private dialog: MatDialog,
+              private simulationDayService: SimulationDayService) {
   }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
-    this.dayService.getDays(this.roomId).subscribe(res => {
+    this.simulationDayService.getDays().subscribe(res => {
         this.days = res;
         this.displayNewDayDialog(1);
       }
@@ -75,7 +77,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
 
   openDialog(data: any): void {
     this.dialog.open(InfoDialogComponent, {
-      width: '500px',
+      width: '500px', maxHeight: '80%',
       data
     });
   }

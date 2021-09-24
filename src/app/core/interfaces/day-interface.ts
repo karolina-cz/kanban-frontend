@@ -3,3 +3,9 @@ export interface DayInterface {
   day: number;
   narrative: string;
 }
+
+export interface SimulationDayInterface {
+  simulationDayId: string;
+  dayNumber: number;
+  narrative: string;
+}

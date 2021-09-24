@@ -9,7 +9,7 @@ import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model'
 import {CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
 import {Task} from '../../core/interfaces/task/Task';
 import TaskUtils from '../../core/utils/taskUtils';
-import {DayInterface} from '../../core/interfaces/day-interface';
+import { SimulationDayInterface} from '../../core/interfaces/day-interface';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {DayService} from '../../core/services/day/day.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import {skip} from 'rxjs/operators';
 import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 import {ColumnLimitInterface} from '../../core/interfaces/column-limit-interface';
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
+import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
 
 @Component({
   selector: 'app-kanban-system-columns',
@@ -29,7 +30,7 @@ export class KanbanSystemColumnsComponent implements OnInit {
   tasks: KanbanSystemTask[];
   taskSubscription: Subscription;
   columns: {name: string, tasks: any[]}[];
-  days: DayInterface[];
+  days: SimulationDayInterface[];
   daySubscription: Subscription;
   dayInfoSubscription: Subscription;
   columnLimitSubscription: Subscription;
@@ -38,13 +39,13 @@ export class KanbanSystemColumnsComponent implements OnInit {
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
               private roomService: RoomService, private dayService: DayService, private dialog: MatDialog,
-              private columnLimitService: ColumnLimitService) { }
+              private columnLimitService: ColumnLimitService, private simulationDayService: SimulationDayService) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
     this.singleColumnLimits = columnsKanbanSystem.map(column => ({columnName: column, limit: null}));
     this.columns = columnsKanbanSystem.map(column => ({name: column, tasks: []}));
-    this.dayService.getDays(this.roomId).subscribe(res => {
+    this.simulationDayService.getDays().subscribe(res => {
         this.days = res;
         this.displayNewDayDialog(1);
       }
@@ -72,7 +73,7 @@ export class KanbanSystemColumnsComponent implements OnInit {
 
   openDialog(data: any): void {
     this.dialog.open(InfoDialogComponent, {
-      width: '500px',
+      width: '500px', maxHeight: '80%',
       data
     });
   }

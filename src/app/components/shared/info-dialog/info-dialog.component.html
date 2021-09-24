@@ -1,12 +1,16 @@
 <h1 mat-dialog-title>Dzień {{data.day}}</h1>
 <div mat-dialog-content>
+  <p>Drodzy Deweloperzy,</p>
+  <br>
   <p>{{data.narrative ? data.narrative : 'brak informacji'}}</p>
-  <p (click)="onShowHelpClicked()" class="link mt-2"
-    *ngIf="data.day === 1">
-  <fa-icon
-    [icon]="faQuestionCircle">
-  </fa-icon>
-  <span class="help-text">Jak korzystać z symulacji</span></p>
+  <p (click)="onShowHelpClicked()" class="link"
+     *ngIf="data.day === 1"></p>
+  <br>
+    <p>Zarząd</p>
+<!--  <fa-icon-->
+<!--    [icon]="faQuestionCircle">-->
+<!--  </fa-icon>-->
+<!--  <span class="help-text">Jak korzystać z symulacji</span></p>-->
 </div>
 <div mat-dialog-actions class="dialog-actions">
   <button color="primary" mat-raised-button mat-dialog-close (click)="dialogRef.close()">Ok</button>
