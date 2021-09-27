@@ -108,7 +108,7 @@ export class LimitsDialogComponent implements OnInit {
     }));
   }
 
-  onActiveChanged(formGroup: FormGroup): void {
+  onActiveChanged(formGroup: AbstractControl): void {
     if (formGroup.get('isActive').value) {
       formGroup.get('limitValue').enable();
     } else {

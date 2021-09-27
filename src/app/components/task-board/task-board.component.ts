@@ -75,14 +75,7 @@ export class TaskBoardComponent implements OnInit, OnChanges {
     this.updateFilteredMembers();
   }
 
-  generateValidWorkPointValues(): void {
-    for (let i = 0; i < this.workPointValid.length; i++){
-      this.workPointValid[i] = i * 0.5;
-    }
-  }
-
   onEffortSubmitted(): void{
-    console.log('submit');
     if (this.effort.valid){
       this.task.effort = this.effort.value;
       this.taskService.patchTask({effort: this.effort.value}, this.task.taskId).subscribe();

@@ -6,7 +6,10 @@
     <mat-label>Prawdopobobieństwo (w procentach)</mat-label>
     <input formControlName="probability" matInput min="0" max="100" step="1" type="number">
       <span matSuffix>%</span>
-    <mat-error *ngIf="blockersForm.get('probability').invalid">Nieprawidłowa wartość</mat-error>
+    <mat-error *ngIf="probability.errors?.required">To pole jest wymagane</mat-error>
+    <mat-error *ngIf="probability.errors?.max || probability.errors?.min || probability.errors?.pattern">
+      Wartość musi być liczbą całkowitą z przedziału 0-100
+    </mat-error>
     </mat-form-field>
   </form>
 </div>

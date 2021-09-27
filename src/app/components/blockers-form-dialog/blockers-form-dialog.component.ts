@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -21,6 +21,10 @@ export class BlockersFormDialogComponent implements OnInit {
         Validators.max(100),
         Validators.pattern('^[0-9]*$')])
     });
+  }
+
+  get probability(): AbstractControl{
+    return this.blockersForm.get('probability');
   }
 
   onSaveClicked(): void {

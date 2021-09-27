@@ -12,7 +12,10 @@
         <mat-form-field appearance="standard" class="s-form-field">
           <mat-label>{{control.value.columns[0].toLowerCase() | columnName}}</mat-label>
           <input formControlName="limitValue" matInput min="1" step="1" type="number">
-          <mat-error *ngIf="control.get('limitValue').invalid">Nieprawidłowa wartość</mat-error>
+          <mat-error *ngIf="control.get('limitValue').errors?.required">To pole jest wymagane</mat-error>
+          <mat-error *ngIf="control.get('limitValue').errors?.pattern || control.get('limitValue').errors?.min">
+            Wartość powinna być dodatnią liczbą całkowitą
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -33,7 +36,10 @@
         <mat-form-field appearance="standard" class="m-input">
           <mat-label>Limit (suma)</mat-label>
           <input formControlName="limitValue" matInput min="1" step="1" type="number">
-          <mat-error *ngIf="control.get('limitValue').invalid">Nieprawidłowa wartość</mat-error>
+          <mat-error *ngIf="control.get('limitValue').errors?.required">To pole jest wymagane</mat-error>
+          <mat-error *ngIf="control.get('limitValue').errors?.pattern || control.get('limitValue').errors?.min">
+            Wartość powinna być dodatnią liczbą całkowitą
+          </mat-error>
         </mat-form-field>
         <fa-icon
           (click)="onRemoveLimitClicked(i)"
