@@ -2,14 +2,16 @@ import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, R
 import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model';
 import {TaskType} from '../../core/models/taskType';
 import {Member} from '../../core/models/member.model';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import {faCalendar} from '@fortawesome/free-regular-svg-icons';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {
-  faCircle, faFillDrip,
+  faCircle,
+  faFillDrip,
   faLock,
   faLockOpen,
   faPencilAlt,
-  faUser, faUserCheck,
+  faUser,
+  faUserCheck,
   faUserCircle,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +19,7 @@ import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validat
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {OverlayContainer} from '@angular/cdk/overlay';
+import {MemberType} from '../../core/models/memberType';
 
 @Component({
   selector: 'app-task-system',
@@ -133,7 +136,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
         member.isAssignee = true;
       }
     });
-    return members;
+    return members.filter(el => el.type !== MemberType.VIEWER);
   }
 
   assigneeChanged(selected: boolean, roomMember: Member): void {
