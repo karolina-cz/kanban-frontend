@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { columnsKanbanSystem} from '../../core/models/column-name';
-import {forkJoin, Subscription} from 'rxjs';
+import {BehaviorSubject, forkJoin, Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {ActivatedRoute} from '@angular/router';
 import {MemberService} from '../../core/services/members/member.service';
@@ -111,7 +111,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
 
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_SYSTEM');
-    this.subscriptions.push(this.taskService.kanbanSystemData.subscribe((tasks) => {
+    this.subscriptions.push(this.taskService.systemTaskObservable.subscribe((tasks) => {
       let previousTasks: KanbanSystemTask[] = [];
       this.columns.forEach(column => previousTasks = previousTasks.concat(column.tasks));
       const openMenuTask = previousTasks.find(task => task.isMenuOpen === true);
@@ -165,7 +165,12 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-
+    this.taskService.systemTasks = [];
+    this.taskService.disconnect();
+    this.taskService.systemTaskObservable = new BehaviorSubject<KanbanSystemTask[]>([]);
+    this.columnLimitService.disconnect();
+    this.columnLimitService.columnLimitSubject = new BehaviorSubject<ColumnLimitInterface[]>(null);
+    this.dayService.dayClickedSubject = new BehaviorSubject<number>(1);
   }
 
 }

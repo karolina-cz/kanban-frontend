@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs';
 import {MemberService} from '../../core/services/members/member.service';
 import {ActivatedRoute} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
-import {RoomService} from '../../core/services/room/room.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -21,11 +20,10 @@ export class KanbanSystemComponent implements OnInit, OnDestroy {
   currentRoomMember;
 
   constructor(private memberService: MemberService, private route: ActivatedRoute, public toggleService: SidebarToggleService,
-              private roomService: RoomService, public dialog: MatDialog) { }
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
-    this.roomService.roomId = this.roomId;
     this.currentRoomMember = this.memberService.getCurrentRoomMember(this.roomId);
     this.isMemberRegistered = !!this.currentRoomMember;
     if (this.isMemberRegistered === true){

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Room} from '../../interfaces/room/Room';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {TaskService} from '../tasks/task.service';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
@@ -15,7 +15,9 @@ export class RoomService {
   day: number;
   daySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   roomSubject: BehaviorSubject<Room> = new BehaviorSubject<Room>(null);
-  roomId: string = null;
+  private topicSubscription: Subscription;
+
+
   constructor(private httpClient: HttpClient, private taskService: TaskService, private rxStompService: RxStompService) {
     this.daySubject.subscribe(value => {
       this.day = value;
@@ -23,9 +25,13 @@ export class RoomService {
   }
 
   connect(roomId: string): void {
-    this.rxStompService.watch('/topic/room/' + roomId + '/info').subscribe((message: Message) => {
+    this.topicSubscription = this.rxStompService.watch('/topic/room/' + roomId + '/info').subscribe((message: Message) => {
       this.roomSubject.next(JSON.parse(message.body) as Room);
     });
+  }
+
+  disconnect(): void {
+    this.topicSubscription.unsubscribe();
   }
 
   createRoom(roomType: string): Observable<any> {

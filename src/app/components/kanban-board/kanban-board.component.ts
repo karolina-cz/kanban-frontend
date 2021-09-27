@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
-import {RoomService} from '../../core/services/room/room.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -19,12 +18,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   toggleSub: Subscription;
   currentRoomMember;
 
-  constructor(private memberService: MemberService, private route: ActivatedRoute, public toggleService: SidebarToggleService,
-              private roomService: RoomService) { }
+  constructor(private memberService: MemberService, private route: ActivatedRoute, public toggleService: SidebarToggleService) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
-    this.roomService.roomId = this.roomId;
     this.currentRoomMember = this.memberService.getCurrentRoomMember(this.roomId);
     this.isMemberRegistered = !!this.currentRoomMember;
     if (this.isMemberRegistered === true){

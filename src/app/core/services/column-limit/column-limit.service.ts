@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {ColumnLimitInterface, CreateColumnLimitInterface} from '../../interfaces/column-limit-interface';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
@@ -12,14 +12,19 @@ import {tap} from 'rxjs/operators';
 })
 export class ColumnLimitService {
   public columnLimitSubject: BehaviorSubject<ColumnLimitInterface[]> = new BehaviorSubject<ColumnLimitInterface[]>(null);
+  private topicSubscription: Subscription;
 
   constructor(private rxStompService: RxStompService, private httpClient: HttpClient) { }
 
   connect(roomId: string): void {
-    this.rxStompService.watch('/topic/room/' + roomId + '/columnLimits').subscribe((message: Message) => {
+    this.topicSubscription = this.rxStompService.watch('/topic/room/' + roomId + '/columnLimits').subscribe((message: Message) => {
       const jsonBody = JSON.parse(message.body);
       this.columnLimitSubject.next(jsonBody);
     });
+  }
+
+  disconnect(): void {
+    this.topicSubscription.unsubscribe();
   }
 
   getAllColumnLimits(roomId: string): Observable<ColumnLimitInterface[]> {

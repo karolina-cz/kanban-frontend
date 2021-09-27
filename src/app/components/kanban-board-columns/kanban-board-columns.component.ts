@@ -10,7 +10,7 @@ import {TaskService} from '../../core/services/tasks/task.service';
 import {ActivatedRoute} from '@angular/router';
 import {MemberService} from '../../core/services/members/member.service';
 import TaskUtils from '../../core/utils/taskUtils';
-import {forkJoin, Subscription} from 'rxjs';
+import {BehaviorSubject, forkJoin, Subscription} from 'rxjs';
 import {Task} from '../../core/interfaces/task/Task';
 import {RoomService} from '../../core/services/room/room.service';
 import {SimulationDayInterface} from '../../core/interfaces/day-interface';
@@ -83,6 +83,10 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.taskService.boardTasks = [];
+    this.taskService.disconnect();
+    this.taskService.boardTaskObservable = new BehaviorSubject<KanbanBoardTask[]>([]);
+    this.dayService.dayClickedSubject = new BehaviorSubject<number>(1);
   }
 
   initializeData(): void {
@@ -97,7 +101,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
 
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_BOARD');
-    this.subscriptions.push(this.taskService.boardData.subscribe((tasks) => {
+    this.subscriptions.push(this.taskService.boardTaskObservable.subscribe((tasks) => {
       this.handleNewTasks(tasks);
     }));
   }

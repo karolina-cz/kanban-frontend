@@ -5,10 +5,8 @@ import {BehaviorSubject} from 'rxjs';
   providedIn: 'root'
 })
 export class SidebarToggleService {
-  isOpen;
   isOpenSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor() {
-    this.isOpenSubject.subscribe(value => this.isOpen = value);
   }
 }

@@ -90,8 +90,8 @@
         </div>
       </div>
       <fa-icon
-        (click)="toggleService.isOpenSubject.next(!toggleService.isOpen)"
-        *ngIf="toggleService.isOpen === false"
+        (click)="toggleService.isOpenSubject.next(!toggleService.isOpenSubject.getValue())"
+        *ngIf="toggleService.isOpenSubject.getValue() === false"
         [icon]="faBars"
         class="cursor-pointer menu-open-icon">
       </fa-icon>

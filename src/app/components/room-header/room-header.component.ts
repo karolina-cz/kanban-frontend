@@ -5,7 +5,7 @@ import {MemberService} from '../../core/services/members/member.service';
 import {MemberDto} from '../../core/models/memberDto';
 import {ActivatedRoute} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
-import {Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {RoomService} from '../../core/services/room/room.service';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
@@ -19,6 +19,7 @@ import {Room} from '../../core/interfaces/room/Room';
 import {RoomType} from '../../core/models/room/room-type';
 import {skip} from 'rxjs/operators';
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
+import {Member} from '../../core/models/member.model';
 
 @Component({
   selector: 'app-room-header',
@@ -59,7 +60,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
       this.members = data.filter(member => member.active);
     });
     this.memberService.connect(this.room.roomId);
-    this.subscriptions.push(this.memberService.data.subscribe(data => {
+    this.subscriptions.push(this.memberService.dataObservable.subscribe(data => {
       this.members = data.filter(member => member.active);
     }));
     // todo implement loader / disable buttons until data loaded
@@ -98,6 +99,12 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.roomService.day = 1;
+    this.roomService.disconnect();
+    this.roomService.daySubject = new BehaviorSubject<number>(1);
+    this.roomService.roomSubject = new BehaviorSubject<Room>(null);
+    this.memberService.disconnect();
+    this.memberService.dataObservable = new BehaviorSubject<Member[]>([]);
   }
 
 }

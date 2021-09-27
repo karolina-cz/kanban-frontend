@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {RoomService} from '../../core/services/room/room.service';
 import {RoomType} from '../../core/models/room/room-type';
-import {Router, RouterModule} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {MemberDto} from '../../models/memberDto';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Member} from '../../models/member.model';
 import {map} from 'rxjs/operators';
@@ -15,14 +15,13 @@ import {environment} from '../../../../environments/environment';
 export class MemberService {
   // TODO sortowanie members
   public dataObservable: BehaviorSubject<Member[]> = new BehaviorSubject<Member[]>([]);
-  data = this.dataObservable.asObservable();
+  private topicSubscription: Subscription;
 
   constructor(private rxStompService: RxStompService, private httpClient: HttpClient, private roomService: RoomService) { }
 
   connect(roomId: string): void {
-    this.rxStompService.watch('/topic/room/' + roomId + '/members').subscribe((message: Message) => {
-      const jsonBody = JSON.parse(message.body);
-      const membersDto: MemberDto[] = jsonBody as MemberDto[];
+    this.topicSubscription = this.rxStompService.watch('/topic/room/' + roomId + '/members').subscribe((message: Message) => {
+      const membersDto: MemberDto[] = JSON.parse(message.body) as MemberDto[];
       let members: Member[] = [];
       for (const member of membersDto) {
         members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity));
@@ -30,6 +29,10 @@ export class MemberService {
       members = this.sortMembersByName(members);
       this.dataObservable.next(members);
     });
+  }
+
+  disconnect(): void {
+    this.topicSubscription.unsubscribe();
   }
 
   getAllMembers(roomId: string): Observable<Member[]> {

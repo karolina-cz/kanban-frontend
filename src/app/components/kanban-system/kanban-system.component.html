@@ -5,7 +5,7 @@
     <mat-sidenav-content>
       <app-kanban-system-columns></app-kanban-system-columns>
     </mat-sidenav-content>
-    <mat-sidenav [opened]="toggleService.isOpen" class="py-3 px-3" mode="side" position="end" style="min-width: 150px">
+    <mat-sidenav [opened]="toggleService.isOpenSubject.getValue()" class="py-3 px-3" mode="side" position="end" style="min-width: 150px">
       <app-members-productivity></app-members-productivity>
     </mat-sidenav>
   </mat-sidenav-container>

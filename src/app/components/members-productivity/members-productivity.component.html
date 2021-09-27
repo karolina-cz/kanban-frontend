@@ -1,7 +1,7 @@
 <div class="text-end">
   <fa-icon
     class="cursor-pointer"
-    (click)="toggleService.isOpenSubject.next(!toggleService.isOpen)"
+    (click)="toggleService.isOpenSubject.next(!toggleService.isOpenSubject.getValue())"
     [icon]="faTimes">
   </fa-icon>
 </div>
