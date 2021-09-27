@@ -102,6 +102,13 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_BOARD');
     this.subscriptions.push(this.taskService.boardTaskObservable.subscribe((tasks) => {
+      const openMenuTask = this.tasks?.find(task => task.isMenuOpen === true);
+      if (openMenuTask) {
+        const newTaskWithMenuOpen = tasks.find(task => task.taskId === openMenuTask.taskId);
+        if (newTaskWithMenuOpen) {
+          newTaskWithMenuOpen.isMenuOpen = true;
+        }
+      }
       this.handleNewTasks(tasks);
     }));
   }

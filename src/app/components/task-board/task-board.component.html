@@ -46,7 +46,10 @@
       </div>
 
       <fa-icon
+        #clickMenuTrigger="matMenuTrigger"
         [matMenuTriggerFor]="menu"
+        (menuOpened)="task.isMenuOpen = true"
+        (menuClosed)="task.isMenuOpen = false"
         class="icon-small-size cursor-pointer assignee-icon standard-icon-color"
         [icon]="task.assignee === null ? faUserPlus : faPencilAlt">
       </fa-icon>
@@ -65,7 +68,8 @@
               </fa-icon>
               <span style="margin-right: 15px">{{task.assignee.name}}</span>
               <fa-icon
-                style="margin-left: auto; font-size:12px"
+                *ngIf="task.kanbanColumn === ColumnNameEnum.BACKLOG || task.kanbanColumn === ColumnNameEnum.DONE"
+                style="margin-left: auto; font-size:14px"
                 (click)="onAssigneeRemoved(task.assignee)"
                 class="cursor-pointer "
                 [icon]="faTimes"

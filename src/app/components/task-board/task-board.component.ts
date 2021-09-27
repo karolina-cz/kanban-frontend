@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {
   faCheck,
   faCircle, faInfoCircle,
@@ -17,15 +17,19 @@ import {MemberType} from '../../core/models/memberType';
 import {TaskType} from '../../core/models/taskType';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {OverlayContainer} from '@angular/cdk/overlay';
+import {ColumnName} from '../../core/models/column-name';
 
 @Component({
   selector: 'app-task-board',
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
-export class TaskBoardComponent implements OnInit, OnChanges {
+export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() task: KanbanBoardTask;
   @Input() allMembers: Member[];
+  @ViewChild('clickMenuTrigger') clickMenuTrigger: MatMenuTrigger;
 
   panelOpenState = false;
   faUserCircle = faUserCircle;
@@ -48,8 +52,17 @@ export class TaskBoardComponent implements OnInit, OnChanges {
   faCheck = faCheck;
   effortForm: FormGroup;
   faInfoCircle = faInfoCircle;
+  ColumnNameEnum = ColumnName;
 
-  constructor(private taskService: TaskService) {
+  constructor(private taskService: TaskService, private renderer: Renderer2, private detectorRef: ChangeDetectorRef,
+              private overlayContainer: OverlayContainer) {
+    const disableAnimations = true;
+
+    // get overlay container to set property that disables animations
+    const overlayContainerElement: HTMLElement = this.overlayContainer.getContainerElement();
+
+    // angular animations renderer hooks up the logic to disable animations into setProperty
+    this.renderer.setProperty( overlayContainerElement, '@.disabled', disableAnimations );
   }
 
   updateFilteredMembers(): void {
@@ -73,6 +86,13 @@ export class TaskBoardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateFilteredMembers();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.task.isMenuOpen) {
+      this.clickMenuTrigger.openMenu();
+      this.detectorRef.detectChanges();
+    }
   }
 
   onEffortSubmitted(): void{
@@ -103,7 +123,6 @@ export class TaskBoardComponent implements OnInit, OnChanges {
   }
 
   onAssigneeRemoved(assignee: Member): void{
-    // remove assignee
     this.task.assignee = null;
     this.taskService.deleteAssignee(this.task.taskId, assignee.roomMemberId).subscribe();
     this.updateFilteredMembers();

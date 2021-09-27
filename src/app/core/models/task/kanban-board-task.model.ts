@@ -14,6 +14,7 @@ export class KanbanBoardTask{
   effort: number;
   name: string;
   assignee: Member;
+  isMenuOpen?: boolean;
 
   constructor(taskRes: TaskResponse) {
     if (taskRes.roomMembers.length > 0) {
