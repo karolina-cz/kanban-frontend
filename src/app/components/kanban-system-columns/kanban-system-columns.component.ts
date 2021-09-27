@@ -18,6 +18,7 @@ import {ColumnLimitService} from '../../core/services/column-limit/column-limit.
 import {ColumnLimitInterface} from '../../core/interfaces/column-limit-interface';
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
+import {RoomType} from '../../core/models/room/room-type';
 
 @Component({
   selector: 'app-kanban-system-columns',
@@ -62,6 +63,9 @@ export class KanbanSystemColumnsComponent implements OnInit {
     this.initializeData();
     this.observeTasks();
     this.columnLimitService.connect(this.roomId);
+    this.roomService.daySubject.subscribe(() => {
+      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_SYSTEM);
+    });
   }
 // todo wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system
   displayNewDayDialog(day: number): void {

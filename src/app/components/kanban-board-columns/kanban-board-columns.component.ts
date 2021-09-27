@@ -13,12 +13,13 @@ import TaskUtils from '../../core/utils/taskUtils';
 import {forkJoin, Subscription} from 'rxjs';
 import {Task} from '../../core/interfaces/task/Task';
 import {RoomService} from '../../core/services/room/room.service';
-import { SimulationDayInterface} from '../../core/interfaces/day-interface';
+import {SimulationDayInterface} from '../../core/interfaces/day-interface';
 import {skip} from 'rxjs/operators';
 import {DayService} from '../../core/services/day/day.service';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
+import {RoomType} from '../../core/models/room/room-type';
 
 @Component({
   selector: 'app-kanban-board-columns',
@@ -65,6 +66,9 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
     });
     this.initializeData();
     this.observeTasks();
+    this.roomService.daySubject.subscribe(() => {
+        this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_BOARD);
+    });
   }
 
   // wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system

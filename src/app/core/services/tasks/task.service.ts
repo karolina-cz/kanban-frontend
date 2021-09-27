@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {environment} from '../../../../environments/environment';
@@ -46,11 +46,16 @@ export class TaskService {
     });
   }
 
-  refreshTasks(roomId: string): void {
-    // todo refresh both
-    this.getAllKanbanBoardTasks(roomId).subscribe(value => {
-      this.boardTaskObservable.next(value);
-    });
+  refreshTasks(roomId: string, roomType: RoomType): void {
+    if (roomType === RoomType.KANBAN_BOARD) {
+      this.getAllKanbanBoardTasks(roomId).subscribe(value => {
+        this.boardTaskObservable.next(value);
+      });
+    } else {
+      this.getAllKanbanSystemTasks(roomId).subscribe(value => {
+        this.systemTaskObservable.next(value);
+      });
+    }
   }
 
   getAllKanbanBoardTasks(roomId: string): Observable<KanbanBoardTask[]> {

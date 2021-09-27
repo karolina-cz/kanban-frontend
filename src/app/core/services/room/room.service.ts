@@ -19,9 +19,6 @@ export class RoomService {
   constructor(private httpClient: HttpClient, private taskService: TaskService, private rxStompService: RxStompService) {
     this.daySubject.subscribe(value => {
       this.day = value;
-      if (this.roomId !== null) {
-        this.taskService.refreshTasks(this.roomId);
-      }
     });
   }
 
