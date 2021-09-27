@@ -3,7 +3,7 @@ import {faBars, faChevronLeft, faChevronRight, faEye, faUserCircle} from '@forta
 import {MemberType} from '../../core/models/memberType';
 import {MemberService} from '../../core/services/members/member.service';
 import {MemberDto} from '../../core/models/memberDto';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
@@ -43,13 +43,16 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   constructor(private memberService: MemberService, private route: ActivatedRoute,
               public toggleService: SidebarToggleService, private taskService: TaskService,
               public roomService: RoomService, public dayService: DayService,
-              private dialog: MatDialog, private columnLimitService: ColumnLimitService) {
+              private dialog: MatDialog, private columnLimitService: ColumnLimitService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.room.roomId = this.route.snapshot.params.id;
     this.room.roomType = this.route.snapshot.url[0].path === 'kanban-system' ? RoomType.KANBAN_SYSTEM : RoomType.KANBAN_BOARD;
     this.roomService.getRoom(this.room.roomId).subscribe(room => {
+      if (room.type !== this.room.roomType) {
+        this.router.navigate(['/']);
+      }
       this.room.blockersProbability = room.blockersProbability;
     });
     this.roomService.connect(this.room.roomId);
