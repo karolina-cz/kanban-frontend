@@ -12,8 +12,20 @@
   </div>
   <div *ngFor="let column of columns;let i = index" style="min-width: 160px" class="col kanban-col border" >
     <div >
-      <h3 class="text-center my-0">{{column.name | columnName}}</h3>
-      <p class="text-center m-0 text-secondary">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</p>
+      <h3 class="text-center my-0">
+        {{column.name | columnName}}
+        <span [ngClass]="{'text-secondary': !singleColumnLimits[i].limit?.limitValue || column.tasks.length <= singleColumnLimits[i].limit?.limitValue,
+        'text-danger': singleColumnLimits[i].limit?.limitValue && column.tasks.length > singleColumnLimits[i].limit?.limitValue}"
+              class="text-secondary" style="font-size: 0.875em;">
+        (<span *ngIf="!singleColumnLimits[i].limit?.limitValue">{{column.tasks.length}}</span>
+        <span *ngIf="singleColumnLimits[i].limit?.limitValue">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</span>)
+          <fa-icon
+            ngbTooltip="Przekroczono limit"
+            *ngIf="singleColumnLimits[i].limit?.limitValue && column.tasks.length > singleColumnLimits[i].limit?.limitValue"
+          [icon]="faExclamationCircle">
+          </fa-icon>
+        </span>
+      </h3>
     </div>
     <div
       style="min-height: 200px;height: 100%"

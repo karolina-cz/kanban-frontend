@@ -19,6 +19,7 @@ import {ColumnLimitInterface} from '../../core/interfaces/column-limit-interface
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
 import {RoomType} from '../../core/models/room/room-type';
+import {faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-kanban-system-columns',
@@ -26,6 +27,7 @@ import {RoomType} from '../../core/models/room/room-type';
   styleUrls: ['./kanban-system-columns.component.css']
 })
 export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
+  faExclamationCircle = faExclamationCircle;
   roomId: string;
   members = [];
   tasks: KanbanSystemTask[];

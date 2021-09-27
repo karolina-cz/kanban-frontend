@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Limity</h1>
 <div mat-dialog-content>
   <p>Ustaw limity pojedynczych kolumn w systemie kanban lub zdefiniuj własne limity uwzględniające kilka kolumn.</p>
-  <form [formGroup]="limitsForm">
+  <form id="form1" [formGroup]="limitsForm" (ngSubmit)="onSaveClicked()">
     <div formArrayName="singleColumnLimits" class="s-limits-form">
       <div *ngFor="let control of singleColumnLimits.controls; index as i" [formGroupName]="i" class="s-limit">
         <p class="s-checkbox">
@@ -58,5 +58,5 @@
 </div>
 <div mat-dialog-actions class="dialog-actions">
   <button (click)="dialogRef.close()" color="secondary" mat-button mat-dialog-close>Anuluj</button>
-  <button (click)="onSaveClicked()" color="primary" mat-raised-button>Zapisz</button>
+  <button type="submit" form="form1" color="primary" mat-raised-button>Zapisz</button>
 </div>
