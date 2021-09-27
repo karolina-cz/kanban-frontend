@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { columnsKanbanSystem} from '../../core/models/column-name';
 import {forkJoin, Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
@@ -25,18 +25,15 @@ import {RoomType} from '../../core/models/room/room-type';
   templateUrl: './kanban-system-columns.component.html',
   styleUrls: ['./kanban-system-columns.component.css']
 })
-export class KanbanSystemColumnsComponent implements OnInit {
+export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
   roomId: string;
   members = [];
   tasks: KanbanSystemTask[];
-  taskSubscription: Subscription;
   columns: {name: string, tasks: any[]}[];
   days: SimulationDayInterface[];
-  daySubscription: Subscription;
-  dayInfoSubscription: Subscription;
-  columnLimitSubscription: Subscription;
   singleColumnLimits: {columnName: string, limit: ColumnLimitInterface}[]; // todo merge singleColumnLimits ans columns
   multipleColumnLimits: ColumnLimitInterface[];
+  subscriptions: Subscription[] = [];
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
               private roomService: RoomService, private dayService: DayService, private dialog: MatDialog,
@@ -51,21 +48,20 @@ export class KanbanSystemColumnsComponent implements OnInit {
         this.displayNewDayDialog(1);
       }
     );
-    this.daySubscription = this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+    this.subscriptions.push(this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_SYSTEM);
       this.displayNewDayDialog(dayNumber);
-    });
-    this.dayInfoSubscription = this.dayService.dayInfoSubject.pipe(skip(1)).subscribe(day => {
+    }));
+    this.subscriptions.push(this.dayService.dayClickedSubject.pipe(skip(1)).subscribe(day => {
       this.openDialog({day, narrative: this.days[day - 1]?.narrative});
-    });
-    this.columnLimitSubscription = this.columnLimitService.columnLimitSubject.pipe(skip(1)).subscribe(limits => {
+    }));
+    this.subscriptions.push(this.columnLimitService.columnLimitSubject.pipe(skip(1)).subscribe(limits => {
       this.handleNewColumnLimits(limits);
-    });
+    }));
     this.initializeData();
     this.observeTasks();
+    this.observeMembers();
     this.columnLimitService.connect(this.roomId);
-    this.roomService.daySubject.subscribe(() => {
-      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_SYSTEM);
-    });
   }
 // todo wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system
   displayNewDayDialog(day: number): void {
@@ -115,7 +111,7 @@ export class KanbanSystemColumnsComponent implements OnInit {
 
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_SYSTEM');
-    this.taskSubscription = this.taskService.kanbanSystemData.subscribe((tasks) => {
+    this.subscriptions.push(this.taskService.kanbanSystemData.subscribe((tasks) => {
       let previousTasks: KanbanSystemTask[] = [];
       this.columns.forEach(column => previousTasks = previousTasks.concat(column.tasks));
       const openMenuTask = previousTasks.find(task => task.isMenuOpen === true);
@@ -132,7 +128,15 @@ export class KanbanSystemColumnsComponent implements OnInit {
         }
       });
       this.handleNewTasks(tasks);
-    });
+    }));
+  }
+
+  observeMembers(): void {
+    this.subscriptions.push(
+      this.memberService.dataObservable.subscribe(members => {
+        this.members = members;
+      })
+    );
   }
 
   drop(event: CdkDragDrop<KanbanSystemTask[]>): void {
@@ -157,6 +161,11 @@ export class KanbanSystemColumnsComponent implements OnInit {
 
   getMultipleColumnLimit(columns: string[]): number {
     return columns.map(column => this.columns.find(el => el.name === column.toLowerCase()).tasks.length).reduce((a, b) => a + b, 0);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
   }
 
 }

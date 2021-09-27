@@ -9,7 +9,7 @@ import {environment} from '../../../../environments/environment';
 })
 export class DayService {
   static readonly DAYS_NUMBER = 10;
-  dayInfoSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  dayClickedSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
 
   constructor(private httpClient: HttpClient) { }
 

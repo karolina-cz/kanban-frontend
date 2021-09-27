@@ -33,8 +33,6 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   backlog: KanbanBoardTask[] = [];
   memberTasks: BoardMemberTasks[] = [];
   done = [];
-  taskSubscription: Subscription;
-
   memberColumns = [ColumnName.STAGE_ONE_IN_PROGRESS, ColumnName.STAGE_ONE_DONE,
     ColumnName.STAGE_TWO];
   columns = [ColumnName.BACKLOG, ColumnName.STAGE_ONE_IN_PROGRESS, ColumnName.STAGE_ONE_DONE,
@@ -42,8 +40,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   middleColumnIds = [];
   faUserCircle = faUserCircle;
   days: SimulationDayInterface[];
-  daySubscription: Subscription;
-  dayInfoSubscription: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private memberService: MemberService,
               private roomService: RoomService, private dayService: DayService, private dialog: MatDialog,
@@ -57,18 +54,16 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
         this.displayNewDayDialog(1);
       }
     );
-    this.daySubscription = this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+    this.subscriptions.push(this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
       this.displayNewDayDialog(dayNumber);
-      console.log('new day konaban-column', dayNumber);
-    });
-    this.dayInfoSubscription = this.dayService.dayInfoSubject.pipe(skip(1)).subscribe(day => {
+      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_BOARD);
+    }));
+    this.subscriptions.push(this.dayService.dayClickedSubject.pipe(skip(1)).subscribe(day => {
       this.openDialog({day, narrative: this.days[day - 1]?.narrative});
-    });
+    }));
     this.initializeData();
     this.observeTasks();
-    this.roomService.daySubject.subscribe(() => {
-        this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_BOARD);
-    });
+    this.observeMembers();
   }
 
   // wyswietlanie info o danym dniu zrobic bardziej generycznie - zeby nie bylo powtorzen w board i system
@@ -87,7 +82,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.taskSubscription.unsubscribe();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   initializeData(): void {
@@ -102,9 +97,18 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
 
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_BOARD');
-    this.taskSubscription = this.taskService.boardData.subscribe((tasks) => {
+    this.subscriptions.push(this.taskService.boardData.subscribe((tasks) => {
       this.handleNewTasks(tasks);
-    });
+    }));
+  }
+
+  observeMembers(): void {
+    this.subscriptions.push(
+      this.memberService.dataObservable.subscribe(members => {
+        this.handleNewMembers(members);
+        this.handleNewTasks(this.tasks);
+      })
+    );
   }
 
   handleNewMembers(members: Member[]): void {

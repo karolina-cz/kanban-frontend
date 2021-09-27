@@ -22,7 +22,7 @@
         [icon]="faChevronLeft"
         class="cursor-pointer arrow-left-icon">
       </fa-icon>
-      <div (click)="dayService.dayInfoSubject.next(roomService.day)" class="d-inline-block cursor-pointer day-wrapper">
+      <div (click)="dayService.dayClickedSubject.next(roomService.day)" class="d-inline-block cursor-pointer day-wrapper">
         <div class="calendar-day-wrapper">
           <small
             [style.padding-left.px]="roomService.day > 9 ? '4' : '7'"

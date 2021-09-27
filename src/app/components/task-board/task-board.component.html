@@ -71,13 +71,6 @@
                 [icon]="faTimes"
                 [style.color]="'darkred'">
               </fa-icon>
-<!--              <fa-icon-->
-<!--                style="margin-left: auto"-->
-<!--                (click)="onAssigneeRemoved(task.assignee)"-->
-<!--                class="cursor-pointer icon-small-size"-->
-<!--                [icon]="faMinusCircle"-->
-<!--                [style.color]="'red'">-->
-<!--              </fa-icon>-->
             </div>
             <!--                    pamietac o wyswietlaniu tylko members participant-->
           </li>
@@ -146,9 +139,6 @@
         </fa-icon>
       </small>
       <form  [formGroup]="effortForm" (ngSubmit)="effortInput.blur()">
-<!--        <mat-form-field class="bracket-inputs">-->
-<!--          <input #effort formControlName="effort" matInput type="number">-->
-<!--        </mat-form-field>-->
         <input #effortInput (blur)="onEffortSubmitted()" formControlName="effort" [style.border-color]="effort.valid ? '': 'darkred'"
                class=" input-group-text p-0 effort-input font-small"
                type="number" step="0.5" min="0" max="5">
@@ -156,9 +146,6 @@
           <small style="color:darkred">Niepoprawna wartość</small>
         </div>
       </form>
-<!--      <input [style.border-color]="this.effortValid ? '': 'darkred'"-->
-<!--             class=" input-group-text p-0 effort-input font-small" #effort (change)="onEffortChanged(effort.value)"-->
-<!--             [value]="task.effort" type="number" step="0.5" min="0" max="5">-->
     </div>
   </div>
 </div>
