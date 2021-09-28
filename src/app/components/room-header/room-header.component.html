@@ -1,7 +1,8 @@
-<nav class="navbar bg-light">
-  <div class="container-fluid justify-content-between mx-3">
-    <div>
-      <button (click)="onGenerateTask()" mat-raised-button>
+<nav class="navbar bg-light navbar-wrapper">
+  <div class="container-fluid justify-content-between navbar-content-wrapper">
+    <div class="content-start">
+      <button mat-button routerLink="">Logo</button>
+      <button class="mx-2" (click)="onGenerateTask()" mat-raised-button>
         Wygeneruj zadanie
       </button>
       <button [matMenuTriggerFor]="menu" class="mx-2" mat-raised-button>
@@ -17,6 +18,7 @@
       <button (click)="onSetLimitsClicked()" *ngIf="room.roomType === RoomTypeEnum.KANBAN_SYSTEM" mat-raised-button>
         Ustaw limity
       </button>
+      <div class="d-inline-block">
       <fa-icon
         (click)="roomService.previousDay()"
         [icon]="faChevronLeft"
@@ -40,8 +42,9 @@
         [icon]="faChevronRight"
         class="cursor-pointer icon-25">
       </fa-icon>
+      </div>
     </div>
-    <div class="d-flex">
+    <div class="content-end">
     <span *ngIf="!dropdownOpen">
     <fa-icon
       *ngFor="let member of members.slice(0, 5);"

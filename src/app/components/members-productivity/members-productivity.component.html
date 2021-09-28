@@ -1,3 +1,4 @@
+<div class="h-100 overflow-y-hidden">
 <div class="text-end">
   <fa-icon
     class="cursor-pointer"
@@ -6,6 +7,7 @@
   </fa-icon>
 </div>
 <button (click)="onDrawProductivity()" class="my-2" color="primary" mat-raised-button>Losuj produktywność</button>
+<div class="scrollbar-secondary members-list">
 <ul class="list-group">
   <li *ngFor="let item of members" class="list-group-item">
     <div class="d-flex justify-content-between">
@@ -23,9 +25,11 @@
     </div>
     </li>
 </ul>
+</div>
 <div (click)="onShowHelpClicked()" class="help-link link">
   <fa-icon
   [icon]="faQuestionCircle">
   </fa-icon>
   <span>Jak korzystać</span>
+</div>
 </div>

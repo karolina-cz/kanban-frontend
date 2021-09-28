@@ -69,3 +69,24 @@
   background-color: #f44336;
   color: white;
 }
+
+.system-cols-wrapper {
+  height: calc(100% - 10px);
+}
+
+.chips-wrapper {
+  margin-bottom: 10px;
+  padding-left: 0;
+}
+
+.kanban-system-col-wrapper {
+  margin-bottom: 10px;
+  margin-right: 5px;
+  padding-bottom: 10px;
+}
+
+.kanban-system-col {
+  min-height: 100px;
+  height: calc(100% - 28px);
+  overflow-y: auto
+}

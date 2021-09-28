@@ -1,12 +1,14 @@
+<div class="h-100">
 <app-new-member (memberCreated)="isMemberRegistered = true" *ngIf="isMemberRegistered === false">Wpisz swoje dane</app-new-member>
-<div *ngIf="isMemberRegistered === true">
+<div class="h-100" *ngIf="isMemberRegistered === true">
   <app-room-header></app-room-header>
-  <mat-sidenav-container>
-    <mat-sidenav-content>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav-content class="h-100">
       <app-kanban-system-columns></app-kanban-system-columns>
     </mat-sidenav-content>
-    <mat-sidenav [opened]="toggleService.isOpenSubject.getValue()" class="py-3 px-3" mode="side" position="end" style="min-width: 150px">
+    <mat-sidenav [opened]="toggleService.isOpenSubject.getValue()" class="py-3 px-3 sidenav" mode="side" position="end">
       <app-members-productivity></app-members-productivity>
     </mat-sidenav>
   </mat-sidenav-container>
+</div>
 </div>

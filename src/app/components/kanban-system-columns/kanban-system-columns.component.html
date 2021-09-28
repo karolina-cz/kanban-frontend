@@ -1,5 +1,5 @@
-<div style="min-width: 960px; margin-bottom: 50px; margin-top: 20px" class="row mx-5" cdkDropListGroup>
-  <div style="margin-bottom: 10px">
+<div class="row mx-5 columns-wrapper system-cols-wrapper" cdkDropListGroup>
+  <div *ngIf="multipleColumnLimits?.length" class="chips-wrapper">
     <mat-chip-list aria-label="Column limits">
       <mat-chip *ngFor="let item of multipleColumnLimits"
                 disableRipple
@@ -10,8 +10,9 @@
       </mat-chip>
     </mat-chip-list>
   </div>
-  <div *ngFor="let column of columns;let i = index" style="min-width: 160px" class="col kanban-col border" >
-    <div >
+  <div *ngFor="let column of columns;let i = index"
+       [style.height]="multipleColumnLimits?.length ? 'calc(100% - 62px)': 'calc(100% - 10px)'"
+       class="col kanban-col border column-wrapper kanban-system-col-wrapper" >
       <h3 class="text-center my-0">
         {{column.name | columnName}}
         <span [ngClass]="{'text-secondary': !singleColumnLimits[i].limit?.limitValue || column.tasks.length <= singleColumnLimits[i].limit?.limitValue,
@@ -26,12 +27,10 @@
           </fa-icon>
         </span>
       </h3>
-    </div>
     <div
-      style="min-height: 200px;height: 100%"
       cdkDropList
       id="{{column.name}}"
-      class="example-list"
+      class="example-list scrollbar-secondary kanban-system-col"
       [cdkDropListData]="column.tasks"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box m-1" *ngFor="let item of column.tasks" cdkDrag>

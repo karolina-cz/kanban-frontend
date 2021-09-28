@@ -42,3 +42,43 @@
 .kanban-col {
   width: 20%
 }
+
+.side-column-wrapper {
+  height: 100%;
+  overflow-y: hidden;
+  margin-right: 10px;
+}
+
+.side-column {
+  min-height: 50px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.middle-column-wrapper {
+  width: 60%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: 5px;
+  padding-right: 15px;
+}
+
+.middle-col-member-row {
+  margin-bottom: 10px;
+}
+
+.member-col-tile {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.member-name-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top:5px;
+}
+
+.task-wrapper {
+  margin-bottom: 10px!important;
+}
