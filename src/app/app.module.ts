@@ -43,6 +43,8 @@ import { ColumnNamePipe } from './core/pipes/column-name.pipe';
 import {MatChipsModule} from '@angular/material/chips';
 import { BlockersFormDialogComponent } from './components/blockers-form-dialog/blockers-form-dialog.component';
 import { CheatSheetDialogComponent } from './components/cheat-sheet-dialog/cheat-sheet-dialog.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -90,7 +92,9 @@ import { CheatSheetDialogComponent } from './components/cheat-sheet-dialog/cheat
     A11yModule,
     MatIconModule,
     MatDividerModule,
-    MatChipsModule
+    MatChipsModule,
+    ClipboardModule,
+    MatSnackBarModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

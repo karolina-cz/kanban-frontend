@@ -1,10 +1,13 @@
 <div class="example-box py-1 px-2 " >
   <div class="task-header">
     <div style="display:flex">
-      <div class="calendar-day-wrapper" *ngIf="task.type === taskType.FIXED_DATE">
+      <div
+        [style.margin-left.px]="task.dueDay > 9 ? '-15' : '-7'"
+        class="calendar-fixed-day-wrapper"
+           *ngIf="task.type === taskType.FIXED_DATE">
         <small
-          [style.padding-left.px]="task.dueDay > 9 ? '4' : '7'"
-          class="calendar-day standard-icon-color">
+          [style.right.px]="task.dueDay > 9 ? '-17' : '-14'"
+          class="calendar-fixed-day standard-icon-color">
           {{task.dueDay}}
         </small>
         <fa-icon
@@ -45,7 +48,7 @@
     <div style="display: inline-block" *ngFor="let item of task.assignees">
         <fa-icon
           class="assignee-icon icon-small-size icon-shadow cursor-pointer"
-                 (click)="task.selectedColor = item.color"
+                 (click)="task.selectedColor  = task.selectedColor === item.color ? null : item.color"
           [style.color]="item.color"
           [icon]="faUser"
           placement="auto"

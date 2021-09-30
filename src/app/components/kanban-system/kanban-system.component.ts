@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-kanban-system',
@@ -20,7 +21,7 @@ export class KanbanSystemComponent implements OnInit, OnDestroy {
   currentRoomMember;
 
   constructor(private memberService: MemberService, private route: ActivatedRoute, public toggleService: SidebarToggleService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
@@ -36,6 +37,14 @@ export class KanbanSystemComponent implements OnInit, OnDestroy {
     this.toggleSub.unsubscribe();
     if (this.isMemberRegistered) {
       // this.memberService.patchRoomMember({roomMemberId: this.currentRoomMember.roomMemberId, isActive: false}).subscribe();
+    }
+  }
+
+  conditionallyShowInfo(canShow: boolean): void {
+    if (canShow) {
+      this.snackBar.open('Przepraszamy, liczba członków zespołu jest zbyt duża, zostałeś/aś dodany jako przeglądający.', 'Ok', {
+        panelClass: ['snackbar-white']
+      });
     }
   }
 

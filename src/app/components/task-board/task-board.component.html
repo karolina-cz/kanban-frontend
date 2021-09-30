@@ -1,10 +1,12 @@
 <div class="example-box py-1 px-2">
   <div class="task-header">
     <div style="display:flex">
-      <div class="calendar-day-wrapper" *ngIf="isFixedDate()">
+      <div [style.margin-left.px]="task.dueDay > 9 ? '-15' : '-7'"
+           class="calendar-fixed-day-wrapper"
+           *ngIf="isFixedDate()">
         <small
-          [style.padding-left.px]="task.dueDay > 9 ? '4' : '7'"
-          class="calendar-day standard-icon-color">
+          [style.right.px]="task.dueDay > 9 ? '-17' : '-14'"
+          class="calendar-fixed-day standard-icon-color">
           {{task.dueDay}}
         </small>
         <fa-icon

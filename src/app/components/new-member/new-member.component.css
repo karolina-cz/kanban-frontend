@@ -1,0 +1,9 @@
+.new-member-card {
+  margin-top: 30px;
+}
+
+.new-member-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

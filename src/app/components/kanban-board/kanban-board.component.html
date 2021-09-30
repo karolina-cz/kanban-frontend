@@ -1,6 +1,6 @@
-<div class="h-100">
-<app-new-member (memberCreated)="isMemberRegistered = true" *ngIf="isMemberRegistered === false">Wpisz swoje dane</app-new-member>
-<div class="h-100" *ngIf="isMemberRegistered === true">
+<div class="h-100 background-wrap">
+<app-new-member (memberCreated)="isMemberRegistered = true; conditionallyShowInfo($event)" *ngIf="isMemberRegistered === false">Wpisz swoje dane</app-new-member>
+<div class="h-100 background-content" *ngIf="isMemberRegistered === true">
   <app-room-header></app-room-header>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav-content class="h-100">

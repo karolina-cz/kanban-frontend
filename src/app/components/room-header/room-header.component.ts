@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {faBars, faChevronLeft, faChevronRight, faEye, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faChevronLeft, faChevronRight, faEye, faShareSquare, faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import {MemberType} from '../../core/models/memberType';
 import {MemberService} from '../../core/services/members/member.service';
 import {MemberDto} from '../../core/models/memberDto';
@@ -20,6 +20,7 @@ import {RoomType} from '../../core/models/room/room-type';
 import {skip} from 'rxjs/operators';
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
 import {Member} from '../../core/models/member.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-room-header',
@@ -39,11 +40,13 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   RoomTypeEnum = RoomType;
   MemberTypeEnum = MemberType;
   subscriptions: Subscription[] = [];
+  faShareSquare = faShareSquare;
 
   constructor(private memberService: MemberService, private route: ActivatedRoute,
               public toggleService: SidebarToggleService, private taskService: TaskService,
               public roomService: RoomService, public dayService: DayService,
-              private dialog: MatDialog, private columnLimitService: ColumnLimitService, private router: Router) {
+              private dialog: MatDialog, private columnLimitService: ColumnLimitService, private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -67,6 +70,13 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
       this.members = data.filter(member => member.active);
     }));
     // todo implement loader / disable buttons until data loaded
+  }
+
+  openSnackBar(): void {
+    this.snackBar.open('Pomyślnie skopiowano link', 'Ok', {
+      duration: 2000,
+      panelClass: ['snackbar-white']
+    });
   }
 
   onSetLimitsClicked(): void {
@@ -98,6 +108,9 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   onDrawBlockers(): void {
     this.taskService.drawBlockers(this.room.roomType === RoomType.KANBAN_BOARD ? this.taskService.boardTasks : this.taskService.systemTasks,
       this.room.blockersProbability).subscribe();
+  }
+  get link(): string {
+    return window.location.href;
   }
 
   ngOnDestroy(): void {

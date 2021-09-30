@@ -71,7 +71,8 @@
 }
 
 .system-cols-wrapper {
-  height: calc(100% - 10px);
+  height: calc(100% - 30px);
+  margin-top: 20px;
 }
 
 .chips-wrapper {

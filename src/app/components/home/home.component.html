@@ -1,4 +1,75 @@
-<div class="content">
-  <button style="height: 100px" class="d-inline mx-5" mat-raised-button color="primary" (click)="onCreateKanbanSystem()">Nowy System Kanban</button>
-  <button style="height: 100px" class="d-inline mx-5" mat-raised-button color="primary" (click)="onCreateKanbanBoard()">Nowa Tablica Kanban</button>
+<div class="h-100">
+  <div class="first-section-wrapper">
+    <img width="55%" style="width: 55%" src="assets/OrgCoral_Ofc-02_Concept-08.jpg">
+    <div class="description-wrapper">
+      <h2 class="about-header" style="font-size: 2rem; line-height: 2rem;">Symulator Metody Kanban</h2>
+      <h3 style="font-size: 1.5rem; line-height: 1.5rem; margin-top: 50px" class="about-header">O projekcie</h3>
+      <h3 class="about">
+        System kanban i tablica kanbnan to symulacja rzeczywistego projektu, w którym jesteś częścią zespołu deweloperskiego.
+        Celem projektu jest porównanie systemu kanban i tablicy kanban przez czynny udział w symulacji.
+        W zależności od wybranego wariantu przebieg pracy będzie wyglądał nieco inaczej,
+        ale w obu przypadkach dążycie do ukończenia jak największej liczby zadań w możliwie najefektywniejszy sposób.
+      </h3>
+    </div>
+  </div>
+  <p style="display: none" class="text-secondary">Aby rozpocząć korzystanie z aplikacji stwórz tablicę kanban i udostępnij link znajomym.
+    Po skończonej symulacji spróbujcie jeszcze raz przejść przez cały proces z użyciem systemu kanban i porównajcie, w którym wariancie pracowało wam się lepiej.
+
+    W obu symulacjach będziecie pracować w maksymalnie n osobowej grupie. Codziennie dostaniecie wiadomość od zarządu z informacją o tym co danego dnia powinniście zrobić.</p>
+  <div class="second-section-wrapper">
+    <div class="section-column">
+        <button style="height: 60px" class="d-inline " mat-raised-button color="primary" (click)="onCreateKanbanSystem()">
+          <mat-icon>add</mat-icon>
+          Nowy System Kanban
+        </button>
+      <h4>
+        <div class="list-item">
+          <div class="w-40 text-center" >
+            <img class="w-30" src="assets/youth.png">
+          </div>
+          <div  style="text-align: left">
+            W systemie kanban ważnym czynnikiem jest pomaganie sobie, nad jednym zadaniem może pracować nawet kilka osób.
+          </div>
+        </div>
+        <div class="list-item mt-10">
+          <div class="w-30 text-center">
+            <img class="speedometer-icon w-30" src="assets/speedometer.png">
+          </div>
+          <div class="text-left">
+            Aby uporządkować pracę będziecie definiować limit zadań, które mogą być realizowane na danym etapie.
+          </div>
+        </div>
+
+      </h4>
+    </div>
+    <div class="section-column">
+        <button style="height: 60px" class="d-inline " mat-raised-button color="primary" (click)="onCreateKanbanBoard()">
+          <mat-icon>add</mat-icon>
+          Nowa Tablica Kanban
+        </button>
+      <h4>
+        <div class="list-item">
+          <div class="text-center w-40">
+            <img class="w-30" src="assets/woman.png">
+          </div>
+          <div class="text-left">
+            W symulacji z użyciem tablicy kanban każdy zdany jest na siebie i realizuje tylko swoje zadania.
+          </div>
+        </div>
+        <div class="list-item mt-10">
+          <div class="text-center w-30">
+            <img class="w-30 speedometer-icon" src="assets/speedometer.png">
+          </div>
+          <div class="text-left" >Nie można określić limitu zadań realizowanych na danym etapie.
+          </div>
+        </div>
+
+      </h4>
+    </div>
+  </div>
+  <footer>
+    <a target="_blank"  href="https://www.vecteezy.com/free-vector/background">Background Vectors by Vecteezy</a>
+    <div>Icons made by <a href="https://www.freepik.com" target="_blank" title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a></div>
+    <a href="https://www.freepik.com/vectors/business">Business vector created by vectorjuice - www.freepik.com</a>
+  </footer>
 </div>

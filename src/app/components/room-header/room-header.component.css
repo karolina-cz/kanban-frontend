@@ -35,7 +35,9 @@
 }
 
 .navbar-wrapper {
-  padding-top:10px;
+  padding-top:5px;
+  padding-bottom: 5px;
+  background-color: rgba(100,100,100,0.5);
 }
 
 .navbar-content-wrapper {
@@ -53,3 +55,9 @@
   display: flex;
   align-items: center;
 }
+
+.navbar-button {
+  color: white;
+}
+
+

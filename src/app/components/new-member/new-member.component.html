@@ -1,8 +1,10 @@
-<div class="d-flex justify-content-center">
-<div><mat-card class="d-flex justify-content-center">
+<div class="h-100 background-wrap">
+<div class="d-flex justify-content-center background-content">
+<div>
+  <mat-card class="d-flex justify-content-center new-member-card">
   <div>
   <h2>Podaj swoje dane, aby dołączyć</h2><br>
-  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" >
+  <form class="new-member-form" [formGroup]="memberForm" (ngSubmit)="onSubmit()" >
     <mat-form-field appearance="fill">
       <mat-label>Imię i nazwisko</mat-label>
       <input formControlName="name" name="name" type="text" matInput required >
@@ -18,5 +20,6 @@
   </form>
   </div>
 </mat-card>
+</div>
 </div>
 </div>

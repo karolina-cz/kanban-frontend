@@ -122,7 +122,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.task.assignees?.length && !this.task.assignees.some(el => el.color === this.task.selectedColor)) {
+    if (this.task.assignees?.length && this.task.selectedColor !== null &&
+      !this.task.assignees.some(el => el.color === this.task.selectedColor)) {
         this.task.selectedColor = this.task.assignees[0].color;
     }
     this.assigneesList = this.getMembersList();

@@ -1,11 +1,13 @@
-<nav class="navbar bg-light navbar-wrapper">
+<nav class="navbar  navbar-wrapper">
   <div class="container-fluid justify-content-between navbar-content-wrapper">
     <div class="content-start">
-      <button mat-button routerLink="">Logo</button>
-      <button class="mx-2" (click)="onGenerateTask()" mat-raised-button>
+      <button mat-button routerLink="">
+        <img alt="kanban logo" style="width: 35px;" src="assets/kanban-logo.png">
+      </button>
+      <button class="mx-2 navbar-button" (click)="onGenerateTask()" mat-button>
         Wygeneruj zadanie
       </button>
-      <button [matMenuTriggerFor]="menu" class="mx-2" mat-raised-button>
+      <button [matMenuTriggerFor]="menu" class="mx-2 navbar-button" mat-button>
         <span class="dropdown-button">
           <span>Blokery</span>
           <mat-icon class="arrow-down-icon">keyboard_arrow_down</mat-icon>
@@ -15,10 +17,16 @@
         <button (click)="onDrawBlockers()" mat-menu-item>Losuj blokery</button>
         <button (click)="onSetProbabilityClicked()" mat-menu-item>Ustaw prawdopodobieństwo</button>
       </mat-menu>
-      <button (click)="onSetLimitsClicked()" *ngIf="room.roomType === RoomTypeEnum.KANBAN_SYSTEM" mat-raised-button>
+      <button class="navbar-button" (click)="onSetLimitsClicked()" *ngIf="room.roomType === RoomTypeEnum.KANBAN_SYSTEM" mat-button>
         Ustaw limity
       </button>
-      <div class="d-inline-block">
+      <button class="navbar-button" style="margin-right: 10px; display: flex; align-items: center;" [cdkCopyToClipboard]="link" (cdkCopyToClipboardCopied)="openSnackBar()" mat-button>
+        <span>Udostępnij&nbsp;</span>
+        <fa-icon
+          [icon]="faShareSquare">
+        </fa-icon>
+      </button>
+      <div style="color:whitesmoke; filter: drop-shadow(0 0 1px #777);" class="d-inline-block">
       <fa-icon
         (click)="roomService.previousDay()"
         [icon]="faChevronLeft"
@@ -50,7 +58,7 @@
       *ngFor="let member of members.slice(0, 5);"
       [icon]="faUserCircle"
       [style.color]="member.color"
-      class="fa-lg cursor-pointer mx-1 icon-30"
+      class="fa-lg cursor-pointer mx-1 icon-30 icon-background"
       ngbTooltip="{{member.name}}&nbsp;{{member.type === MemberTypeEnum.VIEWER ? '(Przeglądający)' : ''}}"
       placement="auto">
     </fa-icon>
@@ -62,8 +70,10 @@
            placement="bottom-right">
         <button *ngIf="members.length > 5"
                 class="btn-primary btn-circle"
+                style="background-color: whitesmoke; color: #2c2c2c!important;"
                 id="dropdownBasic1"
-                ngbDropdownToggle>+&nbsp;{{members.length - 5}}
+                ngbDropdownToggle>
+          +&nbsp;{{members.length - 5}}
         </button>
         <div
           aria-labelledby="dropdownBasic1"
@@ -96,7 +106,7 @@
         (click)="toggleService.isOpenSubject.next(!toggleService.isOpenSubject.getValue())"
         *ngIf="toggleService.isOpenSubject.getValue() === false"
         [icon]="faBars"
-        class="cursor-pointer menu-open-icon">
+        class="cursor-pointer menu-open-icon navbar-button">
       </fa-icon>
     </div>
   </div>

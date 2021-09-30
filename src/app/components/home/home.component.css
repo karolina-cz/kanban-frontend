@@ -1,6 +1,145 @@
 .content {
   height: 100%;
+}
+
+.first-section-wrapper {
+  background-color: white;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.second-section-wrapper {
+  display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 20%;
+  row-gap: 50px;
+  margin-top: 70px;
+}
+
+.section-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-column h4 {
+  width: 350px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.list-item {
+  display: flex;
+  column-gap: 10px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.w-40 {
+  width: 40px;
+}
+
+.w-30 {
+  width: 30px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.description-wrapper {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-container {
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(100, 100, 100, 1);
+}
+
+.centered {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  left: 0;
+}
+
+.about {
+  padding-left: 10%;
+  padding-right: 10%;
+  color: rgb(70,70,70);
+  text-align: center;
+  font-size: 1rem;
+}
+
+.about-header {
+  color: rgb(13, 3, 102);
+  text-align: center;
+  /*text-shadow: 2px 2px 4px rgba(200, 200, 200, 1);*/
+}
+
+.wave {
+  position: relative;
+  bottom: -2px;
+  left: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .about{
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgb(70,70,70);
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
+.demo-wrap {
+  position: relative;
+}
+
+.demo-wrap:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  background-image: url(../../../assets/notes-background1.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+}
+
+.demo-content {
+  position: relative;
+}
+
+.add-button {
+  background-color: rgb(85, 92, 243);
+  color: whitesmoke;
+}
+
+.speedometer-icon {
+  opacity: 0.5;
+}
+
+footer {
+  text-align: center;
+  margin-top: 100px;
+  color: grey;
+  opacity: 0.7;
+}
+
+footer a {
+  color:grey;
 }
