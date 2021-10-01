@@ -69,11 +69,11 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
     this.timelineForm = new FormGroup({
-        startDay: new FormControl(this.task.startDay, [
+        startDay: new FormControl(this.task.startDay === 0 ? null : this.task.startDay, [
           Validators.min(1),
           Validators.max(10),
           Validators.pattern('^[0-9]*$')]),
-      endDay: new FormControl(this.task.endDay, [
+      endDay: new FormControl(this.task.endDay === 0 ? null : this.task.endDay, [
         Validators.min(1),
         Validators.max(10),
         Validators.pattern('^[0-9]*$')])
@@ -90,8 +90,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
 
   onStartDaySubmitted(): void {
     if (this.startDay.valid){
-      this.task.startDay = this.startDay.value;
-      this.taskService.patchTask({startDay: this.startDay.value}, this.task.taskId).subscribe();
+      this.task.startDay = this.startDay.value == null ? 0 : this.startDay.value;
+      this.taskService.patchTask({startDay: this.task.startDay}, this.task.taskId).subscribe();
     } else {
       this.timelineForm.patchValue({
         startDay: this.task.startDay
@@ -101,8 +101,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
 
   onEndDaySubmitted(): void {
     if (this.endDay.valid){
-      this.task.startDay = this.endDay.value;
-      this.taskService.patchTask({endDay: this.endDay.value}, this.task.taskId).subscribe();
+      this.task.endDay = this.endDay.value == null ? 0 : this.endDay.value;
+      this.taskService.patchTask({endDay: this.task.endDay}, this.task.taskId).subscribe();
     } else {
       this.timelineForm.patchValue({
         endDay: this.task.endDay

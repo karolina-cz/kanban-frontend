@@ -72,7 +72,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
     this.effortForm = new FormGroup({
-        effort: new FormControl(this.task.effort, [
+        effort: new FormControl(this.task.effort === -1 ? null : this.task.effort, [
           Validators.min(0),
           Validators.max(5),
           this.validateEffortField.bind(this)])
@@ -97,8 +97,8 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
 
   onEffortSubmitted(): void{
     if (this.effort.valid){
-      this.task.effort = this.effort.value;
-      this.taskService.patchTask({effort: this.effort.value}, this.task.taskId).subscribe();
+      this.task.effort = this.effort.value == null ? -1 : this.effort.value;
+      this.taskService.patchTask({effort: this.task.effort}, this.task.taskId).subscribe();
     }
   }
 

@@ -123,8 +123,8 @@
           <small style="color:darkred">Niepoprawna wartość</small>
         </div>
     </div>
-    <div *ngIf="this.task.startDay && this.task.endDay">
-      <small>czas trwania: {{this.task.endDay - this.task.startDay}} </small>
+    <div *ngIf="this.task.startDay && this.task.endDay ">
+      <small>czas trwania: {{this.task.endDay - this.task.startDay + 1}} </small>
     </div>
   </div>
 </div>

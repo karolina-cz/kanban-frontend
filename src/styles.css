@@ -166,3 +166,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: radial-gradient(circle at 50%,#eaeaea 55%, #afafad 0%);
   border-radius: 50%;
 }
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%; /* we need these for full-screen effect */
+  width: 100%;
+}

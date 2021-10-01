@@ -10,11 +10,14 @@ import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {Task} from '../../interfaces/task/Task';
 import {KanbanSystemTask} from '../../models/task/kanban-system-task.model';
 import {RoomType} from '../../models/room/room-type';
+import {ColumnName} from '../../models/column-name';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  private readonly BLOCKABLE_COLUMNS = [ColumnName.STAGE_ONE_COMMITTED, ColumnName.STAGE_ONE_IN_PROGRESS,
+    ColumnName.STAGE_ONE_DONE, ColumnName.STAGE_TWO];
   public boardTaskObservable: BehaviorSubject<KanbanBoardTask[]> = new BehaviorSubject<KanbanBoardTask[]>([]);
   public systemTaskObservable: BehaviorSubject<KanbanSystemTask[]> = new BehaviorSubject<KanbanSystemTask[]>([]);
   boardTasks: KanbanBoardTask[];
@@ -102,9 +105,10 @@ export class TaskService {
     return this.httpClient.post(environment.apiUrl + '/task/room/' + roomId, null);
   }
 
-  drawBlockers(tasks: { taskId: string }[], probabilityPercent: number): Observable<any> {
+  drawBlockers(tasks: { taskId: string, kanbanColumn: string }[], probabilityPercent: number): Observable<any> {
     return this.httpClient.patch(environment.apiUrl + '/task',
-      tasks.map(task => ({taskId: task.taskId, isBlocked: Math.random() < (probabilityPercent / 100)})));
+      tasks.filter(task => this.BLOCKABLE_COLUMNS.includes(task.kanbanColumn as ColumnName))
+        .map(task => ({taskId: task.taskId, isBlocked: Math.random() < (probabilityPercent / 100)})));
   }
 
 }
