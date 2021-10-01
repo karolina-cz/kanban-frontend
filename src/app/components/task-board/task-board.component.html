@@ -27,7 +27,7 @@
     </div>
     <div class="lock-icon-wrapper">
       <fa-icon
-        class="cursor-pointer icon-standard-size"
+        class="cursor-pointer icon-standard-size icon-shadow"
         (click)="$event.stopPropagation();blockedToggled()"
         [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"
         [icon]="task.isBlocked === true ? faLock : faLockOpen">
@@ -113,7 +113,7 @@
       <fa-icon
         *ngFor="let item of task.workPoints1;let i = index"
         (click)="onWorkPointClicked(1, i)"
-        class="work-point cursor-pointer"
+        class="work-point cursor-pointer icon-shadow"
         [icon]="faCircle"
         [style.color]="item === null ?'white' : item">
       </fa-icon>
@@ -125,7 +125,7 @@
       <fa-icon
         *ngFor="let item of task.workPoints2;let i = index"
         (click)="onWorkPointClicked(2, i)"
-        class="work-point cursor-pointer"
+        class="work-point cursor-pointer icon-shadow"
         [icon]="faCircle"
         [style.color]="item === null ?'white' : item">
       </fa-icon>

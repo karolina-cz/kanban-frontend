@@ -15,14 +15,14 @@
        class="col kanban-col border column-wrapper kanban-system-col-wrapper" >
       <h3 class="text-center my-0">
         {{column.name | columnName}}
-        <span [ngClass]="{'text-secondary': !singleColumnLimits[i].limit?.limitValue || column.tasks.length <= singleColumnLimits[i].limit?.limitValue,
-        'text-danger': singleColumnLimits[i].limit?.limitValue && column.tasks.length > singleColumnLimits[i].limit?.limitValue}"
+        <span [ngClass]="{'text-secondary': !singleColumnLimits[i].limit?.limitValue || !singleColumnLimits[i].limit?.isActive || column.tasks.length <= singleColumnLimits[i].limit?.limitValue,
+        'text-danger': singleColumnLimits[i].limit?.limitValue && singleColumnLimits[i].limit?.isActive && column.tasks.length > singleColumnLimits[i].limit?.limitValue}"
               class="text-secondary" style="font-size: 0.875em;">
-        (<span *ngIf="!singleColumnLimits[i].limit?.limitValue">{{column.tasks.length}}</span>
-        <span *ngIf="singleColumnLimits[i].limit?.limitValue">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</span>)
+        (<span *ngIf="!singleColumnLimits[i].limit?.limitValue || !singleColumnLimits[i].limit?.isActive">{{column.tasks.length}}</span>
+        <span *ngIf="singleColumnLimits[i].limit?.limitValue && singleColumnLimits[i].limit?.isActive">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</span>)
           <fa-icon
             ngbTooltip="Przekroczono limit"
-            *ngIf="singleColumnLimits[i].limit?.limitValue && column.tasks.length > singleColumnLimits[i].limit?.limitValue"
+            *ngIf="singleColumnLimits[i].limit?.limitValue && singleColumnLimits[i].limit?.isActive && column.tasks.length > singleColumnLimits[i].limit?.limitValue"
           [icon]="faExclamationCircle">
           </fa-icon>
         </span>

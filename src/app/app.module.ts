@@ -45,6 +45,7 @@ import { BlockersFormDialogComponent } from './components/blockers-form-dialog/b
 import { CheatSheetDialogComponent } from './components/cheat-sheet-dialog/cheat-sheet-dialog.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {CdkScrollableModule} from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDividerModule,
     MatChipsModule,
     ClipboardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CdkScrollableModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

@@ -35,7 +35,7 @@
       </div>
     </div>
   </div>
-  <div class="col-8 scrollbar-secondary middle-column-wrapper">
+  <div class="col-8 scrollbar-secondary middle-column-wrapper" cdkScrollable>
     <div *ngFor="let item of memberTasks; let i = index" class="row middle-col-member-row">
       <div
         [style.border-top-right-radius] = "j === 2 ? '3px' : '0'"

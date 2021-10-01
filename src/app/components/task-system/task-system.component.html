@@ -61,9 +61,9 @@
         class="scrollable-menu scrollbar-primary py-0"
         #menu="matMenu">
         <ul class="list-group list-group-flush py-0" >
-          <li class="list-group-item px-1 cursor-pointer"
+          <li (click)="$event.stopPropagation()" class="list-group-item px-1 cursor-pointer"
               *ngFor="let assignee of assigneesList">
-            <mat-checkbox color="primary" [checked]="!!assignee.isAssignee" (click)="$event.stopPropagation()" (change)="assigneeChanged($event.checked, assignee)" >
+            <mat-checkbox style="width: 100%; height: 100%" color="primary" [checked]="!!assignee.isAssignee" (click)="$event.stopPropagation()" (change)="assigneeChanged($event.checked, assignee)" >
               <fa-icon
                 style="margin-right: 4px; "
                 class="fa-lg"
