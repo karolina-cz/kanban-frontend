@@ -12,16 +12,12 @@ import {RxStompService} from '@stomp/ng2-stompjs';
 })
 export class RoomService {
   public static dayCount = 10;
-  day: number;
   daySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   roomSubject: BehaviorSubject<Room> = new BehaviorSubject<Room>(null);
   private topicSubscription: Subscription;
 
 
   constructor(private httpClient: HttpClient, private taskService: TaskService, private rxStompService: RxStompService) {
-    this.daySubject.subscribe(value => {
-      this.day = value;
-    });
   }
 
   connect(roomId: string): void {
@@ -55,14 +51,14 @@ export class RoomService {
 
   // todo przeniesc to do dayService
   nextDay(): void {
-    if (this.day < RoomService.dayCount) {
-      this.daySubject.next(this.day + 1);
+    if (this.daySubject.getValue() < RoomService.dayCount) {
+      this.daySubject.next(this.daySubject.getValue() + 1);
     }
   }
 
   previousDay(): void {
-    if (this.day > 1) {
-      this.daySubject.next(this.day - 1);
+    if (this.daySubject.getValue() > 1) {
+      this.daySubject.next(this.daySubject.getValue() - 1);
     }
   }
 }

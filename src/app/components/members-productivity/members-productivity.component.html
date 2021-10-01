@@ -20,7 +20,7 @@
     <span>{{item.name}}</span>
       </div>
       <span style="margin-left:10px">
-        {{item.dailyProductivity[roomService.day - 1] === null ? '0': item.dailyProductivity[roomService.day - 1]}}
+        {{item.dailyProductivity[roomService.daySubject.getValue() - 1] === null ? '0': item.dailyProductivity[roomService.daySubject.getValue() - 1]}}
       </span>
     </div>
     </li>

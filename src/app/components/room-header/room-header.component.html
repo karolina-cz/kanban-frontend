@@ -32,12 +32,12 @@
         [icon]="faChevronLeft"
         class="cursor-pointer arrow-left-icon">
       </fa-icon>
-      <div (click)="dayService.dayClickedSubject.next(roomService.day)" class="d-inline-block cursor-pointer day-wrapper">
+      <div (click)="dayService.dayClickedSubject.next(roomService.daySubject.getValue())" class="d-inline-block cursor-pointer day-wrapper">
         <div class="calendar-day-wrapper">
           <small
-            [style.padding-left.px]="roomService.day > 9 ? '4' : '7'"
+            [style.padding-left.px]="roomService.daySubject.getValue() > 9 ? '4' : '7'"
             class="calendar-day standard-icon-color">
-            {{roomService.day}}
+            {{roomService.daySubject.getValue()}}
           </small>
           <fa-icon
             [icon]="faCalendar"

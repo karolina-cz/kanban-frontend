@@ -19,7 +19,6 @@ import {DayService} from '../../core/services/day/day.service';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
-import {RoomType} from '../../core/models/room/room-type';
 
 @Component({
   selector: 'app-kanban-board-columns',
@@ -29,6 +28,7 @@ import {RoomType} from '../../core/models/room/room-type';
 export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   roomId: string;
   members = [];
+  allDaysTasks: KanbanBoardTask[] = [];
   tasks: KanbanBoardTask[];
   backlog: KanbanBoardTask[] = [];
   memberTasks: BoardMemberTasks[] = [];
@@ -56,7 +56,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.push(this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
       this.displayNewDayDialog(dayNumber);
-      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_BOARD);
+      this.handleNewTasks(this.allDaysTasks);
     }));
     this.subscriptions.push(this.dayService.dayClickedSubject.pipe(skip(1)).subscribe(day => {
       this.openDialog({day, narrative: this.days[day - 1]?.narrative});
@@ -94,6 +94,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
       this.memberService.getAllMembers(this.roomId),
       this.taskService.getAllKanbanBoardTasks(this.roomId)]
     ).subscribe(([members, tasks]) => {
+      this.allDaysTasks = JSON.parse(JSON.stringify(tasks));
       this.handleNewMembers(members);
       this.handleNewTasks(tasks);
     });
@@ -102,6 +103,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_BOARD');
     this.subscriptions.push(this.taskService.boardTaskObservable.subscribe((tasks) => {
+      this.allDaysTasks = JSON.parse(JSON.stringify(tasks));
       const openMenuTask = this.tasks?.find(task => task.isMenuOpen === true);
       if (openMenuTask) {
         const newTaskWithMenuOpen = tasks.find(task => task.taskId === openMenuTask.taskId);
@@ -128,7 +130,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   }
 
   handleNewTasks(tasks: KanbanBoardTask[]): void {
-    tasks = tasks.filter(task => task.visibleFromDay == null || task.visibleFromDay <= this.roomService.day);
+    tasks = tasks.filter(task => task.visibleFromDay == null || task.visibleFromDay <= this.roomService.daySubject.getValue());
     this.clearAllColumns();
     this.tasks = TaskUtils.sortTasksByNames(tasks);
     for (const task of tasks) {

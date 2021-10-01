@@ -18,7 +18,6 @@ import {ColumnLimitService} from '../../core/services/column-limit/column-limit.
 import {ColumnLimitInterface} from '../../core/interfaces/column-limit-interface';
 import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
-import {RoomType} from '../../core/models/room/room-type';
 import {faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -31,6 +30,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
   roomId: string;
   members = [];
   tasks: KanbanSystemTask[];
+  allDaysTasks: KanbanSystemTask[] = [];
   columns: {name: string, tasks: any[]}[];
   days: SimulationDayInterface[];
   singleColumnLimits: {columnName: string, limit: ColumnLimitInterface}[]; // todo merge singleColumnLimits ans columns
@@ -51,7 +51,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
       }
     );
     this.subscriptions.push(this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
-      this.taskService.refreshTasks(this.roomId, RoomType.KANBAN_SYSTEM);
+      this.handleNewTasks(this.allDaysTasks);
       this.displayNewDayDialog(dayNumber);
     }));
     this.subscriptions.push(this.dayService.dayClickedSubject.pipe(skip(1)).subscribe(day => {
@@ -86,6 +86,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
       this.taskService.getAllKanbanSystemTasks(this.roomId),
       this.columnLimitService.getAllColumnLimits(this.roomId)]
     ).subscribe(([members, tasks, columnLimits]) => {
+      this.allDaysTasks = JSON.parse(JSON.stringify(tasks));
       this.members = members;
       this.handleNewTasks(tasks);
       this.handleNewColumnLimits(columnLimits);
@@ -103,7 +104,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
   }
 
   handleNewTasks(tasks: KanbanSystemTask[]): void {
-    tasks = tasks.filter(task => task.visibleFromDay === null || task.visibleFromDay <= this.roomService.day);
+    tasks = tasks.filter(task => task.visibleFromDay === null || task.visibleFromDay <= this.roomService.daySubject.getValue());
     this.columns.forEach(element => element.tasks = []);
     this.tasks = TaskUtils.sortTasksByNames(tasks);
     tasks.forEach(task => {
@@ -114,6 +115,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
   observeTasks(): void {
     this.taskService.connect(this.roomId, 'KANBAN_SYSTEM');
     this.subscriptions.push(this.taskService.systemTaskObservable.subscribe((tasks) => {
+      this.allDaysTasks = JSON.parse(JSON.stringify(tasks));
       let previousTasks: KanbanSystemTask[] = [];
       this.columns.forEach(column => previousTasks = previousTasks.concat(column.tasks));
       const openMenuTask = previousTasks.find(task => task.isMenuOpen === true);

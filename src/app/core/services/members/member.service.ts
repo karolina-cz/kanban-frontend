@@ -71,7 +71,7 @@ export class MemberService {
   drawProductivity(): Observable<any> {
     const body: MemberDto[] = [];
     for (const member of this.dataObservable.value) {
-      member.dailyProductivity[this.roomService.day - 1] = Math.floor(Math.random() * 5 + 1);
+      member.dailyProductivity[this.roomService.daySubject.getValue() - 1] = Math.floor(Math.random() * 5 + 1);
       body.push({
         roomMemberId: member.roomMemberId,
         dailyProductivity: member.dailyProductivity

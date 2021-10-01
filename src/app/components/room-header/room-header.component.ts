@@ -115,7 +115,6 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.roomService.day = 1;
     this.roomService.disconnect();
     this.roomService.daySubject = new BehaviorSubject<number>(1);
     this.roomService.roomSubject = new BehaviorSubject<Room>(null);
