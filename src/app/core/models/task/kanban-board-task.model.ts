@@ -17,8 +17,8 @@ export class KanbanBoardTask{
   isMenuOpen?: boolean;
 
   constructor(taskRes: TaskResponse) {
-    if (taskRes.roomMembers.length > 0) {
-      this.assignee = taskRes.roomMembers[0];
+    if (taskRes.assignees.length > 0) {
+      this.assignee = taskRes.assignees[0];
     } else {
       this.assignee = null;
     }

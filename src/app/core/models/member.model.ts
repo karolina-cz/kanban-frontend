@@ -9,6 +9,8 @@ export class Member implements MemberDto{
   color: string;
   dailyProductivity: number[];
   isAssignee?: boolean;
+  assigneeType?: string;
+  assigneeId?: string;
 
   constructor(roomMemberId: string, name: string, active: boolean, type: MemberType, color: string, dailyProductivity: number[]) {
     this.roomMemberId = roomMemberId;

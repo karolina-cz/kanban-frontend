@@ -14,4 +14,5 @@ export interface Task {
   name?: string;
   dueDay?: number;
   assignees?: string[];
+  roomMembers?: string[];
 }

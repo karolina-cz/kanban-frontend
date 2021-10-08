@@ -118,13 +118,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
       this.allDaysTasks = JSON.parse(JSON.stringify(tasks));
       let previousTasks: KanbanSystemTask[] = [];
       this.columns.forEach(column => previousTasks = previousTasks.concat(column.tasks));
-      const openMenuTask = previousTasks.find(task => task.isMenuOpen === true);
-      if (openMenuTask) {
-        const newTaskWithMenuOpen = tasks.find(task => task.taskId === openMenuTask.taskId);
-        if (newTaskWithMenuOpen) {
-          newTaskWithMenuOpen.isMenuOpen = true;
-        }
-      }
+      this.reopenMenu(previousTasks, tasks);
       tasks.forEach(task => {
         const previousTask = previousTasks.find(el => el.taskId === task.taskId);
         if (previousTask) {
@@ -133,6 +127,16 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
       });
       this.handleNewTasks(tasks);
     }));
+  }
+
+  reopenMenu(previousTasks: KanbanSystemTask[], tasks: KanbanSystemTask[]): void {
+    const openMenuTask = previousTasks.find(task => task.isHelperMenuOpen === true);
+    if (openMenuTask) {
+      const newTaskWithMenuOpen = tasks.find(task => task.taskId === openMenuTask.taskId);
+      if (newTaskWithMenuOpen) {
+        newTaskWithMenuOpen.isHelperMenuOpen = true;
+      }
+    }
   }
 
   observeMembers(): void {

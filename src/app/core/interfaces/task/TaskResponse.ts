@@ -13,6 +13,6 @@ export interface TaskResponse {
   visibleFromDay?: number;
   effort?: number;
   name?: string;
-  roomMembers?: Member[];
+  assignees?: Member[];
   dueDay?: number;
 }

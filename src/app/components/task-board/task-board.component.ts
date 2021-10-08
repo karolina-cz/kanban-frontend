@@ -20,6 +20,7 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {MatMenuTrigger} from '@angular/material/menu';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {ColumnName} from '../../core/models/column-name';
+import {AssigneeService} from '../../core/services/assignee/assignee.service';
 
 @Component({
   selector: 'app-task-board',
@@ -55,7 +56,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   ColumnNameEnum = ColumnName;
 
   constructor(private taskService: TaskService, private renderer: Renderer2, private detectorRef: ChangeDetectorRef,
-              private overlayContainer: OverlayContainer) {
+              private overlayContainer: OverlayContainer, private assigneeService: AssigneeService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -117,14 +118,14 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onAssigneeAdded(assignee: Member): void{
-    this.taskService.patchTask({assignees: [assignee.roomMemberId]}, this.task.taskId).subscribe();
+    this.taskService.patchTask({roomMembers: [assignee.roomMemberId]}, this.task.taskId).subscribe();
     this.task.assignee = assignee;
     this.updateFilteredMembers();
   }
 
   onAssigneeRemoved(assignee: Member): void{
     this.task.assignee = null;
-    this.taskService.deleteAssignee(this.task.taskId, assignee.roomMemberId).subscribe();
+    this.assigneeService.deleteAssignee(assignee.assigneeId).subscribe();
     this.updateFilteredMembers();
   }
 

@@ -15,12 +15,12 @@ export class KanbanSystemTask {
   dueDay: number;
   name: string;
   assignees: Member[];
-  isMenuOpen?: boolean;
+  isHelperMenuOpen?: boolean;
   selectedColor?: string;
 
   constructor(taskRes: TaskResponse) {
-    if (taskRes.roomMembers.length > 0) {
-      this.assignees = taskRes.roomMembers;
+    if (taskRes.assignees.length > 0) {
+      this.assignees = taskRes.assignees;
     } else {
       this.assignees = [];
     }
@@ -35,6 +35,6 @@ export class KanbanSystemTask {
     this.endDay = taskRes.endDay;
     this.dueDay = taskRes.dueDay;
     this.type = taskRes.type;
-    this.isMenuOpen = false;
+    this.isHelperMenuOpen = false;
   }
 }

@@ -78,18 +78,6 @@ export class TaskService {
     return this.httpClient.patch(environment.apiUrl + '/task/' + taskId, task);
   }
 
-  addAssignee(taskId: string, memberId: string): Observable<any> {
-    return this.httpClient.post(environment.apiUrl + '/task/' + taskId + '/roomMember/' + memberId, null);
-  }
-
-  deleteAssignee(taskId: string, memberId: string): Observable<any> {
-    return this.httpClient.delete(environment.apiUrl + '/task/' + taskId + '/roomMember/' + memberId);
-  }
-
-  patchAssignee(taskId: string, memberId: string): Observable<any> {
-    return this.httpClient.patch(environment.apiUrl + '/task/' + taskId + '/roomMember/' + memberId, null);
-  }
-
   generateTask(roomId: string): Observable<any>{
     return this.httpClient.post(environment.apiUrl + '/task/room/' + roomId, null);
   }

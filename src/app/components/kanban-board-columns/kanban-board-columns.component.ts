@@ -168,7 +168,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
     };
     if (task.assignee === null && this.isKanbanColumnAssigneeColumn(kanbanColumn)){
       const assigneeId: number = +event.container.id.split('-', 2)[1];
-      taskDto.assignees = [this.memberTasks[assigneeId].member.roomMemberId];
+      taskDto.roomMembers = [this.memberTasks[assigneeId].member.roomMemberId];
     }
     this.taskService.patchTask(taskDto, task.taskId).subscribe();
   }

@@ -5,11 +5,14 @@ import {Member} from '../../core/models/member.model';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {
+  faCheck,
   faCircle,
   faFillDrip,
   faLock,
   faLockOpen,
   faPencilAlt,
+  faPlus,
+  faTimes,
   faUser,
   faUserCheck,
   faUserCircle,
@@ -20,6 +23,8 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {MemberType} from '../../core/models/memberType';
+import {AssigneeService} from '../../core/services/assignee/assignee.service';
+import {AssigneeTypeEnum} from '../../core/models/assignee/assignee-type.enum';
 
 @Component({
   selector: 'app-task-system',
@@ -30,6 +35,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() task: KanbanSystemTask;
   @Input() allMembers: Member[];
   @ViewChild('clickMenuTrigger') clickMenuTrigger: MatMenuTrigger;
+  @ViewChild('clickHelperMenuTrigger') clickHelperMenuTrigger: MatMenuTrigger;
   @ViewChild('myDrop', { static: true }) myDrop: NgbDropdown;
   taskType = TaskType;
   faCalendar = faCalendar;
@@ -42,17 +48,21 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   faUser = faUser;
   faUserCheck = faUserCheck;
   faFillDrip = faFillDrip;
+  faPlus = faPlus;
+  faTimes = faTimes;
+  faTick = faCheck;
   workPointColor: string = null;
   taskForm: FormGroup = this.fb.group({
     assignees: this.fb.array([])
   });
   assigneesList: Member[];
+  mainAssignee: Member;
   timelineForm: FormGroup;
 
 
 
   constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer,
-              private renderer: Renderer2, private detectorRef: ChangeDetectorRef) {
+              private renderer: Renderer2, private detectorRef: ChangeDetectorRef, private assigneeService: AssigneeService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -82,8 +92,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.task.isMenuOpen) {
-      this.clickMenuTrigger.openMenu();
+    if (this.task.isHelperMenuOpen) {
+      this.clickHelperMenuTrigger.openMenu();
       this.detectorRef.detectChanges();
     }
   }
@@ -126,6 +136,10 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
       !this.task.assignees.some(el => el.color === this.task.selectedColor)) {
         this.task.selectedColor = this.task.assignees[0].color;
     }
+    const mainAssignee: Member = this.task.assignees.find(el => el.assigneeType === AssigneeTypeEnum.MAIN);
+    if (mainAssignee) {
+      this.mainAssignee = JSON.parse(JSON.stringify(mainAssignee));
+    }
     this.assigneesList = this.getMembersList();
   }
 
@@ -133,22 +147,59 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   getMembersList(): Member[] {
     const members: Member[] = JSON.parse(JSON.stringify(this.allMembers));
     members.forEach(member => {
-      if (this.task.assignees.some(el => el.roomMemberId === member.roomMemberId)){
+      const assignee = this.task.assignees.find(el => el.roomMemberId === member.roomMemberId);
+      if (assignee){
+        member.assigneeId = assignee.assigneeId;
+        member.assigneeType = assignee.assigneeType;
         member.isAssignee = true;
       }
     });
     return members.filter(el => el.type !== MemberType.VIEWER);
   }
 
+  get helpersList(): Member[] {
+    if (this.mainAssignee != null) {
+      return this.assigneesList.filter(el => el.assigneeType !== AssigneeTypeEnum.MAIN
+        && el.roomMemberId !== this.mainAssignee.roomMemberId);
+    } else {
+      return this.assigneesList.filter(el => el.assigneeType !== AssigneeTypeEnum.MAIN);
+    }
+  }
+
+  get mainAssigneeList(): Member[] {
+    if (this.mainAssignee != null) {
+      return this.assigneesList.filter(el => el.roomMemberId !== this.mainAssignee.roomMemberId);
+    } else {
+      return this.assigneesList;
+    }
+  }
+
+  get helpers(): Member[] {
+    return this.task.assignees?.filter(el => el.assigneeType === AssigneeTypeEnum.HELPER);
+  }
+
   assigneeChanged(selected: boolean, roomMember: Member): void {
     const isAssignee: boolean = !!roomMember.isAssignee;
     if (isAssignee === false && selected === true) {
-      roomMember.isAssignee = true; // mozan wykomentowac jak bedzie observe tasks
-      this.taskService.addAssignee(this.task.taskId, roomMember.roomMemberId).subscribe();
+      roomMember.isAssignee = true;
+      this.assigneeService.createAssignee({taskId: this.task.taskId, roomMemberId: roomMember.roomMemberId,
+        assigneeType: AssigneeTypeEnum.HELPER}).subscribe();
     } else if (isAssignee === true && selected === false) {
       roomMember.isAssignee = false;
-      this.taskService.deleteAssignee(this.task.taskId, roomMember.roomMemberId).subscribe();
+      const assigneeId: string = this.task.assignees.find(el => el.roomMemberId === roomMember.roomMemberId)?.assigneeId;
+      if (assigneeId) {
+        this.assigneeService.deleteAssignee(assigneeId).subscribe();
+      }
     }
+  }
+
+  onMainAssigneeRemoved(): void {
+    this.assigneeService.deleteAssignee(this.mainAssignee.assigneeId).subscribe();
+  }
+
+  onMainAssigneeAdded(member: Member): void {
+    this.assigneeService.createAssignee({taskId: this.task.taskId, roomMemberId: member.roomMemberId,
+      assigneeType: AssigneeTypeEnum.MAIN}).subscribe();
   }
 
   onWorkPointClicked(stage: number, i: number): void {
