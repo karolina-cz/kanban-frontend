@@ -1,5 +1,6 @@
 import {Member} from '../../models/member.model';
 import {TaskType} from '../../models/taskType';
+import {WorkPoint} from '../work-point/work-point';
 
 export interface TaskResponse {
   taskId?: string;
@@ -15,4 +16,5 @@ export interface TaskResponse {
   name?: string;
   assignees?: Member[];
   dueDay?: number;
+  workPoints: WorkPoint[];
 }

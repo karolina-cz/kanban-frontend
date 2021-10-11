@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
-import {faQuestionCircle, faTimes, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {faExclamationCircle, faQuestionCircle, faTimes, faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import {Member} from '../../core/models/member.model';
 import {MemberService} from '../../core/services/members/member.service';
 import {Subscription} from 'rxjs';
@@ -20,6 +20,7 @@ export class MembersProductivityComponent implements OnInit, OnDestroy {
   membersSub: Subscription;
   faUserCircle = faUserCircle;
   faQuestionCircle = faQuestionCircle;
+  faExclamationCircle = faExclamationCircle;
 
   constructor(public toggleService: SidebarToggleService, private memberService: MemberService, public roomService: RoomService,
               private dialog: MatDialog) { }

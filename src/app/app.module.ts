@@ -46,6 +46,7 @@ import { CheatSheetDialogComponent } from './components/cheat-sheet-dialog/cheat
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {CdkScrollableModule} from '@angular/cdk/scrolling';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import {CdkScrollableModule} from '@angular/cdk/scrolling';
     MatChipsModule,
     ClipboardModule,
     MatSnackBarModule,
-    CdkScrollableModule
+    CdkScrollableModule,
+    MatTooltipModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

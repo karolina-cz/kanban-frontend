@@ -112,10 +112,10 @@
       <span class="cursor-pointer">
       <fa-icon
         *ngFor="let item of task.workPoints1;let i = index"
-        (click)="onWorkPointClicked(1, i)"
+        (click)="onWorkPointClicked(item)"
         class="work-point cursor-pointer icon-shadow"
         [icon]="faCircle"
-        [style.color]="item === null ?'white' : item">
+        [style.color]="item.color === null ?'white' : item.color">
       </fa-icon>
         </span>
     </div>
@@ -124,10 +124,10 @@
       <span class="cursor-pointer">
       <fa-icon
         *ngFor="let item of task.workPoints2;let i = index"
-        (click)="onWorkPointClicked(2, i)"
+        (click)="onWorkPointClicked(item)"
         class="work-point cursor-pointer icon-shadow"
         [icon]="faCircle"
-        [style.color]="item === null ?'white' : item">
+        [style.color]="item.color === null ?'white' : item.color">
       </fa-icon>
         </span>
     </div>

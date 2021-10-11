@@ -1,11 +1,12 @@
 import {Member} from '../member.model';
 import {TaskType} from '../taskType';
 import {TaskResponse} from '../../interfaces/task/TaskResponse';
+import {WorkPoint} from '../../interfaces/work-point/work-point';
 
 export class KanbanBoardTask{
   taskId: string;
-  workPoints1: string[];
-  workPoints2: string[];
+  workPoints1: WorkPoint[];
+  workPoints2: WorkPoint[];
   isBlocked: boolean;
   type: TaskType;
   kanbanColumn: string;
@@ -23,8 +24,8 @@ export class KanbanBoardTask{
       this.assignee = null;
     }
     this.taskId = taskRes.taskId;
-    this.workPoints1 = taskRes.workPoints1;
-    this.workPoints2 = taskRes.workPoints2;
+    this.workPoints1 = taskRes.workPoints.filter(el => el.stage === 0).sort((a, b) => a.pointIndex - b.pointIndex);
+    this.workPoints2 = taskRes.workPoints.filter(el => el.stage === 1).sort((a, b) => a.pointIndex - b.pointIndex);
     this.isBlocked = taskRes.isBlocked;
     this.kanbanColumn = taskRes.kanbanColumn.toLowerCase();
     this.visibleFromDay = taskRes.visibleFromDay;

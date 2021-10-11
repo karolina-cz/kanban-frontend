@@ -1,13 +1,10 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {
-  faCheck,
   faCircle, faInfoCircle,
   faLock,
   faLockOpen,
-  faMinusCircle,
-  faPencilAlt, faPlusCircle, faTimes,
+  faPencilAlt, faTimes,
   faUserCircle,
-  faUserEdit,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
@@ -21,6 +18,9 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {ColumnName} from '../../core/models/column-name';
 import {AssigneeService} from '../../core/services/assignee/assignee.service';
+import {WorkPoint} from '../../core/interfaces/work-point/work-point';
+import {RoomService} from '../../core/services/room/room.service';
+import {WorkPointService} from '../../core/services/work-point/work-point.service';
 
 @Component({
   selector: 'app-task-board',
@@ -32,7 +32,6 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() allMembers: Member[];
   @ViewChild('clickMenuTrigger') clickMenuTrigger: MatMenuTrigger;
 
-  panelOpenState = false;
   faUserCircle = faUserCircle;
   color = 'red';
   faCircle = faCircle;
@@ -40,23 +39,18 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   isBlocked = true;
   faLockOpen = faLockOpen;
   faCalendar = faCalendar;
-  fixedDayNum = 10;
   faPencilAlt = faPencilAlt;
-  faUserEdit = faUserEdit;
   faUserPlus = faUserPlus;
-  faMinusCircle = faMinusCircle;
-  faPlusCircle = faPlusCircle;
   faTimes = faTimes;
   filteredMembers;
-  workPointValid: number[] = new Array(11);
   effortValid = true;
-  faCheck = faCheck;
   effortForm: FormGroup;
   faInfoCircle = faInfoCircle;
   ColumnNameEnum = ColumnName;
 
   constructor(private taskService: TaskService, private renderer: Renderer2, private detectorRef: ChangeDetectorRef,
-              private overlayContainer: OverlayContainer, private assigneeService: AssigneeService) {
+              private overlayContainer: OverlayContainer, private assigneeService: AssigneeService, private roomService: RoomService,
+              private workPointService: WorkPointService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -129,31 +123,11 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
     this.updateFilteredMembers();
   }
 
-  onWorkPointClicked(stage: number, i: number): void {
-    let workPoints = this.task.workPoints1;
-    if (stage !== 1){
-      workPoints = this.task.workPoints2;
-    }
-
-    if (workPoints[i] === null) {
-      workPoints[i] = this.task.assignee === null ? null : this.task.assignee.color;
-    } else {
-      workPoints[i] = null;
-    }
-
-    if (stage === 1) {
-      this.taskService.patchTask({workPoints1: workPoints}, this.task.taskId).subscribe();
-    } else {
-      this.taskService.patchTask({workPoints2: workPoints}, this.task.taskId).subscribe();
-    }
-  }
-  onEffortChanged(effort: number): void{
-    effort = +effort;
-    this.effortValid = this.workPointValid.includes(effort);
-    if (this.effortValid) {
-      this.task.effort = effort;
-      this.taskService.patchTask({effort}, this.task.taskId).subscribe();
-    }
+  onWorkPointClicked(workPoint: WorkPoint): void {
+    const assigneeId: string = workPoint.color === null ? this.task.assignee?.assigneeId : null;
+    workPoint.color = assigneeId == null ? null : this.task.assignee.color;
+    this.workPointService.patchWorkPoint(workPoint.workPointId, {assigneeId, dayModified: this.roomService.daySubject.getValue() - 1})
+      .subscribe();
   }
 
 }

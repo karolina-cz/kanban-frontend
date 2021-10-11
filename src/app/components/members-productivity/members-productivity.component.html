@@ -19,8 +19,25 @@
     </fa-icon>
     <span>{{item.name}}</span>
       </div>
-      <span style="margin-left:10px">
-        {{item.dailyProductivity[roomService.daySubject.getValue() - 1] === null ? '0': item.dailyProductivity[roomService.daySubject.getValue() - 1]}}
+      <span
+        [ngClass]="{'text-secondary': item?.usedProductivity[roomService.daySubject.getValue() - 1] <= item?.dailyProductivity[roomService.daySubject.getValue() - 1],
+        'text-danger': item?.usedProductivity[roomService.daySubject.getValue() - 1] > item?.dailyProductivity[roomService.daySubject.getValue() - 1]}"
+        class="text-secondary"
+        style="margin-left:10px">
+        <span>
+          {{item.usedProductivity[roomService.daySubject.getValue() - 1] === null ?
+          '0': item.usedProductivity[roomService.daySubject.getValue() - 1]}}
+        </span>
+        <span>
+          /{{item.dailyProductivity[roomService.daySubject.getValue() - 1] === null ?
+          '0': item.dailyProductivity[roomService.daySubject.getValue() - 1]}}
+        </span>
+
+        <fa-icon
+          matTooltip="Przekroczono limit produktywności na dany dzień"
+          *ngIf="item?.usedProductivity[roomService.daySubject.getValue() - 1] > item?.dailyProductivity[roomService.daySubject.getValue() - 1]"
+          [icon]="faExclamationCircle">
+          </fa-icon>
       </span>
     </div>
     </li>

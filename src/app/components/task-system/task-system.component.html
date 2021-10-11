@@ -161,10 +161,10 @@
       <small class="my-0 stage" style="justify-self: flex-start">Etap 1</small>
       <span class="cursor-pointer">
       <fa-icon
-        (click)="onWorkPointClicked(1, i)"
+        (click)="onWorkPointClicked(item)"
         *ngFor="let item of task.workPoints1;let i = index"
         [icon]="faCircle"
-        [style.color]="item === null ?'white' : item"
+        [style.color]="item.color === null ?'white' : item.color"
         class="work-point cursor-pointer icon-shadow">
       </fa-icon>
         </span>
@@ -173,10 +173,10 @@
       <small class="my-0 stage">Etap 2</small>
       <span class="cursor-pointer icon-shadow">
       <fa-icon
-        (click)="onWorkPointClicked(2, i)"
+        (click)="onWorkPointClicked(item)"
         *ngFor="let item of task.workPoints2;let i = index"
         [icon]="faCircle"
-        [style.color]="item === null ?'white' : item"
+        [style.color]="item.color === null ?'white' : item.color"
         class="work-point cursor-pointer">
       </fa-icon>
         </span>

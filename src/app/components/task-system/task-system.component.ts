@@ -25,6 +25,9 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 import {MemberType} from '../../core/models/memberType';
 import {AssigneeService} from '../../core/services/assignee/assignee.service';
 import {AssigneeTypeEnum} from '../../core/models/assignee/assignee-type.enum';
+import {WorkPoint} from '../../core/interfaces/work-point/work-point';
+import {RoomService} from '../../core/services/room/room.service';
+import {WorkPointService} from '../../core/services/work-point/work-point.service';
 
 @Component({
   selector: 'app-task-system',
@@ -62,7 +65,9 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer,
-              private renderer: Renderer2, private detectorRef: ChangeDetectorRef, private assigneeService: AssigneeService) {
+              private renderer: Renderer2, private detectorRef: ChangeDetectorRef, private assigneeService: AssigneeService,
+              private roomService: RoomService,
+              private workPointService: WorkPointService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -202,23 +207,18 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
       assigneeType: AssigneeTypeEnum.MAIN}).subscribe();
   }
 
-  onWorkPointClicked(stage: number, i: number): void {
-    let workPoints = this.task.workPoints1;
-    if (stage !== 1){
-      workPoints = this.task.workPoints2;
-    }
+  onWorkPointClicked(workPoint: WorkPoint): void {
+    let color: string;
 
-    if ((workPoints[i] === null || workPoints[i] !== this.task.selectedColor) && this.task.selectedColor) {
-      workPoints[i] = this.task.assignees === [] ? null : this.task.selectedColor;
+    if ((workPoint.color === null || workPoint.color !== this.task.selectedColor) && this.task.selectedColor) {
+      color = this.task.assignees === [] ? null : this.task.selectedColor;
     } else {
-      workPoints[i] = null;
+      color = null;
     }
-
-    if (stage === 1) {
-      this.taskService.patchTask({workPoints1: workPoints}, this.task.taskId).subscribe();
-    } else {
-      this.taskService.patchTask({workPoints2: workPoints}, this.task.taskId).subscribe();
-    }
+    const assigneeId: string = this.task.assignees.find(el => el.color === color)?.assigneeId;
+    workPoint.color = color;
+    this.workPointService.patchWorkPoint(workPoint.workPointId,
+      {assigneeId, dayModified: this.roomService.daySubject.getValue() - 1}).subscribe();
   }
 
 }

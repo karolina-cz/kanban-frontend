@@ -24,7 +24,8 @@ export class MemberService {
       const membersDto: MemberDto[] = JSON.parse(message.body) as MemberDto[];
       let members: Member[] = [];
       for (const member of membersDto) {
-        members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity));
+        members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity,
+          member.usedProductivity));
       }
       members = this.sortMembersByName(members);
       this.dataObservable.next(members);
@@ -40,7 +41,8 @@ export class MemberService {
       map (data => {
         let members: Member[] = [];
         for (const member of data) {
-          members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity));
+          members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity,
+            member.usedProductivity));
         }
         members = this.sortMembersByName(members);
         this.dataObservable.next(members);

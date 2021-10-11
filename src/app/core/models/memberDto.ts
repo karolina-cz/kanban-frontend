@@ -8,4 +8,5 @@ export interface MemberDto {
   type?: MemberType;
   active?: boolean;
   dailyProductivity?: number[];
+  usedProductivity?: number[];
 }

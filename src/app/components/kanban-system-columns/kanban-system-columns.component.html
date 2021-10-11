@@ -22,6 +22,7 @@
         <span *ngIf="singleColumnLimits[i].limit?.limitValue && singleColumnLimits[i].limit?.isActive">{{column.tasks.length}}/{{singleColumnLimits[i].limit?.limitValue}}</span>)
           <fa-icon
             ngbTooltip="Przekroczono limit"
+            placement="bottom"
             *ngIf="singleColumnLimits[i].limit?.limitValue && singleColumnLimits[i].limit?.isActive && column.tasks.length > singleColumnLimits[i].limit?.limitValue"
           [icon]="faExclamationCircle">
           </fa-icon>
