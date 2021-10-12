@@ -45,7 +45,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
     this.roomId = this.route.snapshot.params.id;
     this.singleColumnLimits = columnsKanbanSystem.map(column => ({columnName: column, limit: null}));
     this.columns = columnsKanbanSystem.map(column => ({name: column, tasks: []}));
-    this.simulationDayService.getDays().subscribe(res => {
+    this.simulationDayService.getDays('kanban-system').subscribe(res => {
         this.days = res;
         this.displayNewDayDialog(1);
       }

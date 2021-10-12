@@ -11,7 +11,7 @@ export class SimulationDayService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getDays(): Observable<SimulationDayInterface[]> {
-    return this.httpClient.get<SimulationDayInterface[]>(environment.apiUrl + '/simulationDay');
+  getDays(roomType: string): Observable<SimulationDayInterface[]> {
+    return this.httpClient.get<SimulationDayInterface[]>(environment.apiUrl + '/simulationDay/' + roomType);
   }
 }

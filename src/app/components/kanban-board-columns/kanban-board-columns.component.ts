@@ -49,7 +49,7 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.params.id;
-    this.simulationDayService.getDays().subscribe(res => {
+    this.simulationDayService.getDays('kanban-board').subscribe(res => {
         this.days = res;
         this.displayNewDayDialog(1);
       }
