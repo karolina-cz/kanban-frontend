@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {ColumnLimitInterface, CreateColumnLimitInterface} from '../../interfaces/column-limit-interface';
+import {ColumnLimitInterface, CreateColumnLimitInterface} from '../../interfaces/column-limit/column-limit-interface';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {tap} from 'rxjs/operators';

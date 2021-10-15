@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import { SimulationDayInterface} from '../../interfaces/day-interface';
+import { SimulationDayInterface} from '../../interfaces/simulation-day/simulation-day-interface';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 

@@ -1,6 +1,6 @@
-import {ColumnLimitInterface} from '../interfaces/column-limit-interface';
-import {columnsKanbanSystem} from '../models/column-name';
-import {ColumnLimitType} from '../models/column-limit-type.enum';
+import {ColumnLimitInterface} from '../interfaces/column-limit/column-limit-interface';
+import {columnsKanbanSystem} from '../enums/room/column-name';
+import {ColumnLimitType} from '../enums/column-limit/column-limit-type.enum';
 
 export function getSingleColumnLimitsOrdered(columnLimits: ColumnLimitInterface[]): ColumnLimitInterface[] {
   const singleColumnLimits: ColumnLimitInterface[] = [];

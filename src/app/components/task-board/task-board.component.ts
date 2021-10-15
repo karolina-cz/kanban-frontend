@@ -9,14 +9,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
 import {KanbanBoardTask} from '../../core/models/task/kanban-board-task.model';
-import {Member} from '../../core/models/member.model';
-import {MemberType} from '../../core/models/memberType';
-import {TaskType} from '../../core/models/taskType';
+import {Member} from '../../core/models/member/member.model';
+import {MemberType} from '../../core/enums/member/member-type';
+import {TaskType} from '../../core/enums/task/task-type';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {ColumnName} from '../../core/models/column-name';
+import {ColumnName} from '../../core/enums/room/column-name';
 import {AssigneeService} from '../../core/services/assignee/assignee.service';
 import {WorkPoint} from '../../core/interfaces/work-point/work-point';
 import {RoomService} from '../../core/services/room/room.service';

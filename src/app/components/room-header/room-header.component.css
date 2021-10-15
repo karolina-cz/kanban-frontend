@@ -48,11 +48,20 @@
 
 .content-start {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+}
+
+.content-start button{
+  padding: 0;
+  margin-right:.5rem!important;
+  margin-left:.5rem!important;
+  color: white;
 }
 
 .content-end {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 

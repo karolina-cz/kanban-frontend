@@ -1,4 +1,4 @@
-import {MemberType} from './memberType';
+import {MemberType} from '../../enums/member/member-type';
 
 export interface MemberDto {
   roomMemberId?: string;
@@ -6,7 +6,6 @@ export interface MemberDto {
   name?: string;
   color?: string;
   type?: MemberType;
-  active?: boolean;
   dailyProductivity?: number[];
   usedProductivity?: number[];
 }

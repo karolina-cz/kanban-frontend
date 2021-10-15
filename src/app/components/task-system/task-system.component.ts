@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model';
-import {TaskType} from '../../core/models/taskType';
-import {Member} from '../../core/models/member.model';
+import {TaskType} from '../../core/enums/task/task-type';
+import {Member} from '../../core/models/member/member.model';
 import {faCalendar} from '@fortawesome/free-regular-svg-icons';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {
@@ -22,9 +22,9 @@ import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validat
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {MemberType} from '../../core/models/memberType';
+import {MemberType} from '../../core/enums/member/member-type';
 import {AssigneeService} from '../../core/services/assignee/assignee.service';
-import {AssigneeTypeEnum} from '../../core/models/assignee/assignee-type.enum';
+import {AssigneeTypeEnum} from '../../core/enums/assignee/assignee-type.enum';
 import {WorkPoint} from '../../core/interfaces/work-point/work-point';
 import {RoomService} from '../../core/services/room/room.service';
 import {WorkPointService} from '../../core/services/work-point/work-point.service';

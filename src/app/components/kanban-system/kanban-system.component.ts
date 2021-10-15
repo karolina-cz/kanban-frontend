@@ -27,22 +27,16 @@ export class KanbanSystemComponent implements OnInit, OnDestroy {
     this.roomId = this.route.snapshot.params.id;
     this.currentRoomMember = this.memberService.getCurrentRoomMember(this.roomId);
     this.isMemberRegistered = !!this.currentRoomMember;
-    if (this.isMemberRegistered === true){
-      // this.memberService.patchRoomMember({roomMemberId: this.currentRoomMember.roomMemberId, isActive: true}).subscribe();
-    }
     this.toggleSub = this.toggleService.isOpenSubject.subscribe(value => this.isSidebarOpen = value);
   }
 
   ngOnDestroy(): void {
     this.toggleSub.unsubscribe();
-    if (this.isMemberRegistered) {
-      // this.memberService.patchRoomMember({roomMemberId: this.currentRoomMember.roomMemberId, isActive: false}).subscribe();
-    }
   }
 
   conditionallyShowInfo(canShow: boolean): void {
     if (canShow) {
-      this.snackBar.open('Przepraszamy, liczba członków zespołu jest zbyt duża, zostałeś/aś dodany jako przeglądający.', 'Ok', {
+      this.snackBar.open('Przepraszamy, liczba członków zespołu jest zbyt duża, zostałeś/aś dodany jako Zwykły uczestnik.', 'Ok', {
         panelClass: ['snackbar-white']
       });
     }

@@ -1,6 +1,6 @@
-import {Member} from './member.model';
-import {KanbanBoardTask} from './task/kanban-board-task.model';
-import {ColumnName} from './column-name';
+import {Member} from '../member/member.model';
+import {KanbanBoardTask} from './kanban-board-task.model';
+import {ColumnName} from '../../enums/room/column-name';
 
 export class BoardMemberTasks {
   member: Member;

@@ -4,10 +4,10 @@
       <button mat-button routerLink="">
         <img alt="kanban logo" style="width: 35px;" src="assets/kanban-logo.png">
       </button>
-      <button class="mx-2 navbar-button" (click)="onGenerateTask()" mat-button>
+      <button class=" " (click)="onGenerateTask()" mat-button>
         Wygeneruj zadanie
       </button>
-      <button [matMenuTriggerFor]="menu" class="mx-2 navbar-button" mat-button>
+      <button [matMenuTriggerFor]="menu" class=" " mat-button>
         <span class="dropdown-button">
           <span>Blokery</span>
           <mat-icon class="arrow-down-icon">keyboard_arrow_down</mat-icon>
@@ -17,10 +17,10 @@
         <button (click)="onDrawBlockers()" mat-menu-item>Losuj blokery</button>
         <button (click)="onSetProbabilityClicked()" mat-menu-item>Ustaw prawdopodobieństwo</button>
       </mat-menu>
-      <button class="navbar-button" (click)="onSetLimitsClicked()" *ngIf="room.roomType === RoomTypeEnum.KANBAN_SYSTEM" mat-button>
+      <button class="" (click)="onSetLimitsClicked()" *ngIf="room.roomType === RoomTypeEnum.KANBAN_SYSTEM" mat-button>
         Ustaw limity
       </button>
-      <button class="navbar-button" style="margin-right: 10px; display: flex; align-items: center;" [cdkCopyToClipboard]="link" (cdkCopyToClipboardCopied)="openSnackBar()" mat-button>
+      <button class="" style="margin-right: 10px; display: flex; align-items: center;" [cdkCopyToClipboard]="link" (cdkCopyToClipboardCopied)="openSnackBar()" mat-button>
         <span>Udostępnij&nbsp;</span>
         <fa-icon
           [icon]="faShareSquare">
@@ -59,7 +59,7 @@
       [icon]="faUserCircle"
       [style.color]="member.color"
       class="fa-lg cursor-pointer mx-1 icon-30 icon-background"
-      ngbTooltip="{{member.name}}&nbsp;{{member.type === MemberTypeEnum.VIEWER ? '(Przeglądający)' : ''}}"
+      ngbTooltip="{{member.name}}&nbsp;{{member.type === MemberTypeEnum.VIEWER ? '(Zwykły uczestnik)' : ''}}"
       placement="auto">
     </fa-icon>
     </span>
@@ -93,9 +93,9 @@
               <span class="small-text">{{member.name}}</span>
               <fa-icon
                 *ngIf="member.type === MemberTypeEnum.VIEWER"
-                [icon]="faEye"
+                [icon]="faInfo"
                 class="mx-1 icon-12"
-                ngbTooltip="Przeglądający"
+                ngbTooltip="Zwykły uczestnik"
                 placement="auto">
               </fa-icon>
             </li>

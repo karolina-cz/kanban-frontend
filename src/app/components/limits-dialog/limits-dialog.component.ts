@@ -3,11 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   ColumnLimitDialogDataInterface,
   ColumnLimitInterface, CreateColumnLimitInterface
-} from '../../core/interfaces/column-limit-interface';
-import {columnsKanbanSystem} from '../../core/models/column-name';
+} from '../../core/interfaces/column-limit/column-limit-interface';
+import {columnsKanbanSystem} from '../../core/enums/room/column-name';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
+import {ColumnLimitType} from '../../core/enums/column-limit/column-limit-type.enum';
 import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 
 @Component({

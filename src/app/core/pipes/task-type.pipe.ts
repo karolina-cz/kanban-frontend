@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {TaskType} from '../models/taskType';
+import {TaskType} from '../enums/task/task-type';
 
 @Pipe({
   name: 'taskType'

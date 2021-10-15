@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MemberService} from '../../core/services/members/member.service';
-import {MemberDto} from '../../core/models/memberDto';
+import {MemberDto} from '../../core/interfaces/member/member-dto';
 import {ActivatedRoute} from '@angular/router';
-import {MemberType} from '../../core/models/memberType';
+import {MemberType} from '../../core/enums/member/member-type';
 
 @Component({
   selector: 'app-new-member',

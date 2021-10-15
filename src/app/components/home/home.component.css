@@ -7,6 +7,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
+  align-items: center;
 }
 
 .second-section-wrapper {
@@ -24,7 +25,7 @@
 }
 
 .section-column h4 {
-  width: 350px;
+  max-width: 350px;
   margin-top: 20px;
   text-align: center;
 }
@@ -98,6 +99,33 @@
     color: rgb(70,70,70);
     text-align: center;
     font-size: 1rem;
+  }
+
+  .section-column {
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .first-section-wrapper {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    align-items: center;
+  }
+  .first-section-wrapper img {
+    display: none;
+  }
+
+  .description-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 

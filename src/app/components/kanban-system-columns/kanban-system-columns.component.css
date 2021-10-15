@@ -89,5 +89,6 @@
 .kanban-system-col {
   min-height: 100px;
   height: calc(100% - 28px);
-  overflow-y: auto
+  overflow-y: auto;
+  overflow-x: hidden;
 }

@@ -11,7 +11,7 @@ export const columnNameToDisplay = {
   backlog: 'Zadania',
   stage_one_in_progress: 'Etap 1 Podjęte',
   stage_one_committed: 'Etap 1 W trakcie',
-  stage_one_done: 'Etap 1 Wykonane',
+  stage_one_done: 'Etap 1 Zakończony',
   stage_two: 'Etap 2',
   done: 'Wykonane'
 };

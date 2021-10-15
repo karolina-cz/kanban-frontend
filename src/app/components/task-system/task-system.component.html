@@ -98,7 +98,7 @@
         </div>
         <mat-divider></mat-divider>
       </div>
-      <small class="text-secondary" style=" padding-left: 5px; padding-top: 5px;padding-right: 5px">Dodaj pomocników</small>
+      <small *ngIf="helpersList.length" class="text-secondary" style=" padding-left: 5px; padding-top: 5px;padding-right: 5px">Dodaj pomocników</small>
       <ul class="list-group list-group-flush py-0">
         <li (click)="$event.stopPropagation()" *ngFor="let assignee of helpersList"
             class="list-group-item px-1 cursor-pointer">

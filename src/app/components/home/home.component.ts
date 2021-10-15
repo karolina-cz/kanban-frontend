@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RoomService} from '../../core/services/room/room.service';
-import {RoomType} from '../../core/models/room/room-type';
+import {RoomType} from '../../core/enums/room/room-type';
 import {Router} from '@angular/router';
 
 @Component({

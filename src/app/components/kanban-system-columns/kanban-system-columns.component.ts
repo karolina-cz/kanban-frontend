@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { columnsKanbanSystem} from '../../core/models/column-name';
+import { columnsKanbanSystem} from '../../core/enums/room/column-name';
 import {BehaviorSubject, forkJoin, Subscription} from 'rxjs';
 import {TaskService} from '../../core/services/tasks/task.service';
 import {ActivatedRoute} from '@angular/router';
@@ -7,16 +7,16 @@ import {MemberService} from '../../core/services/members/member.service';
 import {RoomService} from '../../core/services/room/room.service';
 import {KanbanSystemTask} from '../../core/models/task/kanban-system-task.model';
 import {CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
-import {Task} from '../../core/interfaces/task/Task';
-import TaskUtils from '../../core/utils/taskUtils';
-import { SimulationDayInterface} from '../../core/interfaces/day-interface';
+import {Task} from '../../core/interfaces/task/task';
+import TaskUtils from '../../core/utils/task-utils';
+import { SimulationDayInterface} from '../../core/interfaces/simulation-day/simulation-day-interface';
 import {InfoDialogComponent} from '../shared/info-dialog/info-dialog.component';
 import {DayService} from '../../core/services/day/day.service';
 import {MatDialog} from '@angular/material/dialog';
 import {skip} from 'rxjs/operators';
 import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
-import {ColumnLimitInterface} from '../../core/interfaces/column-limit-interface';
-import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
+import {ColumnLimitInterface} from '../../core/interfaces/column-limit/column-limit-interface';
+import {ColumnLimitType} from '../../core/enums/column-limit/column-limit-type.enum';
 import {SimulationDayService} from '../../core/services/simulation-day/simulation-day.service';
 import {faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 

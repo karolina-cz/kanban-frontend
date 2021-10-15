@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { columnNameToDisplay } from '../models/column-name';
+import { columnNameToDisplay } from '../enums/room/column-name';
 
 @Pipe({
   name: 'columnName'

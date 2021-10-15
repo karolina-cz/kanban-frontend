@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {Room} from '../../interfaces/room/Room';
+import {Room} from '../../interfaces/room/room';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {TaskService} from '../tasks/task.service';
 import {Message} from '@stomp/stompjs';

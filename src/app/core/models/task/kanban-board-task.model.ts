@@ -1,6 +1,6 @@
-import {Member} from '../member.model';
-import {TaskType} from '../taskType';
-import {TaskResponse} from '../../interfaces/task/TaskResponse';
+import {Member} from '../member/member.model';
+import {TaskType} from '../../enums/task/task-type';
+import {TaskResponse} from '../../interfaces/task/task-response';
 import {WorkPoint} from '../../interfaces/work-point/work-point';
 
 export class KanbanBoardTask{

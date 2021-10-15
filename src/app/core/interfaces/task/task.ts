@@ -1,8 +1,6 @@
-import {Member} from '../../models/member.model';
-import {TaskType} from '../../models/taskType';
-import {WorkPoint} from '../work-point/work-point';
+import {TaskType} from '../../enums/task/task-type';
 
-export interface TaskResponse {
+export interface Task {
   taskId?: string;
   workPoints1?: string[];
   workPoints2?: string[];
@@ -14,7 +12,7 @@ export interface TaskResponse {
   visibleFromDay?: number;
   effort?: number;
   name?: string;
-  assignees?: Member[];
   dueDay?: number;
-  workPoints: WorkPoint[];
+  assignees?: string[];
+  roomMembers?: string[];
 }

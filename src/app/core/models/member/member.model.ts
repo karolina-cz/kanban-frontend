@@ -1,10 +1,9 @@
-import {MemberType} from './memberType';
-import {MemberDto} from './memberDto';
+import {MemberType} from '../../enums/member/member-type';
+import {MemberDto} from '../../interfaces/member/member-dto';
 
-export class Member implements MemberDto{
+export class Member implements MemberDto {
   roomMemberId: string;
   name: string;
-  active: boolean;
   type: MemberType;
   color: string;
   dailyProductivity: number[];
@@ -13,11 +12,10 @@ export class Member implements MemberDto{
   assigneeId?: string;
   usedProductivity?: number[];
 
-  constructor(roomMemberId: string, name: string, active: boolean, type: MemberType, color: string, dailyProductivity: number[],
+  constructor(roomMemberId: string, name: string, type: MemberType, color: string, dailyProductivity: number[],
               usedProductivity: number[]) {
     this.roomMemberId = roomMemberId;
     this.name = name;
-    this.active = active;
     this.type = type;
     this.color = color;
     this.dailyProductivity = dailyProductivity;

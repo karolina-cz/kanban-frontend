@@ -3,14 +3,14 @@ import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TaskResponse} from '../../interfaces/task/TaskResponse';
+import {TaskResponse} from '../../interfaces/task/task-response';
 import {KanbanBoardTask} from '../../models/task/kanban-board-task.model';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {Task} from '../../interfaces/task/Task';
+import {Task} from '../../interfaces/task/task';
 import {KanbanSystemTask} from '../../models/task/kanban-system-task.model';
-import {RoomType} from '../../models/room/room-type';
-import {ColumnName} from '../../models/column-name';
+import {RoomType} from '../../enums/room/room-type';
+import {ColumnName} from '../../enums/room/column-name';
 
 @Injectable({
   providedIn: 'root'

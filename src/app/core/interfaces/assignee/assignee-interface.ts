@@ -1,4 +1,4 @@
-import {AssigneeTypeEnum} from '../../models/assignee/assignee-type.enum';
+import {AssigneeTypeEnum} from '../../enums/assignee/assignee-type.enum';
 
 export interface CreateAssigneeInterface{
   roomMemberId: string;

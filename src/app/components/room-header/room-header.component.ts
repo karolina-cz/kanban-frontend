@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {faBars, faChevronLeft, faChevronRight, faEye, faShareSquare, faUserCircle} from '@fortawesome/free-solid-svg-icons';
-import {MemberType} from '../../core/models/memberType';
+import {faBars, faChevronLeft, faChevronRight, faEye, faInfoCircle, faShareSquare, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {MemberType} from '../../core/enums/member/member-type';
 import {MemberService} from '../../core/services/members/member.service';
-import {MemberDto} from '../../core/models/memberDto';
+import {MemberDto} from '../../core/interfaces/member/member-dto';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SidebarToggleService} from '../../core/services/toggle/sidebar-toggle.service';
 import {BehaviorSubject, Subscription} from 'rxjs';
@@ -15,11 +15,11 @@ import {LimitsDialogComponent} from '../limits-dialog/limits-dialog.component';
 import {ColumnLimitService} from '../../core/services/column-limit/column-limit.service';
 import {getSingleColumnLimitsOrdered} from '../../core/utils/column-utils';
 import {BlockersFormDialogComponent} from '../blockers-form-dialog/blockers-form-dialog.component';
-import {Room} from '../../core/interfaces/room/Room';
-import {RoomType} from '../../core/models/room/room-type';
+import {Room} from '../../core/interfaces/room/room';
+import {RoomType} from '../../core/enums/room/room-type';
 import {skip} from 'rxjs/operators';
-import {ColumnLimitType} from '../../core/models/column-limit-type.enum';
-import {Member} from '../../core/models/member.model';
+import {ColumnLimitType} from '../../core/enums/column-limit/column-limit-type.enum';
+import {Member} from '../../core/models/member/member.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -32,6 +32,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   members: MemberDto[] = [];
   dropdownOpen = false;
   faEye = faEye;
+  faInfo = faInfoCircle;
   room: Room = {roomId: null, roomType: null, blockersProbability: null};
   faBars = faBars;
   faCalendar = faCalendar;
@@ -63,11 +64,11 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
       this.room.blockersProbability = room.blockersProbability;
     }));
     this.memberService.getAllMembers(this.room.roomId).subscribe(data => {
-      this.members = data.filter(member => member.active);
+      this.members = data;
     });
     this.memberService.connect(this.room.roomId);
     this.subscriptions.push(this.memberService.dataObservable.subscribe(data => {
-      this.members = data.filter(member => member.active);
+      this.members = data;
     }));
     // todo implement loader / disable buttons until data loaded
   }

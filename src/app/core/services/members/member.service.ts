@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
-import {MemberDto} from '../../models/memberDto';
+import {MemberDto} from '../../interfaces/member/member-dto';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {Member} from '../../models/member.model';
+import {Member} from '../../models/member/member.model';
 import {map} from 'rxjs/operators';
 import {RoomService} from '../room/room.service';
 import {environment} from '../../../../environments/environment';
@@ -24,7 +24,7 @@ export class MemberService {
       const membersDto: MemberDto[] = JSON.parse(message.body) as MemberDto[];
       let members: Member[] = [];
       for (const member of membersDto) {
-        members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity,
+        members.push(new Member(member.roomMemberId, member.name, member.type, member.color, member.dailyProductivity,
           member.usedProductivity));
       }
       members = this.sortMembersByName(members);
@@ -41,7 +41,7 @@ export class MemberService {
       map (data => {
         let members: Member[] = [];
         for (const member of data) {
-          members.push(new Member(member.roomMemberId, member.name, member.active, member.type, member.color, member.dailyProductivity,
+          members.push(new Member(member.roomMemberId, member.name, member.type, member.color, member.dailyProductivity,
             member.usedProductivity));
         }
         members = this.sortMembersByName(members);
@@ -54,10 +54,6 @@ export class MemberService {
 
   createRoomMember(member: MemberDto): Observable<MemberDto> {
     return this.httpClient.post<MemberDto>(environment.apiUrl + '/roomMember', member);
-  }
-
-  patchRoomMember(member: { roomMemberId: string, isActive: boolean }): Observable<MemberDto>{
-    return this.httpClient.patch<MemberDto>(environment.apiUrl + '/roomMember/' + member.roomMemberId, member);
   }
 
   saveCurrentRoomMember(member: MemberDto): void {
