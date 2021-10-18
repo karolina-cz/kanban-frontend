@@ -14,7 +14,6 @@ import { TaskBoardComponent } from './components/task-board/task-board.component
 import { TaskTypePipe } from './core/pipes/task-type.pipe';
 import { KanbanBoardColumnsComponent } from './components/kanban-board-columns/kanban-board-columns.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { KanbanBoardComponent } from './components/kanban-board/kanban-board.component';
 import {MatSelectModule} from '@angular/material/select';
 import { MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
@@ -29,7 +28,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MembersProductivityComponent } from './components/members-productivity/members-productivity.component';
 import { CalendarDayComponent } from './components/shared/calendar-day/calendar-day.component';
-import { KanbanSystemComponent } from './components/kanban-system/kanban-system.component';
+import { KanbanComponent } from './components/kanban/kanban.component';
 import { KanbanSystemColumnsComponent } from './components/kanban-system-columns/kanban-system-columns.component';
 import { TaskSystemComponent } from './components/task-system/task-system.component';
 import { InfoDialogComponent } from './components/shared/info-dialog/info-dialog.component';
@@ -56,13 +55,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     TaskBoardComponent,
     TaskTypePipe,
     KanbanBoardColumnsComponent,
-    KanbanBoardComponent,
     HomeComponent,
     HeaderComponent,
     NewMemberComponent,
     MembersProductivityComponent,
     CalendarDayComponent,
-    KanbanSystemComponent,
+    KanbanComponent,
     KanbanSystemColumnsComponent,
     TaskSystemComponent,
     InfoDialogComponent,

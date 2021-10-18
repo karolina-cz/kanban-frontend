@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {KanbanBoardComponent} from './components/kanban-board/kanban-board.component';
 import {HomeComponent} from './components/home/home.component';
-import {KanbanSystemComponent} from './components/kanban-system/kanban-system.component';
+import {KanbanComponent} from './components/kanban/kanban.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'kanban-board/:id', component: KanbanBoardComponent},
-  {path: 'kanban-system/:id', component: KanbanSystemComponent},
+  {path: 'kanban-board/:id', component: KanbanComponent},
+  {path: 'kanban-system/:id', component: KanbanComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}];
 
 @NgModule({

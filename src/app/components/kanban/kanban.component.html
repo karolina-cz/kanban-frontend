@@ -4,7 +4,8 @@
   <app-room-header></app-room-header>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav-content class="h-100">
-      <app-kanban-board-columns ></app-kanban-board-columns>
+      <app-kanban-system-columns *ngIf="roomType === roomTypeEnum.KANBAN_SYSTEM"></app-kanban-system-columns>
+      <app-kanban-board-columns *ngIf="roomType === roomTypeEnum.KANBAN_BOARD"></app-kanban-board-columns>
     </mat-sidenav-content>
     <mat-sidenav [opened]="toggleService.isOpenSubject.getValue()" class="py-3 px-3 sidenav" mode="side" position="end">
       <app-members-productivity></app-members-productivity>
