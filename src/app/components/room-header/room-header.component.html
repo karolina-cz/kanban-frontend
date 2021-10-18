@@ -28,16 +28,16 @@
       </button>
       <div style="color:whitesmoke; filter: drop-shadow(0 0 1px #777);" class="d-inline-block">
       <fa-icon
-        (click)="roomService.previousDay()"
+        (click)="dayService.previousDay()"
         [icon]="faChevronLeft"
         class="cursor-pointer arrow-left-icon">
       </fa-icon>
-      <div (click)="dayService.dayClickedSubject.next(roomService.daySubject.getValue())" class="d-inline-block cursor-pointer day-wrapper">
+      <div (click)="dayService.dayClickedSubject.next(dayService.daySubject.getValue())" class="d-inline-block cursor-pointer day-wrapper">
         <div class="calendar-day-wrapper">
           <small
-            [style.padding-left.px]="roomService.daySubject.getValue() > 9 ? '4' : '7'"
+            [style.padding-left.px]="dayService.daySubject.getValue() > 9 ? '4' : '7'"
             class="calendar-day standard-icon-color">
-            {{roomService.daySubject.getValue()}}
+            {{dayService.daySubject.getValue()}}
           </small>
           <fa-icon
             [icon]="faCalendar"
@@ -46,7 +46,7 @@
         </div>
       </div>
       <fa-icon
-        (click)="roomService.nextDay()"
+        (click)="dayService.nextDay()"
         [icon]="faChevronRight"
         class="cursor-pointer icon-25">
       </fa-icon>

@@ -28,6 +28,7 @@ import {AssigneeTypeEnum} from '../../core/enums/assignee/assignee-type.enum';
 import {WorkPoint} from '../../core/interfaces/work-point/work-point';
 import {RoomService} from '../../core/services/room/room.service';
 import {WorkPointService} from '../../core/services/work-point/work-point.service';
+import {DayService} from '../../core/services/day/day.service';
 
 @Component({
   selector: 'app-task-system',
@@ -67,7 +68,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer,
               private renderer: Renderer2, private detectorRef: ChangeDetectorRef, private assigneeService: AssigneeService,
               private roomService: RoomService,
-              private workPointService: WorkPointService) {
+              private workPointService: WorkPointService, private dayService: DayService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -218,7 +219,7 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
     const assigneeId: string = this.task.assignees.find(el => el.color === color)?.assigneeId;
     workPoint.color = color;
     this.workPointService.patchWorkPoint(workPoint.workPointId,
-      {assigneeId, dayModified: this.roomService.daySubject.getValue() - 1}).subscribe();
+      {assigneeId, dayModified: this.dayService.daySubject.getValue() - 1}).subscribe();
   }
 
 }

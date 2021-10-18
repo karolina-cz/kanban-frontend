@@ -8,6 +8,7 @@ import {RoomService} from '../../core/services/room/room.service';
 import {MemberType} from '../../core/enums/member/member-type';
 import {CheatSheetDialogComponent} from '../cheat-sheet-dialog/cheat-sheet-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {DayService} from '../../core/services/day/day.service';
 
 @Component({
   selector: 'app-members-productivity',
@@ -23,7 +24,7 @@ export class MembersProductivityComponent implements OnInit, OnDestroy {
   faExclamationCircle = faExclamationCircle;
 
   constructor(public toggleService: SidebarToggleService, private memberService: MemberService, public roomService: RoomService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog, public dayService: DayService) { }
 
   ngOnInit(): void {
     this.membersSub = this.memberService.dataObservable.subscribe(members =>

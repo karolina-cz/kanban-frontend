@@ -21,6 +21,7 @@ import {AssigneeService} from '../../core/services/assignee/assignee.service';
 import {WorkPoint} from '../../core/interfaces/work-point/work-point';
 import {RoomService} from '../../core/services/room/room.service';
 import {WorkPointService} from '../../core/services/work-point/work-point.service';
+import {DayService} from '../../core/services/day/day.service';
 
 @Component({
   selector: 'app-task-board',
@@ -50,7 +51,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(private taskService: TaskService, private renderer: Renderer2, private detectorRef: ChangeDetectorRef,
               private overlayContainer: OverlayContainer, private assigneeService: AssigneeService, private roomService: RoomService,
-              private workPointService: WorkPointService) {
+              private workPointService: WorkPointService, private dayService: DayService) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -126,7 +127,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   onWorkPointClicked(workPoint: WorkPoint): void {
     const assigneeId: string = workPoint.color === null ? this.task.assignee?.assigneeId : null;
     workPoint.color = assigneeId == null ? null : this.task.assignee.color;
-    this.workPointService.patchWorkPoint(workPoint.workPointId, {assigneeId, dayModified: this.roomService.daySubject.getValue() - 1})
+    this.workPointService.patchWorkPoint(workPoint.workPointId, {assigneeId, dayModified: this.dayService.daySubject.getValue() - 1})
       .subscribe();
   }
 

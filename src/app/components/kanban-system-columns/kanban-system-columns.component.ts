@@ -50,7 +50,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
         this.displayNewDayDialog(1);
       }
     );
-    this.subscriptions.push(this.roomService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
+    this.subscriptions.push(this.dayService.daySubject.pipe(skip(1)).subscribe(dayNumber => {
       this.handleNewTasks(this.allDaysTasks);
       this.displayNewDayDialog(dayNumber);
     }));
@@ -104,7 +104,7 @@ export class KanbanSystemColumnsComponent implements OnInit, OnDestroy {
   }
 
   handleNewTasks(tasks: KanbanSystemTask[]): void {
-    tasks = tasks.filter(task => task.visibleFromDay === null || task.visibleFromDay <= this.roomService.daySubject.getValue());
+    tasks = tasks.filter(task => task.visibleFromDay === null || task.visibleFromDay <= this.dayService.daySubject.getValue());
     this.columns.forEach(element => element.tasks = []);
     this.tasks = TaskUtils.sortTasksByNames(tasks);
     tasks.forEach(task => {

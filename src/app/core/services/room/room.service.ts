@@ -12,7 +12,6 @@ import {RxStompService} from '@stomp/ng2-stompjs';
 })
 export class RoomService {
   public static dayCount = 10;
-  daySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   roomSubject: BehaviorSubject<Room> = new BehaviorSubject<Room>(null);
   private topicSubscription: Subscription;
 
@@ -43,22 +42,5 @@ export class RoomService {
 
   patchRoom(roomId: string, room: Room): Observable<any> {
     return this.httpClient.patch(environment.apiUrl + '/room/' + roomId, room);
-  }
-
-  deleteRoom(roomId: string): Observable<any> {
-    return this.httpClient.delete(environment.apiUrl + '/room/' + roomId);
-  }
-
-  // todo przeniesc to do dayService
-  nextDay(): void {
-    if (this.daySubject.getValue() < RoomService.dayCount) {
-      this.daySubject.next(this.daySubject.getValue() + 1);
-    }
-  }
-
-  previousDay(): void {
-    if (this.daySubject.getValue() > 1) {
-      this.daySubject.next(this.daySubject.getValue() - 1);
-    }
   }
 }
