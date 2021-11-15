@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {RoomType} from '../../core/enums/room/room-type';
 
 @Component({
   selector: 'app-cheat-sheet-dialog',
@@ -6,8 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cheat-sheet-dialog.component.css']
 })
 export class CheatSheetDialogComponent implements OnInit {
+  RoomType = RoomType;
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {roomType: RoomType}) { }
 
   ngOnInit(): void {
   }

@@ -29,6 +29,8 @@ import {WorkPoint} from '../../core/interfaces/work-point/work-point';
 import {RoomService} from '../../core/services/room/room.service';
 import {WorkPointService} from '../../core/services/work-point/work-point.service';
 import {DayService} from '../../core/services/day/day.service';
+import {MemberService} from '../../core/services/members/member.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-task-system',
@@ -68,7 +70,8 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private taskService: TaskService, private fb: FormBuilder, private overlayContainer: OverlayContainer,
               private renderer: Renderer2, private detectorRef: ChangeDetectorRef, private assigneeService: AssigneeService,
               private roomService: RoomService,
-              private workPointService: WorkPointService, private dayService: DayService) {
+              private workPointService: WorkPointService, private dayService: DayService, private memberService: MemberService,
+              private route: ActivatedRoute) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -78,9 +81,15 @@ export class TaskSystemComponent implements OnInit, OnChanges, AfterViewInit {
     this.renderer.setProperty( overlayContainerElement, '@.disabled', disableAnimations );
   }
 
-  blockedToggled(): void {
-    this.task.isBlocked = !this.task.isBlocked;
-    this.taskService.patchTask({isBlocked: this.task.isBlocked}, this.task.taskId).subscribe();
+  unblockTask(): void {
+    if (this.task.isBlocked) {
+      this.taskService.patchTask(
+        {isBlocked: false,
+          dayModified: this.dayService.dayClickedSubject.getValue(),
+          editorId: this.memberService.getCurrentRoomMember(this.route.snapshot.params.id).roomMemberId},
+        this.task.taskId)
+        .subscribe();
+    }
   }
 
   ngOnInit(): void {

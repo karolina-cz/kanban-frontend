@@ -17,7 +17,7 @@
       </mat-select>
       <mat-icon class="text-secondary" matSuffix matTooltip="Jeżeli nie jesteś pewny/pewna wybierz opcję Członek zespołu. Członek zespołu jest pełoprawnym uczestnikiem symulacji. Zwykły uczestnik również ma prawo wyświetlania i edycji, ale nie może być przypisany do zadań.">info</mat-icon>
     </mat-form-field>
-    <button class="d-block" type="submit" mat-button>Dołącz</button>
+    <button class="d-block" type="submit" [disabled]="submitClicked" mat-button>Dołącz</button>
   </form>
   </div>
 </mat-card>

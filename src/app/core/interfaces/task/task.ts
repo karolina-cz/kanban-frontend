@@ -15,4 +15,6 @@ export interface Task {
   dueDay?: number;
   assignees?: string[];
   roomMembers?: string[];
+  editorId?: string;
+  dayModified?: number;
 }

@@ -1,1 +1,34 @@
-<p>cheat-sheet-dialog works!</p>
+<h1 mat-dialog-title>Jak korzystać</h1>
+<div mat-dialog-content>
+
+<ng-container *ngIf="data.roomType === RoomType.KANBAN_SYSTEM">
+  <h3>Kolejność wykonywania kroków:</h3>
+  <ol>
+    <li><p>Przeczytajcie wiadomość od zarządu</p></li>
+    <li><p>Zastanówcie się czy zmieniacie/ustalacie limity zadań w toku</p></li>
+    <li><p>Wybierzcie nowe zadania nad którymi rozpoczniecie pracę (możecie nie wybierać nowych zadań)</p></li>
+    <li><p>Wylosujcie swoją produktywność tego dnia</p></li>
+    <li><p>Pracujcie nad zadaniami wydając swoją produktywność (by móc pracować nad zablokowanym zadaniem najpierw
+      musi ono zostać odblokowane przez właściciela zadania kosztem 3 produktywności lub innego członka zespołu kosztem 2 produktywności)</p></li>
+    <li><p>Wylosujcie blokery dla rozpoczętych zadań</p></li>
+    <li><p>Zanotujcie swoje postępy w notatkach z symulacji</p></li>
+    <li><p>Rozpocznijcie kolejny dzień</p></li>
+  </ol>
+</ng-container>
+
+<ng-container *ngIf="data.roomType === RoomType.KANBAN_BOARD">
+  Kolejność wykonywania kroków:
+  <ol>
+    <li><p>Przeczytajcie wiadomość od zarządu</p></li>
+    <li><p>Wybierzcie nowe zadania nad którymi rozpoczniecie pracę (możecie nie wybierać nowych zadań)</p></li>
+    <li><p>Wylosujcie swoją produktywność tego dnia</p></li>
+    <li><p>Pracujcie nad zadaniami wydając swoją produktywność (by móc pracować nad zablokowanym zadaniem najpierw musi
+      ono zostać odblokowane przez właściciela zadania kosztem 3 produktywności)</p></li>
+    <li><p>Wylosujcie blokery dla rozpoczętych zadań</p></li>
+    <li><p>Zanotujcie swoje postępy w notatkach z symulacji</p></li>
+    <li><p>Rozpocznijcie kolejny dzień</p></li>
+  </ol>
+</ng-container>
+</div>
+
+<div mat-dialog-actions class="dialog-actions"></div>

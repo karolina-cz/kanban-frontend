@@ -28,10 +28,11 @@
     </div>
     <div class="lock-icon-wrapper">
       <fa-icon
-        (click)="blockedToggled()"
+        (click)="unblockTask()"
         [icon]="task.isBlocked === true ? faLock : faLockOpen"
         [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"
-        class="cursor-pointer icon-standard-size icon-shadow">
+        [class.cursor-pointer] = "task.isBlocked"
+        class="icon-standard-size icon-shadow">
       </fa-icon>
     </div>
   </div>

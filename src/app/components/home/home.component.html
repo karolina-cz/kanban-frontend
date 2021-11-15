@@ -18,6 +18,30 @@
     W obu symulacjach będziecie pracować w maksymalnie n osobowej grupie. Codziennie dostaniecie wiadomość od zarządu z informacją o tym co danego dnia powinniście zrobić.</p>
   <div class="second-section-wrapper">
     <div class="section-column">
+      <button style="height: 60px" class="d-inline " mat-raised-button color="primary" (click)="onCreateKanbanBoard()">
+        <mat-icon>add</mat-icon>
+        Nowa Tablica Kanban
+      </button>
+      <h4>
+        <div class="list-item">
+          <div class="text-center w-40">
+            <img class="w-30" src="assets/woman.png">
+          </div>
+          <div class="text-left">
+            W symulacji z użyciem tablicy kanban każdy zdany jest na siebie i realizuje tylko swoje zadania.
+          </div>
+        </div>
+        <div class="list-item mt-10">
+          <div class="text-center w-30">
+            <img class="w-30 speedometer-icon" src="assets/speedometer.png">
+          </div>
+          <div class="text-left" >Nie można określić limitu zadań realizowanych na danym etapie.
+          </div>
+        </div>
+
+      </h4>
+    </div>
+    <div class="section-column">
         <button style="height: 60px" class="d-inline " mat-raised-button color="primary" (click)="onCreateKanbanSystem()">
           <mat-icon>add</mat-icon>
           Nowy System Kanban
@@ -37,30 +61,6 @@
           </div>
           <div class="text-left">
             Aby uporządkować pracę będziecie definiować limit zadań, które mogą być realizowane na danym etapie.
-          </div>
-        </div>
-
-      </h4>
-    </div>
-    <div class="section-column">
-        <button style="height: 60px" class="d-inline " mat-raised-button color="primary" (click)="onCreateKanbanBoard()">
-          <mat-icon>add</mat-icon>
-          Nowa Tablica Kanban
-        </button>
-      <h4>
-        <div class="list-item">
-          <div class="text-center w-40">
-            <img class="w-30" src="assets/woman.png">
-          </div>
-          <div class="text-left">
-            W symulacji z użyciem tablicy kanban każdy zdany jest na siebie i realizuje tylko swoje zadania.
-          </div>
-        </div>
-        <div class="list-item mt-10">
-          <div class="text-center w-30">
-            <img class="w-30 speedometer-icon" src="assets/speedometer.png">
-          </div>
-          <div class="text-left" >Nie można określić limitu zadań realizowanych na danym etapie.
           </div>
         </div>
 

@@ -110,6 +110,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
     this.taskService.drawBlockers(this.room.roomType === RoomType.KANBAN_BOARD ? this.taskService.boardTasks : this.taskService.systemTasks,
       this.room.blockersProbability).subscribe();
   }
+
   get link(): string {
     return window.location.href;
   }

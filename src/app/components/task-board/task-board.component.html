@@ -27,8 +27,9 @@
     </div>
     <div class="lock-icon-wrapper">
       <fa-icon
-        class="cursor-pointer icon-standard-size icon-shadow"
-        (click)="$event.stopPropagation();blockedToggled()"
+        class=" icon-standard-size icon-shadow"
+        [class.cursor-pointer] = "task.isBlocked"
+        (click)="$event.stopPropagation();unblockTask()"
         [style.color]="task.isBlocked === true ? 'darkorange' : 'green'"
         [icon]="task.isBlocked === true ? faLock : faLockOpen">
       </fa-icon>

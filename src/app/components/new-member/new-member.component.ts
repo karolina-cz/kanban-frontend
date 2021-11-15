@@ -4,6 +4,7 @@ import {MemberService} from '../../core/services/members/member.service';
 import {MemberDto} from '../../core/interfaces/member/member-dto';
 import {ActivatedRoute} from '@angular/router';
 import {MemberType} from '../../core/enums/member/member-type';
+import {throwUnknownPortalTypeError} from '@angular/cdk/portal/portal-errors';
 
 @Component({
   selector: 'app-new-member',
@@ -14,6 +15,7 @@ export class NewMemberComponent implements OnInit {
   @Output() memberCreated = new EventEmitter<boolean>();
   memberForm: FormGroup;
   roomId: string;
+  submitClicked = false;
   constructor(private memberService: MemberService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class NewMemberComponent implements OnInit {
 
   onSubmit(): void {
     if (this.memberForm.valid) {
+      this.submitClicked = !this.submitClicked;
       const member: MemberDto = {
         type: this.memberForm.value.memberType.toUpperCase(),
         name: this.memberForm.value.name,

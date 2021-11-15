@@ -16,8 +16,7 @@ import {ColumnName} from '../../enums/room/column-name';
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly BLOCKABLE_COLUMNS = [ColumnName.STAGE_ONE_COMMITTED, ColumnName.STAGE_ONE_IN_PROGRESS,
-    ColumnName.STAGE_ONE_DONE, ColumnName.STAGE_TWO];
+  private readonly BLOCKABLE_COLUMNS = [ColumnName.STAGE_ONE_IN_PROGRESS, ColumnName.STAGE_TWO];
   public boardTaskObservable: BehaviorSubject<KanbanBoardTask[]> = new BehaviorSubject<KanbanBoardTask[]>([]);
   public systemTaskObservable: BehaviorSubject<KanbanSystemTask[]> = new BehaviorSubject<KanbanSystemTask[]>([]);
   boardTasks: KanbanBoardTask[];
@@ -82,9 +81,9 @@ export class TaskService {
     return this.httpClient.post(environment.apiUrl + '/task/room/' + roomId, null);
   }
 
-  drawBlockers(tasks: { taskId: string, kanbanColumn: string }[], probabilityPercent: number): Observable<any> {
+  drawBlockers(tasks: { taskId: string, kanbanColumn: string, isBlocked: boolean }[], probabilityPercent: number): Observable<any> {
     return this.httpClient.patch(environment.apiUrl + '/task',
-      tasks.filter(task => this.BLOCKABLE_COLUMNS.includes(task.kanbanColumn as ColumnName))
+      tasks.filter(task => this.BLOCKABLE_COLUMNS.includes(task.kanbanColumn as ColumnName) && !task.isBlocked)
         .map(task => ({taskId: task.taskId, isBlocked: Math.random() < (probabilityPercent / 100)})));
   }
 
