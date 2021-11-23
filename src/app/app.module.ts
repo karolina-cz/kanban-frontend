@@ -9,7 +9,7 @@ import { RoomHeaderComponent } from './components/room-header/room-header.compon
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { TaskBoardComponent } from './components/task-board/task-board.component';
 import { TaskTypePipe } from './core/pipes/task-type.pipe';
 import { KanbanBoardColumnsComponent } from './components/kanban-board-columns/kanban-board-columns.component';
@@ -46,6 +46,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {CdkScrollableModule} from '@angular/cdk/scrolling';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {HttpRequestInterceptor} from './core/interceptors/http-request-interceptor';
 
 
 @NgModule({
@@ -96,7 +98,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     ClipboardModule,
     MatSnackBarModule,
     CdkScrollableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{
@@ -107,7 +110,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig],
-    }],
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
