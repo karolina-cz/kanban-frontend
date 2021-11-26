@@ -30,7 +30,7 @@ export class KanbanComponent implements OnInit {
 
   conditionallyShowInfo(canShow: boolean): void {
     if (canShow) {
-      this.snackBar.open('Przepraszamy, liczba członków zespołu jest zbyt duża, zostałeś/aś dodany jako Zwykły uczestnik.', 'Ok', {
+      this.snackBar.open('Przepraszamy, liczba członków zespołu jest zbyt duża, zostałeś/aś dodany jako Obserwator.', 'Ok', {
         panelClass: ['snackbar-white']
       });
     }

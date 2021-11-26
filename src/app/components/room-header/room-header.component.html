@@ -7,7 +7,10 @@
       <button class=" " (click)="onGenerateTask()" mat-button>
         Wygeneruj zadanie
       </button>
-      <button [matMenuTriggerFor]="menu" class=" " mat-button>
+      <button *ngIf="roomMember.type === MemberTypeEnum.PARTICIPANT" (click)="onDrawBlockers()" mat-button>
+          Losuj blokery
+      </button>
+      <button *ngIf="roomMember.type === MemberTypeEnum.VIEWER" [matMenuTriggerFor]="menu" class=" " mat-button>
         <span class="dropdown-button">
           <span>Blokery</span>
           <mat-icon class="arrow-down-icon">keyboard_arrow_down</mat-icon>
@@ -59,7 +62,7 @@
       [icon]="faUserCircle"
       [style.color]="member.color"
       class="fa-lg cursor-pointer mx-1 icon-30 icon-background"
-      ngbTooltip="{{member.name}}&nbsp;{{member.type === MemberTypeEnum.VIEWER ? '(Zwykły uczestnik)' : ''}}"
+      ngbTooltip="{{member.name}}&nbsp;{{member.type === MemberTypeEnum.VIEWER ? '(Obserwator)' : ''}}"
       placement="auto">
     </fa-icon>
     </span>
@@ -95,7 +98,7 @@
                 *ngIf="member.type === MemberTypeEnum.VIEWER"
                 [icon]="faInfo"
                 class="mx-1 icon-12"
-                ngbTooltip="Zwykły uczestnik"
+                ngbTooltip="Obserwator"
                 placement="auto">
               </fa-icon>
             </li>

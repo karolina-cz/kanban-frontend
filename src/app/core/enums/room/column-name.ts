@@ -9,12 +9,12 @@ export enum ColumnName {
 
 export const columnNameToDisplay = {
   backlog: 'Zadania',
-  stage_one_in_progress: 'Etap 1 Podjęte',
-  stage_one_committed: 'Etap 1 W trakcie',
+  stage_one_in_progress: 'Etap 1 W trakcie',
+  stage_one_committed: 'Etap 1 Podjęte',
   stage_one_done: 'Etap 1 Zakończony',
   stage_two: 'Etap 2',
   done: 'Wykonane'
 };
 
-export const columnsKanbanSystem = [ColumnName.BACKLOG, ColumnName.STAGE_ONE_IN_PROGRESS, ColumnName.STAGE_ONE_COMMITTED,
+export const columnsKanbanSystem = [ColumnName.BACKLOG, ColumnName.STAGE_ONE_COMMITTED, ColumnName.STAGE_ONE_IN_PROGRESS,
   ColumnName.STAGE_ONE_DONE, ColumnName.STAGE_TWO, ColumnName.DONE];

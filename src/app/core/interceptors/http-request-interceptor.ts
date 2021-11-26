@@ -35,7 +35,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   }
 
   isTargetRequest(request: HttpRequest<any>): boolean {
-    return ((request.method === 'POST'  || request.method === 'GET') && request.url.includes('/api/room')) ||
+    return ((request.method === 'POST' || request.method === 'GET') && request.url.includes('/api/room')) ||
       ((request.method === 'POST') && request.url.includes('/api/roomMember'));
   }
 }

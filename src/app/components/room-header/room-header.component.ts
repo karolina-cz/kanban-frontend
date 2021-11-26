@@ -42,6 +42,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
   MemberTypeEnum = MemberType;
   subscriptions: Subscription[] = [];
   faShareSquare = faShareSquare;
+  roomMember: MemberDto;
 
   constructor(private memberService: MemberService, private route: ActivatedRoute,
               public toggleService: SidebarToggleService, private taskService: TaskService,
@@ -52,6 +53,7 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.room.roomId = this.route.snapshot.params.id;
+    this.roomMember = this.memberService.getCurrentRoomMember(this.room.roomId);
     this.room.roomType = this.route.snapshot.url[0].path === 'kanban-system' ? RoomType.KANBAN_SYSTEM : RoomType.KANBAN_BOARD;
     this.roomService.getRoom(this.room.roomId).subscribe(room => {
       if (room.type !== this.room.roomType) {
