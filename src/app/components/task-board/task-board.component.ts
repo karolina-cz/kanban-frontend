@@ -24,6 +24,7 @@ import {WorkPointService} from '../../core/services/work-point/work-point.servic
 import {DayService} from '../../core/services/day/day.service';
 import {MemberService} from '../../core/services/members/member.service';
 import {ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-board',
@@ -54,7 +55,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private taskService: TaskService, private renderer: Renderer2, private detectorRef: ChangeDetectorRef,
               private overlayContainer: OverlayContainer, private assigneeService: AssigneeService, private roomService: RoomService,
               private workPointService: WorkPointService, private dayService: DayService, private memberService: MemberService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private snackbar: MatSnackBar) {
     const disableAnimations = true;
 
     // get overlay container to set property that disables animations
@@ -73,7 +74,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
     this.effortForm = new FormGroup({
         effort: new FormControl(this.task.effort === -1 ? null : this.task.effort, [
           Validators.min(0),
-          Validators.max(20),
+          Validators.max(30),
           this.validateEffortField.bind(this)])
       }
     );
@@ -110,10 +111,17 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.task.isBlocked) {
       this.taskService.patchTask(
         {isBlocked: false,
-          dayModified: this.dayService.dayClickedSubject.getValue(),
+          dayModified: this.dayService.daySubject.getValue(),
           editorId: this.memberService.getCurrentRoomMember(this.route.snapshot.params.id).roomMemberId},
         this.task.taskId)
-        .subscribe();
+        .subscribe({
+          error: (err) => {
+            if (err.status === 405) {
+              this.snackbar.open('Nie masz wystarczająco produktywności, aby odblokowac to zadanie!', 'Ok',
+                {duration: 3000, panelClass: ['snackbar-white']});
+            }
+          }
+        });
     }
   }
 

@@ -10,7 +10,7 @@ export class DayService {
   daySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   dayClickedSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
 
-  constructor() { }
+  constructor(private roomService: RoomService) { }
 
   setDayAsViewed(day: number, roomId: string): void {
     const roomData = JSON.parse(localStorage.getItem(roomId));
@@ -26,14 +26,28 @@ export class DayService {
   }
 
   nextDay(): void {
-    if (this.daySubject.getValue() < RoomService.dayCount) {
-      this.daySubject.next(this.daySubject.getValue() + 1);
-    }
+    this.updateDay(this.daySubject.getValue() + 1);
+    this.setDay(this.daySubject.getValue() + 1);
   }
 
   previousDay(): void {
-    if (this.daySubject.getValue() > 1) {
-      this.daySubject.next(this.daySubject.getValue() - 1);
+    this.updateDay(this.daySubject.getValue() - 1);
+    this.setDay(this.daySubject.getValue() - 1);
+  }
+
+  setDay(day: number): void {
+    if (this.isDayValid(day) && day !== this.daySubject.getValue()) {
+      this.daySubject.next(day);
     }
+  }
+
+  updateDay(day: number): void {
+    if (this.isDayValid(day) && this.roomService.currentRoomId) {
+      this.roomService.patchRoom(this.roomService.currentRoomId, {currentDay: day}).subscribe();
+    }
+  }
+
+  isDayValid(day: number): boolean {
+    return day && day > 0 && day < RoomService.dayCount + 1;
   }
 }

@@ -70,7 +70,9 @@ export class KanbanBoardColumnsComponent implements OnInit, OnDestroy {
   displayNewDayDialog(day: number): void {
     if (!this.dayService.dayViewed(day - 1, this.roomId)) {
       this.dayService.setDayAsViewed(day - 1, this.roomId);
-      this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+      if (this.days) {
+        this.openDialog({day, narrative: this.days[day - 1]?.narrative});
+      }
     }
   }
 

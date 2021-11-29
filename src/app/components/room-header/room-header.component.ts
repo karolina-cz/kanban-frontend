@@ -60,10 +60,12 @@ export class RoomHeaderComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
       this.room.blockersProbability = room.blockersProbability;
+      this.dayService.setDay(room.currentDay);
     });
     this.roomService.connect(this.room.roomId);
     this.subscriptions.push(this.roomService.roomSubject.pipe(skip(1)).subscribe(room => {
       this.room.blockersProbability = room.blockersProbability;
+      this.dayService.setDay(room.currentDay);
     }));
     this.memberService.getAllMembers(this.room.roomId).subscribe(data => {
       this.members = data;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoadingService} from '../services/loading/loading.service';
 
@@ -18,7 +18,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError((err) => {
         this.setLoadingIfTargetRequest(request.url, false, isTargetRequest);
-        return err;
+        return throwError(err);
       }))
       .pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
         if (evt instanceof HttpResponse) {

@@ -14,18 +14,21 @@ export class RoomService {
   public static dayCount = 10;
   roomSubject: BehaviorSubject<Room> = new BehaviorSubject<Room>(null);
   private topicSubscription: Subscription;
+  public currentRoomId: string = null;
 
 
   constructor(private httpClient: HttpClient, private taskService: TaskService, private rxStompService: RxStompService) {
   }
 
   connect(roomId: string): void {
+    this.currentRoomId = roomId;
     this.topicSubscription = this.rxStompService.watch('/topic/room/' + roomId + '/info').subscribe((message: Message) => {
       this.roomSubject.next(JSON.parse(message.body) as Room);
     });
   }
 
   disconnect(): void {
+    this.currentRoomId = null;
     this.topicSubscription.unsubscribe();
   }
 
