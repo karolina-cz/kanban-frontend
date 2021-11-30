@@ -74,7 +74,7 @@ export class TaskBoardComponent implements OnInit, OnChanges, AfterViewInit {
     this.effortForm = new FormGroup({
         effort: new FormControl(this.task.effort === -1 ? null : this.task.effort, [
           Validators.min(0),
-          Validators.max(30),
+          Validators.max(20),
           this.validateEffortField.bind(this)])
       }
     );
