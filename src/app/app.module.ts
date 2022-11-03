@@ -101,9 +101,7 @@ import {environment} from '../environments/environment';
     MatSnackBarModule,
     CdkScrollableModule,
     MatTooltipModule,
-    MatProgressSpinnerModule,
-    NgxHotjarModule.forRoot(environment.hj),
-    NgxHotjarRouterModule
+    MatProgressSpinnerModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{
