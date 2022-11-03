@@ -48,6 +48,8 @@ import {CdkScrollableModule} from '@angular/cdk/scrolling';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {HttpRequestInterceptor} from './core/interceptors/http-request-interceptor';
+import {NgxHotjarModule, NgxHotjarRouterModule} from 'ngx-hotjar';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -99,7 +101,9 @@ import {HttpRequestInterceptor} from './core/interceptors/http-request-intercept
     MatSnackBarModule,
     CdkScrollableModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxHotjarModule.forRoot(environment.hj),
+    NgxHotjarRouterModule
   ],
   entryComponents: [InfoDialogComponent],
   providers: [{

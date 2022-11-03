@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4201/api',
-  websocketUrl: 'ws://localhost:4201/websocket'
+  apiUrl: 'https://kanban-simulator-api.herokuapp.com/api',
+  websocketUrl: 'wss://kanban-simulator-api.herokuapp.com/websocket',
+  hj: '3230629'
 };
 
 /*
