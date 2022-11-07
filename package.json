@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all",
+    "build": "ng build --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all --deploy-url https://kanban-simulator.herokuapp.com/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "ng build --prod --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all"
+    "heroku-postbuild": "ng build --prod --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all --deploy-url https://kanban-simulator.herokuapp.com/"
   },
   "private": true,
   "dependencies": {
