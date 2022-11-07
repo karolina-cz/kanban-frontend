@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "ng build --prod"
+    "heroku-postbuild": "ng build --prod --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --output-hashing=all"
   },
   "private": true,
   "dependencies": {
