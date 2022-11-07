@@ -31,17 +31,17 @@ export class HomeComponent implements OnInit {
     //   a.appendChild(r);
     // })(window, document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 
-    // add clarity
-    // tslint:disable-next-line:only-arrow-functions
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-
-      const head=l.getElementsByTagName('head')[0];
-
-      t=l.createElement(r);t.async=1;
-      t.src="https://www.clarity.ms/tag/"+i;
-      head.appendChild(t);
-    })(window, document, "clarity", "script", "ef4rv2hxqo");
+    // // add clarity
+    // // tslint:disable-next-line:only-arrow-functions
+    // (function(c,l,a,r,i,t,y){
+    //   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    //
+    //   const head=l.getElementsByTagName('head')[0];
+    //
+    //   t=l.createElement(r);t.async=1;
+    //   t.src="https://www.clarity.ms/tag/"+i;
+    //   head.appendChild(t);
+    // })(window, document, "clarity", "script", "ef4rv2hxqo");
 
 
     this.roomService.createRoom(RoomType.KANBAN_BOARD).subscribe((uuid) => {
